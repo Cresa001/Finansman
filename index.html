@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<title>Finansım</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+body{
+    background:
+        radial-gradient(circle at top left,#24315f 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#3a174e 0%,transparent 35%),
+        #080c18;
+    color:#fff;
+    min-height:100vh;
+}
+
+button,input,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    max-width:1150px;
+    margin:auto;
+    padding:20px;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logoIcon{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#ff3b6b,#ff1744);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+    box-shadow:0 10px 30px rgba(255,40,90,.3);
+}
+
+.logo h1{
+    font-size:22px;
+}
+
+.logo span{
+    font-size:12px;
+    color:#8e99b8;
+    display:block;
+    margin-top:2px;
+}
+
+.themeBtn{
+    width:44px;
+    height:44px;
+    border:1px solid #252d46;
+    background:#111729;
+    color:white;
+    border-radius:14px;
+    font-size:19px;
+}
+
+/* DASHBOARD */
+
+.hero{
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02)),
+        #11182b;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:26px;
+    padding:25px;
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    background:#ff1744;
+    filter:blur(100px);
+    opacity:.13;
+    right:-70px;
+    top:-80px;
+}
+
+.heroTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.smallTitle{
+    color:#8993b0;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.balance{
+    font-size:38px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
+
+.heroActions{
+    display:flex;
+    gap:8px;
+}
+
+.primary{
+    background:linear-gradient(135deg,#ff1744,#ff4d6d);
+    border:0;
+    color:white;
+    padding:12px 18px;
+    border-radius:13px;
+    font-weight:700;
+    box-shadow:0 8px 25px rgba(255,23,68,.25);
+}
+
+.secondary{
+    background:#1b2339;
+    color:white;
+    border:1px solid #303a57;
+    padding:12px 18px;
+    border-radius:13px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:rgba(17,24,43,.88);
+    border:1px solid #252e49;
+    border-radius:20px;
+    padding:20px;
+}
+
+.cardTitle{
+    color:#8993b0;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.cardValue{
+    font-size:24px;
+    font-weight:750;
+}
+
+.income{
+    color:#35e69b;
+}
+
+.expense{
+    color:#ff5575;
+}
+
+/* SECTION */
+
+.section{
+    background:rgba(14,20,36,.88);
+    border:1px solid #252e49;
+    border-radius:22px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.sectionHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:17px;
+}
+
+.sectionHeader h2{
+    font-size:18px;
+}
+
+.muted{
+    color:#7e89a6;
+    font-size:13px;
+}
+
+/* MONTHS */
+
+.months{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:13px;
+}
+
+.month{
+    background:linear-gradient(145deg,#151d33,#101629);
+    border:1px solid #29344f;
+    border-radius:18px;
+    padding:18px;
+    transition:.2s;
+    position:relative;
+}
+
+.month:hover{
+    transform:translateY(-3px);
+    border-color:#ff315a;
+}
+
+.monthIcon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    background:#202a44;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:14px;
+}
+
+.monthName{
+    font-weight:700;
+    font-size:16px;
+}
+
+.monthInfo{
+    margin-top:8px;
+    font-size:12px;
+    color:#7f89a5;
+}
+
+.monthButtons{
+    display:flex;
+    gap:7px;
+    margin-top:15px;
+}
+
+.openBtn{
+    flex:1;
+    border:0;
+    border-radius:10px;
+    padding:9px;
+    color:white;
+    background:#252f49;
+}
+
+.deleteMonth{
+    width:38px;
+    border:0;
+    border-radius:10px;
+    background:#351827;
+    color:#ff5474;
+}
+
+/* TRANSACTIONS */
+
+.transaction{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:14px 0;
+    border-bottom:1px solid #20283e;
+}
+
+.transaction:last-child{
+    border-bottom:0;
+}
+
+.tLeft{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.tIcon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#202941;
+}
+
+.tTitle{
+    font-weight:600;
+}
+
+.tDate{
+    color:#707b98;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.tRight{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.delete{
+    border:0;
+    background:#291522;
+    color:#ff5575;
+    width:34px;
+    height:34px;
+    border-radius:9px;
+}
+
+.empty{
+    text-align:center;
+    padding:30px 10px;
+    color:#6f7a96;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.68);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modalBox{
+    width:100%;
+    max-width:470px;
+    background:#11182b;
+    border:1px solid #2a3551;
+    border-radius:25px;
+    padding:23px;
+    box-shadow:0 25px 80px rgba(0,0,0,.5);
+}
+
+.modalHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    background:#202941;
+    color:#fff;
+    border:0;
+    width:36px;
+    height:36px;
+    border-radius:10px;
+}
+
+.formGroup{
+    margin-bottom:14px;
+}
+
+.formGroup label{
+    display:block;
+    color:#8d97b3;
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.formGroup input,
+.formGroup select{
+    width:100%;
+    background:#0c1221;
+    border:1px solid #29334e;
+    color:#fff;
+    padding:13px;
+    border-radius:12px;
+    outline:none;
+}
+
+.formGroup input:focus,
+.formGroup select:focus{
+    border-color:#ff315a;
+}
+
+.typeButtons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.typeBtn{
+    padding:13px;
+    border-radius:12px;
+    border:1px solid #29334e;
+    background:#151d31;
+    color:#9aa4bd;
+}
+
+.typeBtn.activeIncome{
+    background:#12382c;
+    color:#35e69b;
+    border-color:#35e69b;
+}
+
+.typeBtn.activeExpense{
+    background:#3c1724;
+    color:#ff5575;
+    border-color:#ff5575;
+}
+
+.saveBtn{
+    width:100%;
+    margin-top:5px;
+    padding:14px;
+    border:0;
+    border-radius:13px;
+    background:linear-gradient(135deg,#ff1744,#ff4d6d);
+    color:white;
+    font-weight:700;
+}
+
+/* BACK */
+
+.back{
+    display:none;
+    margin-bottom:18px;
+}
+
+.back button{
+    background:#151d31;
+    border:1px solid #29334e;
+    color:#fff;
+    padding:10px 15px;
+    border-radius:11px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* LIGHT */
+
+body.light{
+    background:#f2f5fb;
+    color:#151b2d;
+}
+
+body.light .hero,
+body.light .section,
+body.light .card,
+body.light .month{
+    background:#fff;
+    border-color:#e0e5ef;
+}
+
+body.light .themeBtn,
+body.light .secondary,
+body.light .openBtn,
+body.light .back button{
+    background:#fff;
+    color:#151b2d;
+    border-color:#dce2ed;
+}
+
+body.light .modalBox{
+    background:#fff;
+    color:#151b2d;
+}
+
+body.light .formGroup input,
+body.light .formGroup select{
+    background:#f5f7fb;
+    color:#151b2d;
+}
+
+body.light .transaction{
+    border-color:#e6eaf1;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    .app{
+        padding:14px;
+    }
+
+    .header{
+        margin-bottom:17px;
+    }
+
+    .logo h1{
+        font-size:19px;
+    }
+
+    .hero{
+        padding:20px;
+        border-radius:21px;
+    }
+
+    .heroTop{
+        display:block;
+    }
+
+    .balance{
+        font-size:32px;
+    }
+
+    .heroActions{
+        margin-top:18px;
+    }
+
+    .heroActions button{
+        flex:1;
+    }
+
+    .cards{
+        gap:9px;
+    }
+
+    .card{
+        padding:14px;
+        border-radius:16px;
+    }
+
+    .cardValue{
+        font-size:17px;
+    }
+
+    .cardTitle{
+        font-size:11px;
+    }
+
+    .section{
+        padding:15px;
+        border-radius:18px;
+    }
+
+    .months{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .month{
+        padding:14px;
+    }
+
+    .transaction{
+        align-items:flex-start;
+    }
+
+    .tRight{
+        flex-direction:column;
+        align-items:flex-end;
+        gap:6px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+    <div class="logo">
+        <div class="logoIcon">₺</div>
+        <div>
+            <h1>Finansım</h1>
+            <span>Kişisel gelir & gider yönetimi</span>
+        </div>
+    </div>
+
+    <button class="themeBtn" onclick="toggleTheme()">☀️</button>
+</header>
+
+<!-- ANA SAYFA -->
+
+<div id="homePage" class="page active">
+
+    <div class="hero">
+
+        <div class="heroTop">
+
+            <div>
+                <div class="smallTitle">TOPLAM KALAN</div>
+                <div class="balance" id="balance">₺0,00</div>
+            </div>
+
+            <div class="heroActions">
+                <button class="primary" onclick="openTransactionModal('income')">
+                    + Gelir
+                </button>
+
+                <button class="secondary" onclick="openTransactionModal('expense')">
+                    − Gider
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="cardTitle">TOPLAM GELİR</div>
+            <div class="cardValue income" id="totalIncome">₺0,00</div>
+        </div>
+
+        <div class="card">
+            <div class="cardTitle">TOPLAM GİDER</div>
+            <div class="cardValue expense" id="totalExpense">₺0,00</div>
+        </div>
+
+        <div class="card">
+            <div class="cardTitle">KAYIT SAYISI</div>
+            <div class="cardValue" id="totalTransactions">0</div>
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="sectionHeader">
+
+            <div>
+                <h2>📁 Aylarım</h2>
+                <div class="muted">Gelir ve giderlerini aylara göre sakla</div>
+            </div>
+
+            <button class="primary" onclick="openMonthModal()">
+                + Ay Oluştur
+            </button>
+
+        </div>
+
+        <div id="months" class="months"></div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="sectionHeader">
+            <div>
+                <h2>⚡ Son İşlemler</h2>
+                <div class="muted">Son eklediğin hareketler</div>
+            </div>
+        </div>
+
+        <div id="recentTransactions"></div>
+
+    </div>
+
+</div>
+
+
+<!-- AY SAYFASI -->
+
+<div id="monthPage" class="page">
+
+    <div class="back">
+        <button onclick="goHome()">← Ana Sayfa</button>
+    </div>
+
+    <div class="hero">
+
+        <div class="smallTitle" id="currentMonthName">AY</div>
+
+        <div class="balance" id="monthBalance">₺0,00</div>
+
+        <div style="margin-top:8px;color:#7f89a5;font-size:13px;">
+            Bu ay kalan
+        </div>
+
+        <div class="heroActions" style="margin-top:20px;">
+            <button class="primary" onclick="openTransactionModal('income')">
+                + Gelir Ekle
+            </button>
+
+            <button class="secondary" onclick="openTransactionModal('expense')">
+                − Gider Ekle
+            </button>
+        </div>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="cardTitle">AYLIK GELİR</div>
+            <div class="cardValue income" id="monthIncome">₺0,00</div>
+        </div>
+
+        <div class="card">
+            <div class="cardTitle">AYLIK GİDER</div>
+            <div class="cardValue expense" id="monthExpense">₺0,00</div>
+        </div>
+
+        <div class="card">
+            <div class="cardTitle">İŞLEM</div>
+            <div class="cardValue" id="monthCount">0</div>
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="sectionHeader">
+            <div>
+                <h2>📜 İşlem Geçmişi</h2>
+                <div class="muted">Bu aya ait tüm hareketler</div>
+            </div>
+        </div>
+
+        <div id="monthTransactions"></div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- AY OLUŞTUR MODAL -->
+
+<div class="modal" id="monthModal">
+
+    <div class="modalBox">
+
+        <div class="modalHeader">
+            <h2>📁 Yeni Ay</h2>
+            <button class="close" onclick="closeModal('monthModal')">×</button>
+        </div>
+
+        <div class="formGroup">
+            <label>Ay adı</label>
+            <input
+                id="monthName"
+                placeholder="Örn: Ağustos 2026"
+            >
+        </div>
+
+        <button class="saveBtn" onclick="createMonth()">
+            Ay Klasörünü Oluştur
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- GELİR GİDER MODAL -->
+
+<div class="modal" id="transactionModal">
+
+    <div class="modalBox">
+
+        <div class="modalHeader">
+            <h2 id="transactionTitle">Yeni İşlem</h2>
+            <button class="close" onclick="closeModal('transactionModal')">×</button>
+        </div>
+
+        <div class="formGroup">
+
+            <label>İşlem türü</label>
+
+            <div class="typeButtons">
+
+                <button
+                    class="typeBtn"
+                    id="incomeBtn"
+                    onclick="setTransactionType('income')"
+                >
+                    💰 Gelir
+                </button>
+
+                <button
+                    class="typeBtn"
+                    id="expenseBtn"
+                    onclick="setTransactionType('expense')"
+                >
+                    💸 Gider
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="formGroup">
+
+            <label>Tutar</label>
+
+            <input
+                type="number"
+                id="amount"
+                placeholder="0"
+                inputmode="decimal"
+            >
+
+        </div>
+
+        <div class="formGroup">
+
+            <label>Kategori</label>
+
+            <select id="category">
+                <option>Maaş</option>
+                <option>Kira</option>
+                <option>Ek Gelir</option>
+                <option>Yatırım</option>
+                <option>Diğer Gelir</option>
+                <option>Market</option>
+                <option>Kira / Ev</option>
+                <option>Fatura</option>
+                <option>Akaryakıt</option>
+                <option>Yemek</option>
+                <option>Alışveriş</option>
+                <option>Kredi</option>
+                <option>Kredi Kartı</option>
+                <option>Ulaşım</option>
+                <option>Sağlık</option>
+                <option>Eğlence</option>
+                <option>Diğer Gider</option>
+            </select>
+
+        </div>
+
+        <div class="formGroup">
+
+            <label>Açıklama</label>
+
+            <input
+                id="description"
+                placeholder="Örn: Ağustos maaşı"
+            >
+
+        </div>
+
+        <div class="formGroup">
+
+            <label>Tarih</label>
+
+            <input
+                type="date"
+                id="date"
+            >
+
+        </div>
+
+        <button class="saveBtn" onclick="saveTransaction()">
+            Kaydet
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("finansimData")) || {
+    months: {},
+    theme: "dark"
+};
+
+let currentMonth = null;
+let transactionType = "income";
+
+
+/* PARA FORMAT */
+
+function money(number){
+
+    return new Intl.NumberFormat("tr-TR",{
+        style:"currency",
+        currency:"TRY",
+        minimumFractionDigits:2
+    }).format(number || 0);
+
+}
+
+
+/* KAYDET */
+
+function saveData(){
+
+    localStorage.setItem(
+        "finansimData",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* TEMA */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light");
+
+    data.theme =
+        document.body.classList.contains("light")
+        ? "light"
+        : "dark";
+
+    saveData();
+
+}
+
+
+/* MODAL */
+
+function closeModal(id){
+
+    document.getElementById(id).classList.remove("active");
+
+}
+
+
+/* AY MODAL */
+
+function openMonthModal(){
+
+    document.getElementById("monthModal")
+        .classList.add("active");
+
+    document.getElementById("monthName").value = "";
+
+}
+
+
+/* AY OLUŞTUR */
+
+function createMonth(){
+
+    let name =
+        document.getElementById("monthName")
+        .value.trim();
+
+    if(!name){
+
+        alert("Lütfen ay adı yaz.");
+
+        return;
+    }
+
+    if(data.months[name]){
+
+        alert("Bu ay zaten mevcut.");
+
+        return;
+    }
+
+    data.months[name] = {
+        transactions:[]
+    };
+
+    saveData();
+
+    closeModal("monthModal");
+
+    renderMonths();
+
+}
+
+
+/* AY LİSTESİ */
+
+function renderMonths(){
+
+    let container =
+        document.getElementById("months");
+
+    let months =
+        Object.keys(data.months);
+
+    if(months.length === 0){
+
+        container.innerHTML = `
+            <div class="empty">
+                Henüz ay klasörü oluşturmadın.<br>
+                Yukarıdaki <b>+ Ay Oluştur</b> butonuna bas.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    months.forEach(month => {
+
+        let transactions =
+            data.months[month].transactions;
+
+        let income =
+            transactions
+            .filter(x => x.type === "income")
+            .reduce((a,b)=>a + Number(b.amount),0);
+
+        let expense =
+            transactions
+            .filter(x => x.type === "expense")
+            .reduce((a,b)=>a + Number(b.amount),0);
+
+        let div =
+            document.createElement("div");
+
+        div.className = "month";
+
+        div.innerHTML = `
+
+            <div class="monthIcon">📁</div>
+
+            <div class="monthName">
+                ${escapeHtml(month)}
+            </div>
+
+            <div class="monthInfo">
+                ${transactions.length} işlem
+                <br>
+                <span style="color:#35e69b">
+                    +${money(income)}
+                </span>
+                &nbsp;
+                <span style="color:#ff5575">
+                    -${money(expense)}
+                </span>
+            </div>
+
+            <div class="monthButtons">
+
+                <button
+                    class="openBtn"
+                    onclick="openMonth('${escapeAttr(month)}')"
+                >
+                    Klasöre Gir
+                </button>
+
+                <button
+                    class="deleteMonth"
+                    onclick="deleteMonth('${escapeAttr(month)}')"
+                >
+                    🗑
+                </button>
+
+            </div>
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* AY AÇ */
+
+function openMonth(month){
+
+    currentMonth = month;
+
+    document.getElementById("homePage")
+        .classList.remove("active");
+
+    document.getElementById("monthPage")
+        .classList.add("active");
+
+    document.querySelector(".back").style.display = "block";
+
+    renderMonth();
+
+}
+
+
+/* ANA SAYFA */
+
+function goHome(){
+
+    currentMonth = null;
+
+    document.getElementById("monthPage")
+        .classList.remove("active");
+
+    document.getElementById("homePage")
+        .classList.add("active");
+
+    document.querySelector(".back").style.display = "none";
+
+    renderAll();
+
+}
+
+
+/* AY SİL */
+
+function deleteMonth(month){
+
+    let ok =
+        confirm(
+            `"${month}" klasörü ve içindeki tüm işlemler silinsin mi?`
+        );
+
+    if(!ok) return;
+
+    delete data.months[month];
+
+    saveData();
+
+    renderMonths();
+
+}
+
+
+/* İŞLEM MODAL */
+
+function openTransactionModal(type){
+
+    if(!currentMonth){
+
+        let months =
+            Object.keys(data.months);
+
+        if(months.length === 0){
+
+            alert("Önce bir ay klasörü oluşturmalısın.");
+
+            openMonthModal();
+
+            return;
+        }
+
+        currentMonth = months[0];
+    }
+
+    setTransactionType(type);
+
+    document.getElementById("amount").value = "";
+    document.getElementById("description").value = "";
+
+    let today =
+        new Date().toISOString().split("T")[0];
+
+    document.getElementById("date").value = today;
+
+    document.getElementById("transactionModal")
+        .classList.add("active");
+
+}
+
+
+/* İŞLEM TÜRÜ */
+
+function setTransactionType(type){
+
+    transactionType = type;
+
+    let income =
+        document.getElementById("incomeBtn");
+
+    let expense =
+        document.getElementById("expenseBtn");
+
+    income.className = "typeBtn";
+    expense.className = "typeBtn";
+
+    if(type === "income"){
+
+        income.classList.add("activeIncome");
+
+        document.getElementById("transactionTitle")
+            .innerText = "💰 Gelir Ekle";
+
+    }else{
+
+        expense.classList.add("activeExpense");
+
+        document.getElementById("transactionTitle")
+            .innerText = "💸 Gider Ekle";
+
+    }
+
+}
+
+
+/* İŞLEM KAYDET */
+
+function saveTransaction(){
+
+    let amount =
+        Number(document.getElementById("amount").value);
+
+    let category =
+        document.getElementById("category").value;
+
+    let description =
+        document.getElementById("description").value.trim();
+
+    let date =
+        document.getElementById("date").value;
+
+    if(!amount || amount <= 0){
+
+        alert("Geçerli bir tutar gir.");
+
+        return;
+    }
+
+    if(!currentMonth){
+
+        alert("Önce bir ay seç.");
+
+        return;
+    }
+
+    let transaction = {
+
+        id:Date.now(),
+
+        type:transactionType,
+
+        amount:amount,
+
+        category:category,
+
+        description:
+            description || category,
+
+        date:
+            date || new Date().toISOString().split("T")[0]
+
+    };
+
+    data.months[currentMonth]
+        .transactions
+        .push(transaction);
+
+    saveData();
+
+    closeModal("transactionModal");
+
+    renderAll();
+
+}
+
+
+/* İŞLEM SİL */
+
+function deleteTransaction(id){
+
+    if(!currentMonth) return;
+
+    let ok =
+        confirm("Bu işlemi silmek istediğine emin misin?");
+
+    if(!ok) return;
+
+    data.months[currentMonth].transactions =
+        data.months[currentMonth].transactions
+        .filter(x => x.id !== id);
+
+    saveData();
+
+    renderMonth();
+
+    renderDashboard();
+
+}
+
+
+/* AY SAYFASI */
+
+function renderMonth(){
+
+    if(!currentMonth) return;
+
+    let month =
+        data.months[currentMonth];
+
+    if(!month) return;
+
+    let transactions =
+        month.transactions;
+
+    let income =
+        transactions
+        .filter(x=>x.type==="income")
+        .reduce((a,b)=>a+Number(b.amount),0);
+
+    let expense =
+        transactions
+        .filter(x=>x.type==="expense")
+        .reduce((a,b)=>a+Number(b.amount),0);
+
+    document.getElementById("currentMonthName")
+        .innerText = currentMonth;
+
+    document.getElementById("monthBalance")
+        .innerText = money(income-expense);
+
+    document.getElementById("monthIncome")
+        .innerText = money(income);
+
+    document.getElementById("monthExpense")
+        .innerText = money(expense);
+
+    document.getElementById("monthCount")
+        .innerText = transactions.length;
+
+    let container =
+        document.getElementById("monthTransactions");
+
+    renderTransactions(
+        container,
+        transactions,
+        true
+    );
+
+}
+
+
+/* ANA DASHBOARD */
+
+function renderDashboard(){
+
+    let income = 0;
+    let expense = 0;
+    let count = 0;
+
+    Object.values(data.months)
+        .forEach(month => {
+
+            month.transactions.forEach(t => {
+
+                count++;
+
+                if(t.type === "income")
+                    income += Number(t.amount);
+
+                else
+                    expense += Number(t.amount);
+
+            });
+
+        });
+
+    document.getElementById("balance")
+        .innerText = money(income-expense);
+
+    document.getElementById("totalIncome")
+        .innerText = money(income);
+
+    document.getElementById("totalExpense")
+        .innerText = money(expense);
+
+    document.getElementById("totalTransactions")
+        .innerText = count;
+
+
+    let all = [];
+
+    Object.entries(data.months)
+        .forEach(([month,info]) => {
+
+            info.transactions.forEach(t => {
+
+                all.push({
+                    ...t,
+                    month:month
+                });
+
+            });
+
+        });
+
+    all.sort((a,b)=>b.id-a.id);
+
+    let recent =
+        document.getElementById("recentTransactions");
+
+    if(all.length === 0){
+
+        recent.innerHTML = `
+            <div class="empty">
+                Henüz işlem eklenmedi.
+            </div>
+        `;
+
+        return;
+    }
+
+    renderTransactions(
+        recent,
+        all.slice(0,8),
+        false
+    );
+
+}
+
+
+/* İŞLEMLERİ GÖSTER */
+
+function renderTransactions(container,transactions,allowDelete){
+
+    if(transactions.length === 0){
+
+        container.innerHTML = `
+            <div class="empty">
+                Bu ayda henüz işlem bulunmuyor.
+            </div>
+        `;
+
+        return;
+    }
+
+    let sorted =
+        [...transactions]
+        .sort((a,b)=>b.id-a.id);
+
+    container.innerHTML = "";
+
+    sorted.forEach(t => {
+
+        let div =
+            document.createElement("div");
+
+        div.className = "transaction";
+
+        let sign =
+            t.type === "income" ? "+" : "-";
+
+        let color =
+            t.type === "income"
+            ? "#35e69b"
+            : "#ff5575";
+
+        let icon =
+            t.type === "income"
+            ? "💰"
+            : "💸";
+
+        div.innerHTML = `
+
+            <div class="tLeft">
+
+                <div class="tIcon">
+                    ${icon}
+                </div>
+
+                <div>
+
+                    <div class="tTitle">
+                        ${escapeHtml(t.description)}
+                    </div>
+
+                    <div class="tDate">
+
+                        ${escapeHtml(t.category)}
+
+                        • ${formatDate(t.date)}
+
+                        ${
+                            t.month
+                            ? " • " + escapeHtml(t.month)
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="tRight">
+
+                <strong style="color:${color}">
+                    ${sign}${money(t.amount)}
+                </strong>
+
+                ${
+                    allowDelete
+                    ? `
+                        <button
+                            class="delete"
+                            onclick="deleteTransaction(${t.id})"
+                        >
+                            🗑
+                        </button>
+                    `
+                    : ""
+                }
+
+            </div>
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* TARİH */
+
+function formatDate(date){
+
+    if(!date) return "";
+
+    let d =
+        new Date(date + "T00:00:00");
+
+    return d.toLocaleDateString(
+        "tr-TR",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* TÜMÜNÜ YENİLE */
+
+function renderAll(){
+
+    renderMonths();
+
+    renderDashboard();
+
+    if(currentMonth)
+        renderMonth();
+
+}
+
+
+/* HTML GÜVENLİĞİ */
+
+function escapeHtml(text){
+
+    return String(text)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+function escapeAttr(text){
+
+    return String(text)
+        .replaceAll("\\","\\\\")
+        .replaceAll("'","\\'");
+
+}
+
+
+/* BAŞLANGIÇ */
+
+if(data.theme === "light"){
+
+    document.body.classList.add("light");
+
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>
