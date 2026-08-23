@@ -159,7 +159,7 @@ button{
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:15px;
     margin-bottom:20px;
 }
@@ -188,6 +188,14 @@ button{
 
 .expense{
     color:#ff5575;
+}
+
+.paidValue{
+    color:#45d8ff;
+}
+
+.remainingValue{
+    color:#ffc857;
 }
 
 /* SECTION */
@@ -334,7 +342,7 @@ button{
     flex-wrap:wrap;
 }
 
-/* ÖDEDİM */
+/* ÖDEME */
 
 .paidBtn{
     border:1px solid #3b4560;
@@ -555,6 +563,14 @@ body.light .transaction{
 
 /* RESPONSIVE */
 
+@media(max-width:800px){
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
 @media(max-width:700px){
 
     .app{
@@ -631,14 +647,28 @@ body.light .transaction{
 
 }
 
+@media(max-width:430px){
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .cardValue{
+        font-size:15px;
+    }
+
+    .cardTitle{
+        font-size:10px;
+    }
+
+}
+
 </style>
 </head>
-
 
 <body>
 
 <div class="app">
-
 
 <header class="header">
 
@@ -662,7 +692,6 @@ body.light .transaction{
 
     </div>
 
-
     <button
         class="themeBtn"
         onclick="toggleTheme()">
@@ -680,7 +709,6 @@ body.light .transaction{
     id="homePage"
     class="page active">
 
-
     <div class="hero">
 
         <div class="heroTop">
@@ -688,99 +716,32 @@ body.light .transaction{
             <div>
 
                 <div class="smallTitle">
-                    TOPLAM KALAN
+                    AYLIK TAKİP
                 </div>
 
                 <div
                     class="balance"
-                    id="balance">
+                    style="font-size:28px;">
 
-                    ₺0,00
+                    📁 Ay Klasörlerini Yönet
 
                 </div>
 
             </div>
-
 
             <div class="heroActions">
 
                 <button
                     class="primary"
-                    onclick="openTransactionModal('income')">
+                    onclick="openMonthModal()">
 
-                    + Gelir
-
-                </button>
-
-
-                <button
-                    class="secondary"
-                    onclick="openTransactionModal('expense')">
-
-                    − Gider
+                    + Ay Oluştur
 
                 </button>
 
             </div>
 
         </div>
-
-    </div>
-
-
-    <div class="cards">
-
-
-        <div class="card">
-
-            <div class="cardTitle">
-                TOPLAM GELİR
-            </div>
-
-            <div
-                class="cardValue income"
-                id="totalIncome">
-
-                ₺0,00
-
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="cardTitle">
-                TOPLAM GİDER
-            </div>
-
-            <div
-                class="cardValue expense"
-                id="totalExpense">
-
-                ₺0,00
-
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="cardTitle">
-                KAYIT SAYISI
-            </div>
-
-            <div
-                class="cardValue"
-                id="totalTransactions">
-
-                0
-
-            </div>
-
-        </div>
-
 
     </div>
 
@@ -796,19 +757,10 @@ body.light .transaction{
                 </h2>
 
                 <div class="muted">
-                    Gelir ve giderlerini aylara göre sakla
+                    Her ayın gelir, gider ve ödeme durumunu ayrı takip et
                 </div>
 
             </div>
-
-
-            <button
-                class="primary"
-                onclick="openMonthModal()">
-
-                + Ay Oluştur
-
-            </button>
 
         </div>
 
@@ -841,10 +793,7 @@ body.light .transaction{
         </div>
 
 
-        <div
-            id="recentTransactions">
-
-        </div>
+        <div id="recentTransactions"></div>
 
     </div>
 
@@ -857,7 +806,6 @@ body.light .transaction{
     id="monthPage"
     class="page">
 
-
     <div class="back">
 
         <button onclick="goHome()">
@@ -869,28 +817,22 @@ body.light .transaction{
 
     <div class="hero">
 
+        <div class="smallTitle">
+            SEÇİLİ AY
+        </div>
+
         <div
-            class="smallTitle"
+            class="balance"
             id="currentMonthName">
 
             AY
 
         </div>
 
-
-        <div
-            class="balance"
-            id="monthBalance">
-
-            ₺0,00
-
-        </div>
-
-
         <div
             style="margin-top:8px;color:#7f89a5;font-size:13px;">
 
-            Bu ay kalan
+            Bu ayın finansal özeti
 
         </div>
 
@@ -907,7 +849,6 @@ body.light .transaction{
 
             </button>
 
-
             <button
                 class="secondary"
                 onclick="openTransactionModal('expense')">
@@ -921,8 +862,9 @@ body.light .transaction{
     </div>
 
 
-    <div class="cards">
+    <!-- AYLIK ÖZET -->
 
+    <div class="cards">
 
         <div class="card">
 
@@ -944,7 +886,7 @@ body.light .transaction{
         <div class="card">
 
             <div class="cardTitle">
-                AYLIK GİDER
+                TOPLAM GİDER
             </div>
 
             <div
@@ -961,14 +903,31 @@ body.light .transaction{
         <div class="card">
 
             <div class="cardTitle">
-                İŞLEM
+                ÖDENEN TUTAR
             </div>
 
             <div
-                class="cardValue"
-                id="monthCount">
+                class="cardValue paidValue"
+                id="monthPaid">
 
-                0
+                ₺0,00
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="cardTitle">
+                KALAN GİDER
+            </div>
+
+            <div
+                class="cardValue remainingValue"
+                id="monthRemaining">
+
+                ₺0,00
 
             </div>
 
@@ -976,6 +935,50 @@ body.light .transaction{
 
     </div>
 
+
+    <!-- AY SONUCU -->
+
+    <div class="section">
+
+        <div class="sectionHeader">
+
+            <div>
+
+                <h2>
+                    💰 Ay Sonu Durumu
+                </h2>
+
+                <div class="muted">
+                    Gelir ve ödemelerden sonra kalan tutar
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="card"
+            style="margin:0;">
+
+            <div class="cardTitle">
+                GERÇEK KALAN
+            </div>
+
+            <div
+                class="cardValue"
+                id="monthBalance">
+
+                ₺0,00
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- İŞLEMLER -->
 
     <div class="section">
 
@@ -993,6 +996,14 @@ body.light .transaction{
 
             </div>
 
+            <div
+                class="muted"
+                id="monthCount">
+
+                0 işlem
+
+            </div>
+
         </div>
 
 
@@ -1005,7 +1016,6 @@ body.light .transaction{
 
 </div>
 
-
 </div>
 
 
@@ -1015,9 +1025,7 @@ body.light .transaction{
     class="modal"
     id="monthModal">
 
-
     <div class="modalBox">
-
 
         <div class="modalHeader">
 
@@ -1068,9 +1076,7 @@ body.light .transaction{
     class="modal"
     id="transactionModal">
 
-
     <div class="modalBox">
-
 
         <div class="modalHeader">
 
@@ -1098,7 +1104,6 @@ body.light .transaction{
 
             <div class="typeButtons">
 
-
                 <button
                     class="typeBtn"
                     id="incomeBtn"
@@ -1118,7 +1123,6 @@ body.light .transaction{
 
                 </button>
 
-
             </div>
 
         </div>
@@ -1129,7 +1133,6 @@ body.light .transaction{
             <label>
                 Tutar
             </label>
-
 
             <input
                 type="text"
@@ -1148,76 +1151,26 @@ body.light .transaction{
                 Kategori
             </label>
 
-
             <select id="category">
 
-                <option>
-                    Maaş
-                </option>
+                <option>Maaş</option>
+                <option>Kira</option>
+                <option>Ek Gelir</option>
+                <option>Yatırım</option>
+                <option>Diğer Gelir</option>
 
-                <option>
-                    Kira
-                </option>
-
-                <option>
-                    Ek Gelir
-                </option>
-
-                <option>
-                    Yatırım
-                </option>
-
-                <option>
-                    Diğer Gelir
-                </option>
-
-                <option>
-                    Market
-                </option>
-
-                <option>
-                    Kira / Ev
-                </option>
-
-                <option>
-                    Fatura
-                </option>
-
-                <option>
-                    Akaryakıt
-                </option>
-
-                <option>
-                    Yemek
-                </option>
-
-                <option>
-                    Alışveriş
-                </option>
-
-                <option>
-                    Kredi
-                </option>
-
-                <option>
-                    Kredi Kartı
-                </option>
-
-                <option>
-                    Ulaşım
-                </option>
-
-                <option>
-                    Sağlık
-                </option>
-
-                <option>
-                    Eğlence
-                </option>
-
-                <option>
-                    Diğer Gider
-                </option>
+                <option>Market</option>
+                <option>Kira / Ev</option>
+                <option>Fatura</option>
+                <option>Akaryakıt</option>
+                <option>Yemek</option>
+                <option>Alışveriş</option>
+                <option>Kredi</option>
+                <option>Kredi Kartı</option>
+                <option>Ulaşım</option>
+                <option>Sağlık</option>
+                <option>Eğlence</option>
+                <option>Diğer Gider</option>
 
             </select>
 
@@ -1229,7 +1182,6 @@ body.light .transaction{
             <label>
                 Açıklama
             </label>
-
 
             <input
                 id="description"
@@ -1243,7 +1195,6 @@ body.light .transaction{
             <label>
                 Tarih
             </label>
-
 
             <input
                 type="date"
@@ -1267,7 +1218,6 @@ body.light .transaction{
 
 <script>
 
-
 /* VERİ */
 
 let data =
@@ -1287,7 +1237,7 @@ let currentMonth = null;
 let transactionType = "income";
 
 
-/* PARA FORMAT */
+/* PARA */
 
 function money(number){
 
@@ -1303,13 +1253,12 @@ function money(number){
 }
 
 
-/* TUTAR ALANINDA OTOMATİK NOKTA */
+/* OTOMATİK NOKTA */
 
 function formatAmountInput(input){
 
     let value =
         input.value.replace(/\D/g,"");
-
 
     if(!value){
 
@@ -1319,14 +1268,13 @@ function formatAmountInput(input){
 
     }
 
-
     input.value =
         Number(value).toLocaleString("tr-TR");
 
 }
 
 
-/* VERİYİ KAYDET */
+/* KAYDET */
 
 function saveData(){
 
@@ -1344,19 +1292,17 @@ function toggleTheme(){
 
     document.body.classList.toggle("light");
 
-
     data.theme =
         document.body.classList.contains("light")
         ? "light"
         : "dark";
-
 
     saveData();
 
 }
 
 
-/* MODAL KAPAT */
+/* MODAL */
 
 function closeModal(id){
 
@@ -1375,7 +1321,6 @@ function openMonthModal(){
         .getElementById("monthModal")
         .classList.add("active");
 
-
     document
         .getElementById("monthName")
         .value = "";
@@ -1393,7 +1338,6 @@ function createMonth(){
         .value
         .trim();
 
-
     if(!name){
 
         alert("Lütfen ay adı yaz.");
@@ -1401,7 +1345,6 @@ function createMonth(){
         return;
 
     }
-
 
     if(data.months[name]){
 
@@ -1411,13 +1354,9 @@ function createMonth(){
 
     }
 
-
     data.months[name] = {
-
         transactions:[]
-
     };
-
 
     saveData();
 
@@ -1428,13 +1367,99 @@ function createMonth(){
 }
 
 
-/* AYLARI GÖSTER */
+/* AY HESAPLAMA */
+
+function getMonthStats(monthName){
+
+    if(!data.months[monthName]){
+
+        return {
+            income:0,
+            expense:0,
+            paid:0,
+            remaining:0,
+            balance:0,
+            count:0
+        };
+
+    }
+
+    let transactions =
+        data.months[monthName].transactions || [];
+
+
+    let income = 0;
+
+    let expense = 0;
+
+    let paid = 0;
+
+
+    transactions.forEach(t=>{
+
+        let amount =
+            Number(t.amount) || 0;
+
+
+        if(t.type === "income"){
+
+            income += amount;
+
+        }
+
+        else{
+
+            expense += amount;
+
+
+            if(t.paid === true){
+
+                paid += amount;
+
+            }
+
+        }
+
+    });
+
+
+    let remaining =
+        expense - paid;
+
+
+    /*
+       GERÇEK KALAN:
+
+       Gelir - Ödenmiş Gider
+
+       Böylece henüz ödenmemiş giderler
+       ayrıca "Kalan Gider" olarak görünür.
+    */
+
+    let balance =
+        income - paid;
+
+
+    return {
+
+        income,
+        expense,
+        paid,
+        remaining,
+        balance,
+        count:transactions.length
+
+    };
+
+}
+
+
+/* AYLAR */
 
 function renderMonths(){
 
     let container =
         document.getElementById("months");
-
 
     let months =
         Object.keys(data.months);
@@ -1465,26 +1490,8 @@ function renderMonths(){
 
     months.forEach(month=>{
 
-        let transactions =
-            data.months[month].transactions;
-
-
-        let income =
-            transactions
-            .filter(x=>x.type==="income")
-            .reduce(
-                (a,b)=>a+Number(b.amount),
-                0
-            );
-
-
-        let expense =
-            transactions
-            .filter(x=>x.type==="expense")
-            .reduce(
-                (a,b)=>a+Number(b.amount),
-                0
-            );
+        let stats =
+            getMonthStats(month);
 
 
         let div =
@@ -1502,31 +1509,40 @@ function renderMonths(){
 
 
             <div class="monthName">
-
                 ${escapeHtml(month)}
-
             </div>
 
 
             <div class="monthInfo">
 
-                ${transactions.length}
-                işlem
+                ${stats.count} işlem
 
                 <br>
 
                 <span style="color:#35e69b">
-
-                    +${money(income)}
-
+                    Gelir:
+                    ${money(stats.income)}
                 </span>
 
-                &nbsp;
+                <br>
 
                 <span style="color:#ff5575">
+                    Gider:
+                    ${money(stats.expense)}
+                </span>
 
-                    -${money(expense)}
+                <br>
 
+                <span style="color:#45d8ff">
+                    Ödenen:
+                    ${money(stats.paid)}
+                </span>
+
+                <br>
+
+                <span style="color:#ffc857">
+                    Kalan gider:
+                    ${money(stats.remaining)}
                 </span>
 
             </div>
@@ -1644,27 +1660,13 @@ function deleteMonth(month){
 
 function openTransactionModal(type){
 
-    let months =
-        Object.keys(data.months);
-
-
-    if(months.length === 0){
-
-        alert(
-            "Önce bir ay klasörü oluşturmalısın."
-        );
-
-
-        openMonthModal();
-
-        return;
-
-    }
-
-
     if(!currentMonth){
 
-        currentMonth = months[0];
+        alert(
+            "Önce bir ay klasörüne gir."
+        );
+
+        return;
 
     }
 
@@ -1697,7 +1699,7 @@ function openTransactionModal(type){
 }
 
 
-/* İŞLEM TÜRÜ */
+/* TÜR */
 
 function setTransactionType(type){
 
@@ -1749,19 +1751,11 @@ function setTransactionType(type){
 
 function saveTransaction(){
 
-
     let amountText =
         document
         .getElementById("amount")
         .value;
 
-
-    /*
-       NOKTALARI SİL
-       1.000 -> 1000
-       100.000 -> 100000
-       1.000.000 -> 1000000
-    */
 
     let amount =
         Number(
@@ -1846,7 +1840,7 @@ function saveTransaction(){
 }
 
 
-/* ÖDENDİ / GERİ AL */
+/* ÖDEME DURUMU */
 
 function togglePaid(monthName,id){
 
@@ -1873,6 +1867,13 @@ function togglePaid(monthName,id){
     }
 
 
+    if(transaction.type !== "expense"){
+
+        return;
+
+    }
+
+
     transaction.paid =
         transaction.paid === true
         ? false
@@ -1881,12 +1882,23 @@ function togglePaid(monthName,id){
 
     saveData();
 
+
+    /*
+       ANLIK OLARAK:
+
+       - Ödenen Tutar
+       - Kalan Gider
+       - Gerçek Kalan
+       - Ay kartı
+       yeniden hesaplanır.
+    */
+
     renderAll();
 
 }
 
 
-/* İŞLEM SİL */
+/* SİL */
 
 function deleteTransaction(
     monthName,
@@ -1948,26 +1960,8 @@ function renderMonth(){
     }
 
 
-    let transactions =
-        month.transactions;
-
-
-    let income =
-        transactions
-        .filter(x=>x.type==="income")
-        .reduce(
-            (a,b)=>a+Number(b.amount),
-            0
-        );
-
-
-    let expense =
-        transactions
-        .filter(x=>x.type==="expense")
-        .reduce(
-            (a,b)=>a+Number(b.amount),
-            0
-        );
+    let stats =
+        getMonthStats(currentMonth);
 
 
     document
@@ -1979,25 +1973,37 @@ function renderMonth(){
     document
         .getElementById("monthBalance")
         .innerText =
-        money(income-expense);
+        money(stats.balance);
 
 
     document
         .getElementById("monthIncome")
         .innerText =
-        money(income);
+        money(stats.income);
 
 
     document
         .getElementById("monthExpense")
         .innerText =
-        money(expense);
+        money(stats.expense);
+
+
+    document
+        .getElementById("monthPaid")
+        .innerText =
+        money(stats.paid);
+
+
+    document
+        .getElementById("monthRemaining")
+        .innerText =
+        money(stats.remaining);
 
 
     document
         .getElementById("monthCount")
         .innerText =
-        transactions.length;
+        stats.count + " işlem";
 
 
     renderTransactions(
@@ -2005,7 +2011,7 @@ function renderMonth(){
         document
         .getElementById("monthTransactions"),
 
-        transactions,
+        month.transactions,
 
         currentMonth,
 
@@ -2020,12 +2026,6 @@ function renderMonth(){
 
 function renderDashboard(){
 
-    let income = 0;
-
-    let expense = 0;
-
-    let count = 0;
-
     let all = [];
 
 
@@ -2033,28 +2033,8 @@ function renderDashboard(){
     .forEach(
         ([month,info])=>{
 
-
         info.transactions
         .forEach(t=>{
-
-
-            count++;
-
-
-            if(t.type==="income"){
-
-                income +=
-                    Number(t.amount);
-
-            }
-
-            else{
-
-                expense +=
-                    Number(t.amount);
-
-            }
-
 
             all.push({
 
@@ -2064,34 +2044,9 @@ function renderDashboard(){
 
             });
 
-
         });
 
     });
-
-
-    document
-        .getElementById("balance")
-        .innerText =
-        money(income-expense);
-
-
-    document
-        .getElementById("totalIncome")
-        .innerText =
-        money(income);
-
-
-    document
-        .getElementById("totalExpense")
-        .innerText =
-        money(expense);
-
-
-    document
-        .getElementById("totalTransactions")
-        .innerText =
-        count;
 
 
     all.sort(
@@ -2139,7 +2094,7 @@ function renderDashboard(){
 }
 
 
-/* İŞLEMLERİ GÖSTER */
+/* İŞLEMLER */
 
 function renderTransactions(
 
@@ -2183,7 +2138,6 @@ function renderTransactions(
 
     sorted.forEach(t=>{
 
-
         let monthName =
             t.month ||
             defaultMonth;
@@ -2220,7 +2174,6 @@ function renderTransactions(
 
         /*
             SADECE GİDERLERDE
-            ÖDEDİM BUTONU
         */
 
         if(t.type === "expense"){
@@ -2280,13 +2233,9 @@ function renderTransactions(
 
             <div class="tLeft">
 
-
                 <div class="tIcon">
-
                     ${icon}
-
                 </div>
-
 
                 <div>
 
@@ -2297,7 +2246,6 @@ function renderTransactions(
                         )}
 
                     </div>
-
 
                     <div class="tDate">
 
@@ -2327,7 +2275,6 @@ function renderTransactions(
 
             <div class="tRight">
 
-
                 <strong
                     style="color:${color}">
 
@@ -2340,7 +2287,6 @@ function renderTransactions(
 
 
                 ${deleteButton}
-
 
             </div>
 
@@ -2383,36 +2329,21 @@ function formatDate(date){
 }
 
 
-/* HTML GÜVENLİĞİ */
+/* GÜVENLİK */
 
 function escapeHtml(text){
 
     return String(text)
 
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
+        .replaceAll("&","&amp;")
 
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
+        .replaceAll("<","&lt;")
 
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
+        .replaceAll(">","&gt;")
 
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
+        .replaceAll('"',"&quot;")
 
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+        .replaceAll("'","&#039;");
 
 }
 
@@ -2421,20 +2352,13 @@ function escapeAttr(text){
 
     return String(text)
 
-        .replaceAll(
-            "\\",
-            "\\\\"
-        )
-
-        .replaceAll(
-            "'",
-            "\\'"
-        );
+        .replaceAll("\\","\\\\")
+        .replaceAll("'","\\'");
 
 }
 
 
-/* TÜMÜNÜ YENİLE */
+/* YENİLE */
 
 function renderAll(){
 
