@@ -419,10 +419,6 @@ button{
     white-space:nowrap;
 }
 
-.paidBtn:active{
-    transform:scale(.94);
-}
-
 .paidBtn.paid{
     color:#35e69b;
     background:#0c2920;
@@ -432,9 +428,6 @@ button{
         0 0 12px rgba(53,230,155,.8),
         0 0 25px rgba(53,230,155,.5),
         inset 0 0 10px rgba(53,230,155,.15);
-    text-shadow:
-        0 0 5px #35e69b,
-        0 0 12px rgba(53,230,155,.8);
 }
 
 .delete{
@@ -516,11 +509,6 @@ button{
     padding:13px;
     border-radius:12px;
     outline:none;
-}
-
-.formGroup input:focus,
-.formGroup select:focus{
-    border-color:#ff315a;
 }
 
 .typeButtons{
@@ -803,7 +791,7 @@ body.light .transaction{
     </div>
 
 
-    <!-- SABİT GELİR / ÖDEME -->
+    <!-- SABİTLER -->
 
     <div class="section">
 
@@ -841,11 +829,12 @@ body.light .transaction{
 
         </div>
 
-
         <div id="fixedItems"></div>
 
     </div>
 
+
+    <!-- AYLAR -->
 
     <div class="section">
 
@@ -863,11 +852,12 @@ body.light .transaction{
 
         </div>
 
-
         <div id="months"></div>
 
     </div>
 
+
+    <!-- SON İŞLEMLER -->
 
     <div class="section">
 
@@ -884,7 +874,6 @@ body.light .transaction{
             </div>
 
         </div>
-
 
         <div id="recentTransactions"></div>
 
@@ -1122,7 +1111,7 @@ body.light .transaction{
 
             <input
                 id="monthName"
-                placeholder="Örn: Ağustos 2026">
+                placeholder="Örn: Eylül 2026">
 
         </div>
 
@@ -1140,7 +1129,7 @@ body.light .transaction{
 </div>
 
 
-<!-- SABİT İŞLEM MODAL -->
+<!-- SABİT MODAL -->
 
 <div class="modal" id="fixedModal">
 
@@ -1263,7 +1252,7 @@ body.light .transaction{
 </div>
 
 
-<!-- GELİR GİDER MODAL -->
+<!-- NORMAL İŞLEM MODAL -->
 
 <div class="modal" id="transactionModal">
 
@@ -1398,6 +1387,10 @@ body.light .transaction{
 
 <script>
 
+/* ==================================================
+   VERİ
+================================================== */
+
 let data =
 JSON.parse(
     localStorage.getItem("finansimData")
@@ -1412,21 +1405,24 @@ JSON.parse(
 };
 
 
-/*
-   Eski sürümden gelen veriler için
-   güvenli başlangıç.
-*/
-
 if(!data.months){
+
     data.months = {};
+
 }
+
 
 if(!Array.isArray(data.fixedTransactions)){
+
     data.fixedTransactions = [];
+
 }
 
+
 if(!data.theme){
+
     data.theme = "dark";
+
 }
 
 
@@ -1439,7 +1435,9 @@ let fixedType = "expense";
 let editingFixedId = null;
 
 
-/* PARA */
+/* ==================================================
+   PARA
+================================================== */
 
 function money(number){
 
@@ -1455,12 +1453,15 @@ function money(number){
 }
 
 
-/* OTOMATİK NOKTA */
+/* ==================================================
+   BİNLİK NOKTA
+================================================== */
 
 function formatAmountInput(input){
 
     let value =
         input.value.replace(/\D/g,"");
+
 
     if(!value){
 
@@ -1470,13 +1471,16 @@ function formatAmountInput(input){
 
     }
 
+
     input.value =
         Number(value).toLocaleString("tr-TR");
 
 }
 
 
-/* KAYDET */
+/* ==================================================
+   KAYDET
+================================================== */
 
 function saveData(){
 
@@ -1488,23 +1492,29 @@ function saveData(){
 }
 
 
-/* TEMA */
+/* ==================================================
+   TEMA
+================================================== */
 
 function toggleTheme(){
 
     document.body.classList.toggle("light");
+
 
     data.theme =
         document.body.classList.contains("light")
         ? "light"
         : "dark";
 
+
     saveData();
 
 }
 
 
-/* MODAL */
+/* ==================================================
+   MODAL
+================================================== */
 
 function closeModal(id){
 
@@ -1515,13 +1525,16 @@ function closeModal(id){
 }
 
 
-/* AY MODAL */
+/* ==================================================
+   AY MODALI
+================================================== */
 
 function openMonthModal(){
 
     document
         .getElementById("monthModal")
         .classList.add("active");
+
 
     document
         .getElementById("monthName")
@@ -1530,11 +1543,9 @@ function openMonthModal(){
 }
 
 
-/*
-==================================================
-AY OLUŞTUR
-==================================================
-*/
+/* ==================================================
+   AY OLUŞTUR
+================================================== */
 
 function createMonth(){
 
@@ -1544,6 +1555,7 @@ function createMonth(){
         .value
         .trim();
 
+
     if(!name){
 
         alert("Lütfen ay adı yaz.");
@@ -1551,6 +1563,7 @@ function createMonth(){
         return;
 
     }
+
 
     if(data.months[name]){
 
@@ -1569,8 +1582,8 @@ function createMonth(){
 
 
     /*
-       YENİ AY OLUŞTURULDUĞUNDA
-       TÜM AKTİF SABİTLER OTOMATİK EKLENİR.
+       YENİ AYDA AKTİF SABİTLER
+       OTOMATİK OLARAK EKLENİR.
     */
 
     applyFixedTransactionsToMonth(name);
@@ -1585,11 +1598,9 @@ function createMonth(){
 }
 
 
-/*
-==================================================
-SABİT İŞLEMLER
-==================================================
-*/
+/* ==================================================
+   SABİT MODAL
+================================================== */
 
 function openFixedModal(type){
 
@@ -1601,6 +1612,7 @@ function openFixedModal(type){
     document
         .getElementById("fixedName")
         .value = "";
+
 
     document
         .getElementById("fixedAmount")
@@ -1631,9 +1643,9 @@ function openFixedModal(type){
 }
 
 
-/*
+/* ==================================================
    SABİT TÜR
-*/
+================================================== */
 
 function setFixedType(type){
 
@@ -1654,7 +1666,8 @@ function setFixedType(type){
 
         document
             .getElementById("fixedIncomeBtn")
-            .classList.add("activeIncome");
+            .classList
+            .add("activeIncome");
 
     }
 
@@ -1662,16 +1675,17 @@ function setFixedType(type){
 
         document
             .getElementById("fixedExpenseBtn")
-            .classList.add("activeExpense");
+            .classList
+            .add("activeExpense");
 
     }
 
 }
 
 
-/*
-   SABİT KAYDET / GÜNCELLE
-*/
+/* ==================================================
+   SABİT KAYDET
+================================================== */
 
 function saveFixed(){
 
@@ -1743,15 +1757,13 @@ function saveFixed(){
 
             fixed.category = category;
 
-            /*
-               Daha önce otomatik oluşturulmuş
-               ayların kayıtları değiştirilmez.
-               Yeni aylarda güncel tutar kullanılır.
-            */
-
         }
 
     }
+
+    /*
+       YENİ SABİT
+    */
 
     else{
 
@@ -1769,10 +1781,6 @@ function saveFixed(){
 
             active:true,
 
-            createdAt:
-                new Date()
-                .toISOString(),
-
             appliedMonths:[]
 
         });
@@ -1789,9 +1797,9 @@ function saveFixed(){
 }
 
 
-/*
-   SABİTLERİ AY İÇİNE EKLE
-*/
+/* ==================================================
+   SABİTİ AYLARA EKLE
+================================================== */
 
 function applyFixedTransactionsToMonth(monthName){
 
@@ -1814,13 +1822,15 @@ function applyFixedTransactionsToMonth(monthName){
 
 
     data.fixedTransactions
-    .filter(f => f.active !== false)
+    .filter(
+        f =>
+        f.active !== false
+    )
     .forEach(fixed=>{
 
 
         /*
-           Aynı sabit kayıt bu ayda daha önce
-           oluşturulduysa tekrar ekleme.
+           AYNI SABİT İKİ KEZ EKLENMEZ
         */
 
         let exists =
@@ -1855,8 +1865,7 @@ function applyFixedTransactionsToMonth(monthName){
 
             description:fixed.name,
 
-            date:
-                getMonthDate(monthName),
+            date:getMonthDate(monthName),
 
             paid:false,
 
@@ -1868,11 +1877,6 @@ function applyFixedTransactionsToMonth(monthName){
         month.transactions.push(transaction);
 
 
-        /*
-           Sabit kaydın hangi aylara uygulandığını
-           takip ediyoruz.
-        */
-
         if(!Array.isArray(fixed.appliedMonths)){
 
             fixed.appliedMonths = [];
@@ -1880,9 +1884,13 @@ function applyFixedTransactionsToMonth(monthName){
         }
 
 
-        if(!fixed.appliedMonths.includes(monthName)){
+        if(
+            !fixed.appliedMonths
+            .includes(monthName)
+        ){
 
-            fixed.appliedMonths.push(monthName);
+            fixed.appliedMonths
+            .push(monthName);
 
         }
 
@@ -1891,22 +1899,19 @@ function applyFixedTransactionsToMonth(monthName){
 }
 
 
-/*
-   AY ADINDAN TARİH OLUŞTURMAYA ÇALIŞ
-*/
+/* ==================================================
+   AY TARİHİ
+================================================== */
 
 function getMonthDate(monthName){
 
     let now =
         new Date();
 
+
     let year =
         now.getFullYear();
 
-
-    /*
-       "Ağustos 2026" gibi isimlerde yılı yakala.
-    */
 
     let yearMatch =
         String(monthName)
@@ -1979,9 +1984,9 @@ function getMonthDate(monthName){
 }
 
 
-/*
+/* ==================================================
    SABİT LİSTESİ
-*/
+================================================== */
 
 function renderFixedTransactions(){
 
@@ -2000,10 +2005,7 @@ function renderFixedTransactions(){
 
             <div class="empty">
 
-                Henüz sabit gelir veya ödeme eklenmedi.<br><br>
-
-                Maaş, kira, kredi, fatura gibi
-                her ay tekrar eden işlemleri buraya ekleyebilirsin.
+                Henüz sabit gelir veya ödeme eklenmedi.
 
             </div>
 
@@ -2016,13 +2018,15 @@ function renderFixedTransactions(){
 
     let active =
         fixed.filter(
-            f => f.active !== false
+            f =>
+            f.active !== false
         );
 
 
     let inactive =
         fixed.filter(
-            f => f.active === false
+            f =>
+            f.active === false
         );
 
 
@@ -2031,7 +2035,9 @@ function renderFixedTransactions(){
 
     if(active.length){
 
-        html += `<div class="fixedGrid">`;
+        html += `
+            <div class="fixedGrid">
+        `;
 
 
         active.forEach(f=>{
@@ -2046,6 +2052,12 @@ function renderFixedTransactions(){
                 f.type === "income"
                 ? "💰"
                 : "💸";
+
+
+            let removeText =
+                f.type === "income"
+                ? "⛔ Sabit Gelirden Çıkar"
+                : "⛔ Sabit Ödemeden Çıkar";
 
 
             html += `
@@ -2124,7 +2136,7 @@ function renderFixedTransactions(){
                             class="fixedRemove"
                             onclick="removeFixed(${Number(f.id)})">
 
-                            ⛔ Sabitten Kaldır
+                            ${removeText}
 
                         </button>
 
@@ -2154,7 +2166,7 @@ function renderFixedTransactions(){
                 font-size:12px;
                 ">
 
-                Kaldırılmış sabit kayıtlar
+                Sabitlerden çıkarılan kayıtlar
 
             </div>
 
@@ -2177,16 +2189,17 @@ function renderFixedTransactions(){
 
                     </div>
 
-                    <div
-                        class="fixedAmount">
+
+                    <div class="fixedAmount">
 
                         ${money(f.amount)}
 
                     </div>
 
+
                     <div class="fixedMeta">
 
-                        Artık yeni aylara eklenmez.
+                        Yeni aylara otomatik eklenmez.
 
                     </div>
 
@@ -2197,7 +2210,7 @@ function renderFixedTransactions(){
                             class="fixedEdit"
                             onclick="restoreFixed(${Number(f.id)})">
 
-                            ↩️ Yeniden Aktifleştir
+                            ↩️ Sabitlere Geri Ekle
 
                         </button>
 
@@ -2220,9 +2233,9 @@ function renderFixedTransactions(){
 }
 
 
-/*
+/* ==================================================
    SABİT DÜZENLE
-*/
+================================================== */
 
 function editFixed(id){
 
@@ -2249,7 +2262,8 @@ function editFixed(id){
 
     document
         .getElementById("fixedName")
-        .value = fixed.name;
+        .value =
+        fixed.name;
 
 
     document
@@ -2282,14 +2296,15 @@ function editFixed(id){
 
     document
         .getElementById("fixedModal")
-        .classList.add("active");
+        .classList
+        .add("active");
 
 }
 
 
-/*
-   SABİTTEN KALDIR
-*/
+/* ==================================================
+   SABİTTEN ÇIKAR
+================================================== */
 
 function removeFixed(id){
 
@@ -2309,11 +2324,21 @@ function removeFixed(id){
     }
 
 
+    let typeText =
+        fixed.type === "income"
+        ? "sabit gelirden"
+        : "sabit ödemeden";
+
+
     if(!confirm(
 
-        `"${fixed.name}" sabitlerden kaldırılacak. ` +
-        `Geçmiş aylardaki kayıtlar silinmeyecek. ` +
-        `Yeni oluşturacağın aylara artık otomatik eklenmeyecek. Devam edilsin mi?`
+        `"${fixed.name}" ${typeText} çıkarılacak.\n\n` +
+
+        `Geçmiş aylardaki kayıtlar silinmeyecek.\n` +
+
+        `Yeni oluşturacağın aylara otomatik eklenmeyecek.\n\n` +
+
+        `Devam edilsin mi?`
 
     )){
 
@@ -2332,9 +2357,9 @@ function removeFixed(id){
 }
 
 
-/*
-   SABİTİ YENİDEN AKTİFLEŞTİR
-*/
+/* ==================================================
+   SABİTİ GERİ EKLE
+================================================== */
 
 function restoreFixed(id){
 
@@ -2364,11 +2389,9 @@ function restoreFixed(id){
 }
 
 
-/*
-==================================================
-AY HESAPLAMA
-==================================================
-*/
+/* ==================================================
+   AY HESAPLAMA
+================================================== */
 
 function getMonthStats(monthName){
 
@@ -2428,38 +2451,38 @@ function getMonthStats(monthName){
     });
 
 
-    let remaining =
-        expense - paid;
-
-
-    let balance =
-        income - paid;
-
-
     return {
 
         income,
+
         expense,
+
         paid,
-        remaining,
-        balance,
-        count:transactions.length
+
+        remaining:
+            expense - paid,
+
+        balance:
+            income - paid,
+
+        count:
+            transactions.length
 
     };
 
 }
 
 
-/*
-==================================================
-AYLAR
-==================================================
-*/
+/* ==================================================
+   AYLAR
+================================================== */
 
 function renderMonths(){
 
     let container =
-        document.getElementById("months");
+        document
+        .getElementById("months");
+
 
     let months =
         Object.keys(data.months);
@@ -2471,7 +2494,7 @@ function renderMonths(){
 
             <div class="empty">
 
-                Henüz ay klasörü oluşturmadın.<br>
+                Henüz ay klasörü oluşturmadın.<br><br>
 
                 <b>+ Ay Oluştur</b>
                 butonuna bas.
@@ -2579,11 +2602,9 @@ function renderMonths(){
 }
 
 
-/*
-==================================================
-AY AÇ
-==================================================
-*/
+/* ==================================================
+   AY AÇ
+================================================== */
 
 function openMonth(month){
 
@@ -2592,17 +2613,20 @@ function openMonth(month){
 
     document
         .getElementById("homePage")
-        .classList.remove("active");
+        .classList
+        .remove("active");
 
 
     document
         .getElementById("monthPage")
-        .classList.add("active");
+        .classList
+        .add("active");
 
 
     document
         .querySelector(".back")
-        .style.display = "block";
+        .style
+        .display = "block";
 
 
     renderMonth();
@@ -2610,11 +2634,9 @@ function openMonth(month){
 }
 
 
-/*
-==================================================
-ANA SAYFA
-==================================================
-*/
+/* ==================================================
+   ANA SAYFA
+================================================== */
 
 function goHome(){
 
@@ -2623,17 +2645,20 @@ function goHome(){
 
     document
         .getElementById("monthPage")
-        .classList.remove("active");
+        .classList
+        .remove("active");
 
 
     document
         .getElementById("homePage")
-        .classList.add("active");
+        .classList
+        .add("active");
 
 
     document
         .querySelector(".back")
-        .style.display = "none";
+        .style
+        .display = "none";
 
 
     renderAll();
@@ -2641,11 +2666,9 @@ function goHome(){
 }
 
 
-/*
-==================================================
-AY SİL
-==================================================
-*/
+/* ==================================================
+   AY SİL
+================================================== */
 
 function deleteMonth(month){
 
@@ -2670,11 +2693,9 @@ function deleteMonth(month){
 }
 
 
-/*
-==================================================
-İŞLEM MODAL
-==================================================
-*/
+/* ==================================================
+   NORMAL İŞLEM MODALI
+================================================== */
 
 function openTransactionModal(type){
 
@@ -2712,16 +2733,15 @@ function openTransactionModal(type){
 
     document
         .getElementById("transactionModal")
-        .classList.add("active");
+        .classList
+        .add("active");
 
 }
 
 
-/*
-==================================================
-TÜR
-==================================================
-*/
+/* ==================================================
+   NORMAL İŞLEM TÜRÜ
+================================================== */
 
 function setTransactionType(type){
 
@@ -2742,7 +2762,8 @@ function setTransactionType(type){
 
         document
             .getElementById("incomeBtn")
-            .classList.add("activeIncome");
+            .classList
+            .add("activeIncome");
 
 
         document
@@ -2756,7 +2777,8 @@ function setTransactionType(type){
 
         document
             .getElementById("expenseBtn")
-            .classList.add("activeExpense");
+            .classList
+            .add("activeExpense");
 
 
         document
@@ -2769,11 +2791,9 @@ function setTransactionType(type){
 }
 
 
-/*
-==================================================
-İŞLEM KAYDET
-==================================================
-*/
+/* ==================================================
+   NORMAL İŞLEM KAYDET
+================================================== */
 
 function saveTransaction(){
 
@@ -2826,35 +2846,32 @@ function saveTransaction(){
     }
 
 
-    let transaction = {
-
-        id:Date.now(),
-
-        type:transactionType,
-
-        amount:amount,
-
-        category:category,
-
-        description:
-            description || category,
-
-        date:
-            date ||
-            new Date()
-            .toISOString()
-            .split("T")[0],
-
-        paid:false,
-
-        fixedId:null
-
-    };
-
-
     data.months[currentMonth]
         .transactions
-        .push(transaction);
+        .push({
+
+            id:Date.now(),
+
+            type:transactionType,
+
+            amount:amount,
+
+            category:category,
+
+            description:
+                description || category,
+
+            date:
+                date ||
+                new Date()
+                .toISOString()
+                .split("T")[0],
+
+            paid:false,
+
+            fixedId:null
+
+        });
 
 
     saveData();
@@ -2868,11 +2885,9 @@ function saveTransaction(){
 }
 
 
-/*
-==================================================
-ÖDEME DURUMU
-==================================================
-*/
+/* ==================================================
+   ÖDEME DURUMU
+================================================== */
 
 function togglePaid(monthName,id){
 
@@ -2888,7 +2903,8 @@ function togglePaid(monthName,id){
         .transactions
         .find(
             t =>
-            Number(t.id) === Number(id)
+            Number(t.id) ===
+            Number(id)
         );
 
 
@@ -2919,11 +2935,9 @@ function togglePaid(monthName,id){
 }
 
 
-/*
-==================================================
-İŞLEM SİL
-==================================================
-*/
+/* ==================================================
+   İŞLEM SİL
+================================================== */
 
 function deleteTransaction(
     monthName,
@@ -2952,7 +2966,8 @@ function deleteTransaction(
         .transactions
         .filter(
             t =>
-            Number(t.id) !== Number(id)
+            Number(t.id) !==
+            Number(id)
         );
 
 
@@ -2963,11 +2978,9 @@ function deleteTransaction(
 }
 
 
-/*
-==================================================
-AY SAYFASI
-==================================================
-*/
+/* ==================================================
+   AY SAYFASI
+================================================== */
 
 function renderMonth(){
 
@@ -3051,11 +3064,9 @@ function renderMonth(){
 }
 
 
-/*
-==================================================
-DASHBOARD
-==================================================
-*/
+/* ==================================================
+   DASHBOARD
+================================================== */
 
 function renderDashboard(){
 
@@ -3091,7 +3102,8 @@ function renderDashboard(){
 
     all.sort(
         (a,b)=>
-        Number(b.id)-Number(a.id)
+        Number(b.id) -
+        Number(a.id)
     );
 
 
@@ -3134,11 +3146,9 @@ function renderDashboard(){
 }
 
 
-/*
-==================================================
-İŞLEMLER
-==================================================
-*/
+/* ==================================================
+   İŞLEMLERİ GÖSTER
+================================================== */
 
 function renderTransactions(
 
@@ -3173,7 +3183,8 @@ function renderTransactions(
         [...transactions]
         .sort(
             (a,b)=>
-            Number(b.id)-Number(a.id)
+            Number(b.id) -
+            Number(a.id)
         );
 
 
@@ -3188,25 +3199,26 @@ function renderTransactions(
 
 
         let sign =
-            t.type==="income"
+            t.type === "income"
             ? "+"
             : "-";
 
 
         let color =
-            t.type==="income"
+            t.type === "income"
             ? "#35e69b"
             : "#ff5575";
 
 
         let icon =
-            t.type==="income"
+            t.type === "income"
             ? "💰"
             : "💸";
 
 
         let div =
-            document.createElement("div");
+            document
+            .createElement("div");
 
 
         div.className =
@@ -3271,12 +3283,14 @@ function renderTransactions(
 
         let fixedBadge =
             t.fixedId
-            ? `<span style="
-                    color:#ffc857;
-                    margin-left:4px;
-                    font-weight:700;
-                ">📌 SABİT</span>`
-            : "";
+            ?
+            `<span style="
+                color:#ffc857;
+                margin-left:4px;
+                font-weight:700;
+            ">📌 SABİT</span>`
+            :
+            "";
 
 
         div.innerHTML = `
@@ -3298,6 +3312,7 @@ function renderTransactions(
                         ${fixedBadge}
 
                     </div>
+
 
                     <div class="tDate">
 
@@ -3352,11 +3367,9 @@ function renderTransactions(
 }
 
 
-/*
-==================================================
-TARİH
-==================================================
-*/
+/* ==================================================
+   TARİH
+================================================== */
 
 function formatDate(date){
 
@@ -3385,11 +3398,9 @@ function formatDate(date){
 }
 
 
-/*
-==================================================
-GÜVENLİK
-==================================================
-*/
+/* ==================================================
+   GÜVENLİK
+================================================== */
 
 function escapeHtml(text){
 
@@ -3418,11 +3429,9 @@ function escapeAttr(text){
 }
 
 
-/*
-==================================================
-YENİLE
-==================================================
-*/
+/* ==================================================
+   YENİLE
+================================================== */
 
 function renderAll(){
 
@@ -3442,11 +3451,9 @@ function renderAll(){
 }
 
 
-/*
-==================================================
-TEMA
-==================================================
-*/
+/* ==================================================
+   TEMA
+================================================== */
 
 if(data.theme === "light"){
 
@@ -3458,11 +3465,9 @@ if(data.theme === "light"){
 }
 
 
-/*
-==================================================
-BAŞLAT
-==================================================
-*/
+/* ==================================================
+   BAŞLAT
+================================================== */
 
 renderAll();
 
