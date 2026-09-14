@@ -145,7 +145,7 @@ button{cursor:pointer}
 
 .header{
     display:flex;
-    justify-space-between;
+    justify-content:space-between;
     align-items:center;
     margin-bottom:22px;
     padding-left:55px
@@ -660,41 +660,6 @@ button{cursor:pointer}
 .goldDot{background:#ffc857}
 .ppfDot{background:#45d8ff}
 
-/* PPF */
-
-.ppfRateBox{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px
-}
-
-.ppfRate{
-    padding:17px 8px;
-    border:1px solid #29344f;
-    border-radius:16px;
-    background:#151d31;
-    text-align:center
-}
-
-.ppfRateTitle{
-    color:#8993b0;
-    font-size:10px;
-    margin-bottom:7px
-}
-
-.ppfRateValue{
-    color:#35e69b;
-    font-size:21px;
-    font-weight:800
-}
-
-.ppfInfo{
-    margin-top:12px;
-    color:#7f89a5;
-    font-size:11px;
-    line-height:1.6
-}
-
 .empty{
     text-align:center;
     padding:30px 10px;
@@ -725,8 +690,7 @@ body.light .hero,
 body.light .section,
 body.light .card,
 body.light .month,
-body.light .fixedItem,
-body.light .ppfRate{
+body.light .fixedItem{
     background:#fff;
     border-color:#e0e5ef
 }
@@ -790,8 +754,6 @@ body.light .transaction{
         gap:25px
     }
 
-    .ppfRateValue{font-size:17px}
-
 }
 
 @media(max-width:430px){
@@ -847,8 +809,17 @@ body.light .transaction{
     <button class="sideItem" onclick="openInvestmentPage('ppf')">
         <span style="font-size:23px">💰</span>
         <span>
-            <strong>PPF Fonu</strong>
-            <small>Günlük kazanç takibi</small>
+            <strong>TERA PPF</strong>
+            <small>Para Piyasası Fonu</small>
+        </span>
+        <b>›</b>
+    </button>
+
+    <button class="sideItem" onclick="openPPFHistoryModal()">
+        <span style="font-size:23px">📜</span>
+        <span>
+            <strong>PPF GÜNLÜK KAZANÇ GEÇMİŞİ</strong>
+            <small>Tüm günlük getiri kayıtları</small>
         </span>
         <b>›</b>
     </button>
@@ -1157,7 +1128,7 @@ body.light .transaction{
 
     </div>
 
-    <!-- PPF -->
+    <!-- PPF (TERA PPF) -->
 
     <div id="investmentPPF" style="display:none">
 
@@ -1165,10 +1136,10 @@ body.light .transaction{
 
             <div class="smallTitle">YATIRIMLARIM</div>
 
-            <div class="balance">💰 PPF Fonu</div>
+            <div class="balance">💰 TERA PPF</div>
 
-            <div id="ppfLastUpdate" class="muted">
-                Henüz PPF yatırımı eklenmedi.
+            <div class="muted">
+                Tera Portföy Para Piyasası TL Fonu
             </div>
 
         </div>
@@ -1176,42 +1147,43 @@ body.light .transaction{
         <div class="cards">
 
             <div class="card">
-                <div class="cardTitle">GÜNCEL PPF TUTARI</div>
+                <div class="cardTitle">GÜNCEL FON TUTARI</div>
                 <div id="ppfCurrentDisplay" class="cardValue income">
                     ₺0,00
                 </div>
             </div>
 
             <div class="card">
-                <div class="cardTitle">TOPLAM YATIRILAN</div>
+                <div class="cardTitle">BAŞLANGIÇ ANA PARA</div>
                 <div id="ppfInitialDisplay" class="cardValue">
                     ₺0,00
                 </div>
             </div>
 
             <div class="card">
-                <div class="cardTitle">TOPLAM KAZANÇ</div>
+                <div class="cardTitle">TOPLAM NET KAZANÇ</div>
                 <div id="ppfProfitDisplay" class="cardValue income">
                     ₺0,00
                 </div>
             </div>
 
             <div class="card">
-                <div class="cardTitle">GÜNLÜK GETİRİ</div>
-                <div class="cardValue income">%0,13</div>
+                <div class="cardTitle">YASAL STOPAJ</div>
+                <div class="cardValue remainingValue">%17,5</div>
             </div>
 
         </div>
+
+        <!-- ANA PARA EKLE -->
 
         <div class="section">
 
             <div class="sectionHeader">
 
                 <div>
-                    <h2>💰 PPF Fon Bilgileri</h2>
-
+                    <h2>💵 Ana Para Bakiye İşlemi</h2>
                     <div class="muted">
-                        Fon adını ve yatıracağın tutarı gir.
+                        Fona nakit para ekleyin veya başlangıç bakiyenizi girin.
                     </div>
                 </div>
 
@@ -1219,86 +1191,64 @@ body.light .transaction{
 
             <div class="formGroup">
 
-                <label>Fon Adı</label>
-
-                <input
-                    id="ppfFundName"
-                    placeholder="Örn: Tera Portföy Para Piyasası TL Fonu">
-
-            </div>
-
-            <button
-                class="secondary"
-                style="width:100%;margin-bottom:18px"
-                onclick="savePPFName()">
-
-                Fon Adını Kaydet
-
-            </button>
-
-            <div class="formGroup">
-
-                <label>PPF Fon Tutarı Ekle</label>
+                <label>Eklenecek Ana Para Tutarı (₺)</label>
 
                 <input
                     id="ppfAddAmount"
                     type="text"
                     inputmode="decimal"
-                    placeholder="Örn: 100000">
+                    placeholder="Örn: 1.000.000">
 
             </div>
 
             <button class="saveBtn" onclick="addPPFMoney()">
-                + PPF Fon Tutarı Ekle
-            </button>
-
-            <button
-                class="investDelete"
-                onclick="deletePPF()">
-
-                🗑️ PPF Yatırımını Sil
-
+                + Fon Tutarı Ekle
             </button>
 
         </div>
+
+        <!-- GÜNLÜK GETİRİ ORANI GİRİŞİ -->
 
         <div class="section">
 
             <div class="sectionHeader">
 
                 <div>
-                    <h2>📈 PPF Getiri Oranları</h2>
+                    <h2>📈 Günlük Getiri Girişi</h2>
                     <div class="muted">
-                        Uygulamada kullanılan varsayımsal oranlar
+                        Girdiğiniz oran mevcut fona brüt olarak uygulanır, %17,5 stopaj kesilip net kazanç eklenir.
                     </div>
                 </div>
 
             </div>
 
-            <div class="ppfRateBox">
+            <div class="formGroup">
 
-                <div class="ppfRate">
-                    <div class="ppfRateTitle">GÜNLÜK</div>
-                    <div class="ppfRateValue">%0,13</div>
-                </div>
+                <label>İşlem Tarihi</label>
 
-                <div class="ppfRate">
-                    <div class="ppfRateTitle">AYLIK</div>
-                    <div class="ppfRateValue">%4,06</div>
-                </div>
-
-                <div class="ppfRate">
-                    <div class="ppfRateTitle">YILLIK</div>
-                    <div class="ppfRateValue">%60,38</div>
-                </div>
+                <input id="ppfRateDate" type="date">
 
             </div>
 
-            <div class="ppfInfo">
-                PPF bakiyesi, uygulama her açıldığında veya gün değiştiğinde
-                geçen tam günler için günlük %0,13 bileşik varsayımıyla
-                güncellenir.
+            <div class="formGroup">
+
+                <label>Günlük Brüt Getiri Oranı (%)</label>
+
+                <input
+                    id="ppfDailyRateInput"
+                    type="text"
+                    inputmode="decimal"
+                    placeholder="Örn: 0,13">
+
             </div>
+
+            <button class="saveBtn" style="background:linear-gradient(135deg,#00c853,#00e676)" onclick="applyDailyRate()">
+                ⚡ Günlük Getiriyi Hesapla & Ekle
+            </button>
+
+            <button class="investDelete" onclick="deletePPF()">
+                🗑️ TERA PPF Yatırımını Sil
+            </button>
 
         </div>
 
@@ -1314,7 +1264,7 @@ body.light .transaction{
                 <h2>📊 Yatırım Dağılımım</h2>
 
                 <div class="muted">
-                    Altın ve PPF'nin toplam portföy içindeki oranı
+                    Altın ve TERA PPF'nin toplam portföy içindeki oranı
                 </div>
             </div>
 
@@ -1346,7 +1296,7 @@ body.light .transaction{
 
                     <span class="legendDot ppfDot"></span>
 
-                    <span>PPF Fonu</span>
+                    <span>TERA PPF</span>
 
                     <strong id="ppfChartPercent">0%</strong>
 
@@ -1603,6 +1553,28 @@ body.light .transaction{
 
 </div>
 
+<!-- PPF GEÇMİŞİ MODAL -->
+
+<div id="ppfHistoryModal" class="modal">
+
+    <div class="modalBox" style="max-width:600px;">
+
+        <div class="modalHeader">
+
+            <h2>📜 PPF Günlük Kazanç Geçmişi</h2>
+
+            <button class="close" onclick="closeModal('ppfHistoryModal')">
+                ×
+            </button>
+
+        </div>
+
+        <div id="ppfHistoryList"></div>
+
+    </div>
+
+</div>
+
 <script>
 
 /* =====================================================
@@ -1639,12 +1611,14 @@ data.investments.gold =
 
 data.investments.ppf =
     data.investments.ppf || {
-        fundName:"",
+        fundName:"TERA PPF",
         amount:0,
         initialAmount:0,
         totalProfit:0,
-        lastUpdate:null
+        history:[]
     };
+
+data.investments.ppf.history = data.investments.ppf.history || [];
 
 data.theme = data.theme || "dark";
 
@@ -1652,14 +1626,6 @@ let currentMonth = null;
 let transactionType = "income";
 let fixedType = "expense";
 let editingFixedId = null;
-
-/* =====================================================
-   PPF
-===================================================== */
-
-const PPF_DAILY_RATE = 0.0013;
-const PPF_MONTHLY_RATE = 0.0406;
-const PPF_YEARLY_RATE = 0.6038;
 
 /* =====================================================
    PARA
@@ -2710,187 +2676,174 @@ function deleteTransaction(month,id){
 }
 
 /* =====================================================
-   PPF GÜNCELLE
-===================================================== */
-
-function updatePPF(){
-
-    const ppf =
-        data.investments.ppf;
-
-    const amount =
-        Number(ppf.amount) || 0;
-
-    if(amount <= 0){
-        return;
-    }
-
-    if(!ppf.lastUpdate){
-
-        ppf.lastUpdate =
-            new Date().toISOString();
-
-        saveData();
-
-        return;
-    }
-
-    const last = new Date(ppf.lastUpdate);
-    const now = new Date();
-
-    const lastDay =
-        new Date(
-            last.getFullYear(),
-            last.getMonth(),
-            last.getDate()
-        );
-
-    const today =
-        new Date(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate()
-        );
-
-    const days =
-        Math.floor(
-            (
-                today.getTime() -
-                lastDay.getTime()
-            ) /
-            86400000
-        );
-
-    if(days <= 0){
-        return;
-    }
-
-    const oldAmount =
-        Number(ppf.amount);
-
-    const newAmount =
-        oldAmount *
-        Math.pow(
-            1 + PPF_DAILY_RATE,
-            days
-        );
-
-    const profit =
-        newAmount - oldAmount;
-
-    ppf.amount = newAmount;
-
-    ppf.totalProfit =
-        Number(ppf.totalProfit || 0) +
-        profit;
-
-    ppf.lastUpdate =
-        now.toISOString();
-
-    saveData();
-
-}
-
-/* =====================================================
-   PPF PARA EKLE
+   PPF İŞLEMLERİ
 ===================================================== */
 
 function addPPFMoney(){
 
-    updatePPF();
-
-    const input =
-        document.getElementById("ppfAddAmount");
-
-    const amount =
-        parseMoney(input.value);
+    const input = document.getElementById("ppfAddAmount");
+    const amount = parseMoney(input.value);
 
     if(amount <= 0){
-
-        alert("PPF tutarı gir.");
-
+        alert("Geçerli bir tutar girin.");
         return;
     }
 
-    const ppf =
-        data.investments.ppf;
+    const ppf = data.investments.ppf;
 
-    ppf.amount =
-        Number(ppf.amount || 0) +
-        amount;
-
-    ppf.initialAmount =
-        Number(ppf.initialAmount || 0) +
-        amount;
-
-    ppf.lastUpdate =
-        new Date().toISOString();
+    ppf.amount = Number(ppf.amount || 0) + amount;
+    ppf.initialAmount = Number(ppf.initialAmount || 0) + amount;
 
     saveData();
 
     input.value = "";
-
     renderInvestments();
 
 }
 
-/* =====================================================
-   PPF ADI
-===================================================== */
+function applyDailyRate(){
 
-function savePPFName(){
+    const rateInput = document.getElementById("ppfDailyRateInput").value;
+    const dateInput = document.getElementById("ppfRateDate").value;
 
-    data.investments.ppf.fundName =
-        document
-        .getElementById("ppfFundName")
-        .value
-        .trim();
+    const rate = parseFloat(String(rateInput).replace(",", "."));
 
-    saveData();
-
-    renderInvestments();
-
-}
-
-/* =====================================================
-   PPF SİL
-===================================================== */
-
-function deletePPF(){
-
-    const ppf =
-        data.investments.ppf;
-
-    const hasPPF =
-        Number(ppf.amount) > 0 ||
-        Number(ppf.initialAmount) > 0 ||
-        Number(ppf.totalProfit) > 0 ||
-        String(ppf.fundName || "").trim() !== "";
-
-    if(!hasPPF){
-
-        alert("Silinecek PPF yatırımı bulunmuyor.");
-
+    if(isNaN(rate) || rate <= 0){
+        alert("Geçerli bir brüt getiri oranı girin (Örn: 0.13)");
         return;
     }
 
-    if(!confirm(
-        "PPF yatırımının tamamı silinsin mi?\n\n" +
-        "Fon adı, mevcut tutar, toplam yatırılan " +
-        "ve kazanç bilgileri silinecek."
-    )){
+    if(!dateInput){
+        alert("Lütfen işlem tarihini seçin.");
+        return;
+    }
+
+    const ppf = data.investments.ppf;
+    const currentAmount = Number(ppf.amount) || 0;
+
+    if(currentAmount <= 0){
+        alert("Lütfen önce fona başlangıç bakiyesi ekleyin.");
+        return;
+    }
+
+    // Brüt kazanç hesaplama
+    const grossProfit = currentAmount * (rate / 100);
+
+    // %17.5 Stopaj Kesintisi
+    const tax = grossProfit * 0.175;
+
+    // Net Kazanç
+    const netProfit = grossProfit - tax;
+
+    // Yeni Bakiye
+    const newAmount = currentAmount + netProfit;
+
+    ppf.amount = newAmount;
+    ppf.totalProfit = Number(ppf.totalProfit || 0) + netProfit;
+
+    // Geçmiş Kaydı Ekle
+    ppf.history.push({
+        id: Date.now(),
+        date: dateInput,
+        fundAmount: newAmount,
+        rate: rate,
+        grossProfit: grossProfit,
+        tax: tax,
+        netProfit: netProfit
+    });
+
+    saveData();
+
+    document.getElementById("ppfDailyRateInput").value = "";
+
+    alert(`${formatDate(dateInput)} için %${rate} oranıyla net ${money(netProfit)} kazanç fona eklendi.`);
+
+    renderInvestments();
+
+}
+
+function deletePPF(){
+
+    if(!confirm("TERA PPF yatırımının tamamı ve tüm geçmiş verileri silinsin mi?")){
         return;
     }
 
     data.investments.ppf = {
-        fundName:"",
+        fundName:"TERA PPF",
         amount:0,
         initialAmount:0,
         totalProfit:0,
-        lastUpdate:null
+        history:[]
     };
 
     saveData();
+
+    renderInvestments();
+
+}
+
+/* =====================================================
+   PPF GEÇMİŞİ MODAL
+===================================================== */
+
+function openPPFHistoryModal(){
+
+    toggleSideMenu();
+
+    const box = document.getElementById("ppfHistoryList");
+    const history = data.investments.ppf.history || [];
+
+    if(!history.length){
+        box.innerHTML = `<div class="empty">Henüz kaydedilmiş günlük kazanç geçmişi bulunmuyor.</div>`;
+    }else{
+        box.innerHTML = "";
+
+        [...history]
+        .sort((a,b) => new Date(b.date) - new Date(a.date) || b.id - a.id)
+        .forEach(item => {
+
+            const div = document.createElement("div");
+            div.className = "transaction";
+
+            div.innerHTML = `
+                <div class="tLeft">
+                    <div class="tIcon">💰</div>
+                    <div>
+                        <div class="tTitle">${formatDate(item.date)}</div>
+                        <div class="tDate">
+                            Bakiye: ${money(item.fundAmount)} • Brüt Oran: %${item.rate}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tRight">
+                    <div style="text-align:right">
+                        <strong style="color:#35e69b;display:block">+${money(item.netProfit)} Net</strong>
+                        <small style="color:#7f89a5;font-size:10px">Stopaj: -${money(item.tax)}</small>
+                    </div>
+                    <button class="delete" onclick="deletePPFHistoryItem(${item.id})">🗑</button>
+                </div>
+            `;
+
+            box.appendChild(div);
+        });
+    }
+
+    document.getElementById("ppfHistoryModal").classList.add("active");
+
+}
+
+function deletePPFHistoryItem(id){
+
+    if(!confirm("Bu günlük kazanç kaydı geçmişten silinsin mi?")){
+        return;
+    }
+
+    data.investments.ppf.history = data.investments.ppf.history.filter(x => Number(x.id) !== Number(id));
+
+    saveData();
+
+    openPPFHistoryModal();
 
     renderInvestments();
 
@@ -2992,8 +2945,6 @@ function deleteGold(){
 
 function openInvestmentPage(type){
 
-    updatePPF();
-
     currentMonth = null;
 
     document.getElementById("homePage")
@@ -3044,8 +2995,6 @@ function closeInvestmentPage(){
 ===================================================== */
 
 function renderInvestments(){
-
-    updatePPF();
 
     const gold =
         data.investments.gold;
@@ -3131,10 +3080,6 @@ function renderInvestments(){
     const ppfProfit =
         Number(ppf.totalProfit) || 0;
 
-    document.getElementById("ppfFundName")
-        .value =
-        ppf.fundName || "";
-
     document.getElementById("ppfCurrentDisplay")
         .innerText =
         money(ppfAmount);
@@ -3147,16 +3092,8 @@ function renderInvestments(){
         .innerText =
         money(ppfProfit);
 
-    document.getElementById("ppfLastUpdate")
-        .innerText =
-        ppf.lastUpdate
-        ?
-        `${ppf.fundName || "PPF Fonu"} • Son güncelleme: ${
-            new Date(ppf.lastUpdate)
-            .toLocaleString("tr-TR")
-        }`
-        :
-        `${ppf.fundName || "PPF Fonu"} • Henüz yatırım eklenmedi`;
+    document.getElementById("ppfRateDate").value =
+        new Date().toISOString().split("T")[0];
 
     /* GRAFİK */
 
@@ -3238,8 +3175,6 @@ function renderInvestmentChart(
 
 function renderAll(){
 
-    updatePPF();
-
     renderFixedTransactions();
 
     renderMonths();
@@ -3269,7 +3204,11 @@ function formatDate(value){
         return value;
     }
 
-    return date.toLocaleDateString("tr-TR");
+    return date.toLocaleDateString("tr-TR", {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
 
 }
 
@@ -3297,31 +3236,6 @@ if(data.theme === "light"){
 }
 
 renderAll();
-
-/*
-   Sayfa açıkken dakika başı kontrol.
-   Yeni gün başladıysa PPF güncellenir.
-*/
-
-setInterval(()=>{
-
-    const before =
-        Number(
-            data.investments.ppf.amount || 0
-        );
-
-    updatePPF();
-
-    const after =
-        Number(
-            data.investments.ppf.amount || 0
-        );
-
-    if(before !== after){
-        renderInvestments();
-    }
-
-},60000);
 
 </script>
 
