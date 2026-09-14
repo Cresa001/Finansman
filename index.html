@@ -145,7 +145,7 @@ button{cursor:pointer}
 
 .header{
     display:flex;
-    justify-content:space-between;
+    justify-space-between;
     align-items:center;
     margin-bottom:22px;
     padding-left:55px
@@ -470,13 +470,14 @@ button{cursor:pointer}
     padding:8px 12px;
     border-radius:10px;
     font-size:11px;
-    font-weight:800
+    font-weight:800;
+    transition: all 0.2s ease
 }
 
 .paidBtn.paid{
-    color:#35e69b;
-    background:#0c2920;
-    border-color:#35e69b;
+    color:#35e69b !important;
+    background:#0c2920 !important;
+    border-color:#35e69b !important;
     box-shadow:0 0 10px rgba(53,230,155,.4)
 }
 
@@ -1652,7 +1653,6 @@ let transactionType = "income";
 let fixedType = "expense";
 let editingFixedId = null;
 
-
 /* =====================================================
    PPF
 ===================================================== */
@@ -1660,7 +1660,6 @@ let editingFixedId = null;
 const PPF_DAILY_RATE = 0.0013;
 const PPF_MONTHLY_RATE = 0.0406;
 const PPF_YEARLY_RATE = 0.6038;
-
 
 /* =====================================================
    PARA
@@ -1679,7 +1678,6 @@ function money(value){
     ).format(Number(value) || 0);
 
 }
-
 
 /* =====================================================
    PARA ÇEVİR
@@ -1733,7 +1731,6 @@ function parseMoney(value){
     return Number(text) || 0;
 }
 
-
 /* =====================================================
    KAYDET
 ===================================================== */
@@ -1746,7 +1743,6 @@ function saveData(){
     );
 
 }
-
 
 /* =====================================================
    TEMA
@@ -1764,7 +1760,6 @@ function toggleTheme(){
     saveData();
 
 }
-
 
 /* =====================================================
    MENÜ
@@ -1784,7 +1779,6 @@ function toggleSideMenu(){
 
 }
 
-
 /* =====================================================
    MODAL
 ===================================================== */
@@ -1797,7 +1791,6 @@ function closeModal(id){
         .remove("active");
 
 }
-
 
 /* =====================================================
    AY
@@ -1813,7 +1806,6 @@ function openMonthModal(){
         .add("active");
 
 }
-
 
 function createMonth(){
 
@@ -1847,7 +1839,6 @@ function createMonth(){
 
 }
 
-
 /* =====================================================
    SABİT
 ===================================================== */
@@ -1877,7 +1868,6 @@ function openFixedModal(type){
 
 }
 
-
 function setFixedType(type){
 
     fixedType = type;
@@ -1905,7 +1895,6 @@ function setFixedType(type){
     }
 
 }
-
 
 function saveFixed(){
 
@@ -1985,7 +1974,6 @@ function saveFixed(){
 
 }
 
-
 function editFixed(id){
 
     const item =
@@ -2023,7 +2011,6 @@ function editFixed(id){
 
 }
 
-
 function removeFixed(id){
 
     if(!confirm("Bu sabit kayıt silinsin mi?")){
@@ -2042,7 +2029,6 @@ function removeFixed(id){
     renderAll();
 
 }
-
 
 /* =====================================================
    SABİTLERİ AYA EKLE
@@ -2099,7 +2085,6 @@ function applyFixedTransactionsToMonth(monthName){
     });
 
 }
-
 
 /* =====================================================
    SABİTLERİ GÖSTER
@@ -2185,7 +2170,6 @@ function renderFixedTransactions(){
 
 }
 
-
 /* =====================================================
    AY İSTATİSTİĞİ
 ===================================================== */
@@ -2226,13 +2210,12 @@ function getMonthStats(monthName){
         expense,
         paid,
         remaining:expense - paid,
-        balance:income - paid,
+        balance:income - expense,
         count:transactions.length
 
     };
 
 }
-
 
 /* =====================================================
    AYLARI GÖSTER
@@ -2302,7 +2285,7 @@ function renderMonths(){
 
                 <button
                     class="openBtn"
-                    onclick="openMonth(${JSON.stringify(name)})">
+                    onclick="openMonth('${escapeHtml(name)}')">
 
                     Klasöre Gir
 
@@ -2310,7 +2293,7 @@ function renderMonths(){
 
                 <button
                     class="deleteMonth"
-                    onclick="deleteMonth(${JSON.stringify(name)})">
+                    onclick="deleteMonth('${escapeHtml(name)}')">
 
                     🗑
 
@@ -2324,7 +2307,6 @@ function renderMonths(){
     });
 
 }
-
 
 /* =====================================================
    AY AÇ
@@ -2347,7 +2329,6 @@ function openMonth(name){
 
 }
 
-
 function goHome(){
 
     currentMonth = null;
@@ -2365,7 +2346,6 @@ function goHome(){
 
 }
 
-
 function deleteMonth(name){
 
     if(!confirm(`"${name}" klasörü silinsin mi?`)){
@@ -2379,7 +2359,6 @@ function deleteMonth(name){
     renderAll();
 
 }
-
 
 /* =====================================================
    İŞLEM
@@ -2410,7 +2389,6 @@ function openTransactionModal(type){
         .add("active");
 
 }
-
 
 function setTransactionType(type){
 
@@ -2443,7 +2421,6 @@ function setTransactionType(type){
     }
 
 }
-
 
 function saveTransaction(){
 
@@ -2495,7 +2472,6 @@ function saveTransaction(){
 
 }
 
-
 /* =====================================================
    AY RENDER
 ===================================================== */
@@ -2537,7 +2513,6 @@ function renderMonth(){
 
 }
 
-
 /* =====================================================
    DASHBOARD
 ===================================================== */
@@ -2576,7 +2551,6 @@ function renderDashboard(){
     );
 
 }
-
 
 /* =====================================================
    İŞLEM GÖSTER
@@ -2659,10 +2633,7 @@ function renderTransactions(
                     ?
                     `<button
                         class="paidBtn ${t.paid ? "paid" : ""}"
-                        onclick="togglePaid(
-                            ${JSON.stringify(month)},
-                            ${t.id}
-                        )">
+                        onclick="togglePaid('${escapeHtml(month)}', ${t.id})">
 
                         ${t.paid ? "✓ ÖDENDİ" : "ÖDEDİM"}
 
@@ -2676,10 +2647,7 @@ function renderTransactions(
                     ?
                     `<button
                         class="delete"
-                        onclick="deleteTransaction(
-                            ${JSON.stringify(month)},
-                            ${t.id}
-                        )">
+                        onclick="deleteTransaction('${escapeHtml(month)}', ${t.id})">
 
                         🗑
 
@@ -2697,7 +2665,6 @@ function renderTransactions(
     });
 
 }
-
 
 function togglePaid(month,id){
 
@@ -2720,7 +2687,6 @@ function togglePaid(month,id){
 
 }
 
-
 function deleteTransaction(month,id){
 
     if(!confirm("Bu işlem silinsin mi?")){
@@ -2742,7 +2708,6 @@ function deleteTransaction(month,id){
     renderAll();
 
 }
-
 
 /* =====================================================
    PPF GÜNCELLE
@@ -2826,7 +2791,6 @@ function updatePPF(){
 
 }
 
-
 /* =====================================================
    PPF PARA EKLE
 ===================================================== */
@@ -2870,7 +2834,6 @@ function addPPFMoney(){
 
 }
 
-
 /* =====================================================
    PPF ADI
 ===================================================== */
@@ -2888,7 +2851,6 @@ function savePPFName(){
     renderInvestments();
 
 }
-
 
 /* =====================================================
    PPF SİL
@@ -2933,7 +2895,6 @@ function deletePPF(){
     renderInvestments();
 
 }
-
 
 /* =====================================================
    ALTIN KAYDET
@@ -2984,7 +2945,6 @@ function saveGold(){
 
 }
 
-
 /* =====================================================
    ALTIN SİL
 ===================================================== */
@@ -3025,7 +2985,6 @@ function deleteGold(){
     renderInvestments();
 
 }
-
 
 /* =====================================================
    YATIRIM SAYFASI
@@ -3068,7 +3027,6 @@ function openInvestmentPage(type){
 
 }
 
-
 function closeInvestmentPage(){
 
     document.getElementById("investmentPage")
@@ -3080,7 +3038,6 @@ function closeInvestmentPage(){
     renderAll();
 
 }
-
 
 /* =====================================================
    YATIRIMLARI RENDER
@@ -3095,7 +3052,6 @@ function renderInvestments(){
 
     const ppf =
         data.investments.ppf;
-
 
     /* ALTIN */
 
@@ -3114,7 +3070,6 @@ function renderInvestments(){
     const goldProfit =
         goldValue - invested;
 
-
     document.getElementById("goldGramsDisplay")
         .innerText =
         grams.toLocaleString(
@@ -3124,16 +3079,13 @@ function renderInvestments(){
             }
         ) + " gram";
 
-
     document.getElementById("goldPriceDisplay")
         .innerText =
         money(gramPrice);
 
-
     document.getElementById("goldTotalDisplay")
         .innerText =
         money(goldValue);
-
 
     const profitElement =
         document.getElementById(
@@ -3147,7 +3099,6 @@ function renderInvestments(){
         goldProfit >= 0
         ? "#35e69b"
         : "#ff5575";
-
 
     document.getElementById("goldGrams")
         .value =
@@ -3169,7 +3120,6 @@ function renderInvestments(){
         ? invested.toLocaleString("tr-TR")
         : "";
 
-
     /* PPF */
 
     const ppfAmount =
@@ -3181,26 +3131,21 @@ function renderInvestments(){
     const ppfProfit =
         Number(ppf.totalProfit) || 0;
 
-
     document.getElementById("ppfFundName")
         .value =
         ppf.fundName || "";
-
 
     document.getElementById("ppfCurrentDisplay")
         .innerText =
         money(ppfAmount);
 
-
     document.getElementById("ppfInitialDisplay")
         .innerText =
         money(ppfInitial);
 
-
     document.getElementById("ppfProfitDisplay")
         .innerText =
         money(ppfProfit);
-
 
     document.getElementById("ppfLastUpdate")
         .innerText =
@@ -3213,7 +3158,6 @@ function renderInvestments(){
         :
         `${ppf.fundName || "PPF Fonu"} • Henüz yatırım eklenmedi`;
 
-
     /* GRAFİK */
 
     renderInvestmentChart(
@@ -3222,7 +3166,6 @@ function renderInvestments(){
     );
 
 }
-
 
 /* =====================================================
    GRAFİK
@@ -3262,7 +3205,6 @@ function renderInvestmentChart(
 
     if(!donut)return;
 
-
     if(total <= 0){
 
         donut.style.background =
@@ -3278,12 +3220,10 @@ function renderInvestmentChart(
 
     }
 
-
     document.getElementById(
         "goldChartPercent"
     ).innerText =
         goldPercent.toFixed(1) + "%";
-
 
     document.getElementById(
         "ppfChartPercent"
@@ -3291,7 +3231,6 @@ function renderInvestmentChart(
         ppfPercent.toFixed(1) + "%";
 
 }
-
 
 /* =====================================================
    GENEL
@@ -3312,7 +3251,6 @@ function renderAll(){
     }
 
 }
-
 
 /* =====================================================
    TARİH
@@ -3335,7 +3273,6 @@ function formatDate(value){
 
 }
 
-
 /* =====================================================
    HTML GÜVENLİĞİ
 ===================================================== */
@@ -3351,7 +3288,6 @@ function escapeHtml(text){
 
 }
 
-
 /* =====================================================
    BAŞLANGIÇ
 ===================================================== */
@@ -3361,7 +3297,6 @@ if(data.theme === "light"){
 }
 
 renderAll();
-
 
 /*
    Sayfa açıkken dakika başı kontrol.
@@ -3391,6 +3326,4 @@ setInterval(()=>{
 </script>
 
 </body>
-</html><tag>
-    <!--Tab to edit-->
-</tag>
+</html>
