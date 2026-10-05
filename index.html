@@ -2,3240 +2,1035 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#080c18">
-<title>Gelir Gider Finansmanı</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+
+<title>Malzeme Çizelgesi</title>
+
+<!-- Excel oluşturma kütüphanesi -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <style>
 *{
     box-sizing:border-box;
+}
+
+html,body{
     margin:0;
     padding:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#172033;
+    background:#eef1f5;
 }
 
 body{
-    min-height:100vh;
-    background:
-    radial-gradient(circle at top left,#24315f 0%,transparent 35%),
-    radial-gradient(circle at bottom right,#3a174e 0%,transparent 35%),
-    #080c18;
-    color:#fff
+    padding:18px;
 }
-
-button,input,select{font:inherit}
-button{cursor:pointer}
 
 .app{
-    max-width:1150px;
+    max-width:1400px;
     margin:auto;
-    padding:20px
+    background:rgba(255,255,255,.97);
+    border:1px solid #d8dee8;
+    border-radius:18px;
+    box-shadow:0 12px 35px rgba(0,0,0,.12);
+    overflow:hidden;
 }
 
-/* MENU */
-
-.menuBtn{
-    position:fixed;
-    top:18px;
-    left:18px;
-    z-index:200;
-    width:46px;
-    height:46px;
-    border:1px solid #303a57;
-    border-radius:14px;
-    background:#111729;
-    color:#fff;
-    font-size:22px
-}
-
-.sideMenu{
-    position:fixed;
-    top:0;
-    bottom:0;
-    left:-330px;
-    width:310px;
-    z-index:190;
-    padding:22px;
-    background:#0e1424;
-    border-right:1px solid #29334e;
-    box-shadow:20px 0 60px rgba(0,0,0,.4);
-    transition:.25s;
-    overflow:auto
-}
-
-.sideMenu.open{left:0}
-
-.sideMenuHeader{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding-bottom:20px;
-    border-bottom:1px solid #29334e
-}
-
-.sideMenuHeader strong{
-    display:block;
-    font-size:19px
-}
-
-.sideMenuHeader small{
-    color:#7f89a5;
-    display:block;
-    margin-top:4px
-}
-
-.sideMenuHeader button{
-    width:38px;
-    height:38px;
-    border:0;
-    border-radius:10px;
-    background:#202941;
-    color:#fff;
-    font-size:22px
-}
-
-.sideTitle{
-    color:#737e9b;
-    font-size:11px;
-    font-weight:800;
-    letter-spacing:1px;
-    margin:25px 5px 10px
-}
-
-.sideItem{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:13px;
-    padding:15px;
-    margin-bottom:10px;
-    border:1px solid #29334e;
-    border-radius:15px;
-    background:#151d31;
-    color:#fff;
-    text-align:left
-}
-
-.sideItem span:nth-child(2){flex:1}
-
-.sideItem small{
-    display:block;
-    color:#7f89a5;
-    font-size:11px;
-    margin-top:4px
-}
-
-.sideItem>b{
-    color:#71809f;
-    font-size:20px
-}
-
-.sideOverlay{
-    position:fixed;
-    inset:0;
-    z-index:180;
-    background:rgba(0,0,0,.55);
-    backdrop-filter:blur(3px);
-    display:none
-}
-
-.sideOverlay.active{display:block}
-
-/* HEADER */
+/* ÜST KISIM */
 
 .header{
+    background:linear-gradient(135deg,#0b1220,#1d3557);
+    color:#fff;
+    padding:20px 22px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:22px;
-    padding-left:55px
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px
-}
-
-.logoIcon{
-    width:48px;
-    height:48px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:15px;
-    background:linear-gradient(135deg,#ff1744,#ff4d6d);
-    font-size:23px
-}
-
-.logo h1{font-size:21px}
-
-.logo span{
-    color:#8993b0;
-    font-size:12px
-}
-
-.themeBtn{
-    width:44px;
-    height:44px;
-    border:1px solid #252d46;
-    border-radius:14px;
-    background:#111729;
-    color:#fff
-}
-
-/* PAGE */
-
-.page{display:none}
-.page.active{display:block}
-
-/* HERO */
-
-.hero{
-    background:#11182b;
-    border:1px solid #252e49;
-    border-radius:25px;
-    padding:24px;
-    margin-bottom:18px
-}
-
-.smallTitle{
-    color:#8993b0;
-    font-size:12px;
-    margin-bottom:7px
-}
-
-.balance{
-    font-size:30px;
-    font-weight:800
-}
-
-.heroActions{
-    display:flex;
-    gap:8px;
+    gap:15px;
     flex-wrap:wrap;
-    margin-top:18px
 }
 
-.primary{
-    border:0;
-    padding:12px 18px;
-    border-radius:13px;
-    color:#fff;
-    font-weight:700;
-    background:linear-gradient(135deg,#ff1744,#ff4d6d)
-}
-
-.secondary{
-    border:1px solid #303a57;
-    padding:12px 18px;
-    border-radius:13px;
-    color:#fff;
-    background:#1b2339
-}
-
-/* CARDS */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-bottom:18px
-}
-
-.card{
-    background:#11182b;
-    border:1px solid #252e49;
-    border-radius:19px;
-    padding:18px
-}
-
-.cardTitle{
-    color:#8993b0;
-    font-size:12px;
-    margin-bottom:9px
-}
-
-.cardValue{
+.header h1{
+    margin:0;
     font-size:22px;
-    font-weight:800
 }
 
-.income{color:#35e69b}
-.expense{color:#ff5575}
-.paidValue{color:#45d8ff}
-.remainingValue{color:#ffc857}
-
-/* SECTION */
-
-.section{
-    background:#0e1424;
-    border:1px solid #252e49;
-    border-radius:22px;
-    padding:20px;
-    margin-bottom:18px
+.header p{
+    margin:6px 0 0;
+    color:#cbd5e1;
+    font-size:13px;
 }
 
-.sectionHeader{
+.actions{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-bottom:17px
-}
-
-.sectionHeader h2{font-size:18px}
-
-.muted{
-    color:#7f89a5;
-    font-size:12px
-}
-
-/* MONTHS */
-
-.months{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
-    gap:13px
-}
-
-.month{
-    background:#151d31;
-    border:1px solid #29344f;
-    border-radius:17px;
-    padding:17px
-}
-
-.monthIcon{
-    width:42px;
-    height:42px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:13px;
-    background:#202a44;
-    margin-bottom:12px
-}
-
-.monthName{font-weight:700}
-
-.monthInfo{
-    color:#7f89a5;
-    font-size:11px;
-    line-height:1.7;
-    margin-top:8px
-}
-
-.monthButtons{
-    display:flex;
-    gap:7px;
-    margin-top:14px
-}
-
-.openBtn{
-    flex:1;
-    border:0;
-    border-radius:10px;
-    padding:9px;
-    background:#252f49;
-    color:#fff
-}
-
-.deleteMonth{
-    width:38px;
-    border:0;
-    border-radius:10px;
-    background:#351827;
-    color:#ff5575
-}
-
-/* FIXED */
-
-.fixedGrid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:13px
-}
-
-.fixedItem{
-    background:#151d31;
-    border:1px solid #29344f;
-    border-radius:17px;
-    padding:16px
-}
-
-.fixedIcon{
-    width:42px;
-    height:42px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:13px;
-    background:#202a44
-}
-
-.fixedName{
-    font-weight:700;
-    margin-top:10px
-}
-
-.fixedAmount{
-    font-size:19px;
-    font-weight:800;
-    margin-top:6px
-}
-
-.fixedMeta{
-    color:#7f89a5;
-    font-size:11px;
-    margin-top:5px
-}
-
-.fixedActions{
-    display:flex;
-    gap:7px;
-    margin-top:13px
-}
-
-.fixedEdit,
-.fixedRemove{
-    flex:1;
-    border:0;
-    padding:9px;
-    border-radius:10px;
-    font-size:11px
-}
-
-.fixedEdit{
-    background:#252f49;
-    color:#fff
-}
-
-.fixedRemove{
-    background:#351827;
-    color:#ff5575
-}
-
-/* TRANSACTIONS */
-
-.transaction{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    padding:14px 0;
-    border-bottom:1px solid #20283e
-}
-
-.transaction:last-child{border-bottom:0}
-
-.tLeft{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    min-width:0
-}
-
-.tIcon{
-    width:42px;
-    height:42px;
-    flex-shrink:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:13px;
-    background:#202941
-}
-
-.tTitle{font-weight:600}
-
-.tDate{
-    color:#707b98;
-    font-size:11px;
-    margin-top:3px
-}
-
-.tRight{
-    display:flex;
-    align-items:center;
-    gap:8px;
+    gap:9px;
     flex-wrap:wrap;
-    justify-content:flex-end
 }
 
-.paidBtn{
-    border:1px solid #3b4560;
-    background:#171f33;
-    color:#b5bfd3;
-    padding:8px 12px;
+button{
+    border:0;
     border-radius:10px;
-    font-size:11px;
-    font-weight:800;
-    transition: all 0.2s ease
+    padding:11px 15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.15s;
+    font-size:14px;
 }
 
-.paidBtn.paid{
-    color:#35e69b !important;
-    background:#0c2920 !important;
-    border-color:#35e69b !important;
-    box-shadow:0 0 10px rgba(53,230,155,.4)
+button:active{
+    transform:scale(.97);
 }
 
-.delete{
+.add{
+    background:#22c55e;
+    color:white;
+}
+
+.excel{
+    background:#16a34a;
+    color:white;
+}
+
+.clear{
+    background:#ef4444;
+    color:white;
+}
+
+.print{
+    background:#e2e8f0;
+    color:#172033;
+}
+
+/* BİLGİ */
+
+.info{
+    margin:15px 18px 0;
+    padding:11px 13px;
+    border-radius:10px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    color:#475569;
+    font-size:13px;
+}
+
+/* TABLO */
+
+.table-wrap{
+    padding:15px 18px 20px;
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:980px;
+    background:white;
+}
+
+th,
+td{
+    border:1px solid #cbd5e1;
+    padding:7px;
+}
+
+th{
+    background:#e8edf4;
+    color:#111827;
+    font-size:13px;
+    text-align:center;
+    white-space:nowrap;
+}
+
+td.no{
+    text-align:center;
+    width:55px;
+    font-weight:700;
+    color:#475569;
+}
+
+input,
+select{
+    width:100%;
+    height:38px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
+    padding:7px 9px;
+    background:white;
+    color:#111827;
+    font-size:14px;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 2px rgba(37,99,235,.12);
+}
+
+.desc{
+    min-width:370px;
+}
+
+.unit{
+    min-width:120px;
+}
+
+.qty{
+    min-width:110px;
+}
+
+.price{
+    min-width:150px;
+}
+
+.total{
+    min-width:165px;
+    font-weight:700;
+    background:#f8fafc;
+}
+
+.delete-cell{
+    text-align:center;
+    width:55px;
+}
+
+.delete-row{
     width:34px;
     height:34px;
-    border:0;
-    border-radius:9px;
-    background:#291522;
-    color:#ff5575
+    padding:0;
+    background:#fee2e2;
+    color:#b91c1c;
+    border-radius:8px;
 }
 
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:300;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.7);
-    backdrop-filter:blur(8px)
+tfoot td{
+    font-weight:800;
+    background:#f1f5f9;
 }
 
-.modal.active{display:flex}
-
-.modalBox{
-    width:100%;
-    max-width:470px;
-    max-height:90vh;
-    overflow:auto;
-    padding:23px;
-    border:1px solid #2a3551;
-    border-radius:24px;
-    background:#11182b
+.grand-label{
+    text-align:right;
 }
 
-.modalHeader{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px
+.grand-total{
+    text-align:right;
+    font-size:16px;
 }
 
-.close{
-    width:36px;
-    height:36px;
-    border:0;
-    border-radius:10px;
-    background:#202941;
-    color:#fff
-}
-
-.formGroup{margin-bottom:14px}
-
-.formGroup label{
-    display:block;
-    color:#8d97b3;
+.footer-note{
+    padding:0 18px 18px;
+    color:#64748b;
     font-size:12px;
-    margin-bottom:7px
 }
 
-.formGroup input,
-.formGroup select{
-    width:100%;
-    padding:13px;
-    outline:0;
-    border:1px solid #29334e;
-    border-radius:12px;
-    background:#0c1221;
-    color:#fff
-}
+/* TELEFON */
 
-.typeButtons{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px
-}
+@media(max-width:700px){
 
-.typeBtn{
-    padding:13px;
-    border-radius:12px;
-    border:1px solid #29334e;
-    background:#151d31;
-    color:#9aa4bd
-}
-
-.activeIncome{
-    color:#35e69b!important;
-    border-color:#35e69b!important;
-    background:#12382c!important
-}
-
-.activeExpense{
-    color:#ff5575!important;
-    border-color:#ff5575!important;
-    background:#3c1724!important
-}
-
-.saveBtn{
-    width:100%;
-    padding:14px;
-    border:0;
-    border-radius:13px;
-    color:#fff;
-    font-weight:700;
-    background:linear-gradient(135deg,#ff1744,#ff4d6d)
-}
-
-/* BACK */
-
-.back{margin-bottom:18px}
-
-.back button{
-    border:1px solid #29334e;
-    border-radius:11px;
-    padding:10px 15px;
-    background:#151d31;
-    color:#fff
-}
-
-/* INVESTMENT */
-
-.investmentChart{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:55px;
-    padding:20px
-}
-
-.donut{
-    width:220px;
-    height:220px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#252e49;
-    position:relative
-}
-
-.donut:after{
-    content:"";
-    position:absolute;
-    width:130px;
-    height:130px;
-    border-radius:50%;
-    background:#0e1424
-}
-
-.donutCenter{
-    position:relative;
-    z-index:2;
-    text-align:center;
-    color:#8993b0;
-    font-size:11px;
-    font-weight:800
-}
-
-.chartLegend{min-width:220px}
-
-.legendItem{
-    display:grid;
-    grid-template-columns:13px 1fr auto;
-    gap:10px;
-    align-items:center;
-    padding:15px 0;
-    border-bottom:1px solid #252e49
-}
-
-.legendDot{
-    width:11px;
-    height:11px;
-    border-radius:50%
-}
-
-.goldDot{background:#ffc857}
-.ppfDot{background:#45d8ff}
-
-.empty{
-    text-align:center;
-    padding:30px 10px;
-    color:#6f7a96
-}
-
-/* INVESTMENT DELETE */
-
-.investDelete{
-    width:100%;
-    margin-top:10px;
-    padding:14px;
-    border:1px solid #613047;
-    border-radius:13px;
-    background:#351827;
-    color:#ff5575;
-    font-weight:800
-}
-
-/* LIGHT */
-
-body.light{
-    background:#f2f5fb;
-    color:#151b2d
-}
-
-body.light .hero,
-body.light .section,
-body.light .card,
-body.light .month,
-body.light .fixedItem{
-    background:#fff;
-    border-color:#e0e5ef
-}
-
-body.light .sideMenu{
-    background:#fff;
-    color:#151b2d
-}
-
-body.light .sideItem{
-    background:#f5f7fb;
-    color:#151b2d;
-    border-color:#dce2ed
-}
-
-body.light .themeBtn,
-body.light .secondary,
-body.light .openBtn,
-body.light .back button{
-    background:#fff;
-    color:#151b2d
-}
-
-body.light .formGroup input,
-body.light .formGroup select{
-    background:#f5f7fb;
-    color:#151b2d
-}
-
-body.light .donut:after{
-    background:#fff
-}
-
-body.light .transaction{
-    border-color:#e6eaf1
-}
-
-/* RESPONSIVE */
-
-@media(max-width:800px){
-    .cards{grid-template-columns:repeat(2,1fr)}
-    .fixedGrid{grid-template-columns:1fr}
-}
-
-@media(max-width:650px){
-
-    .app{padding:14px}
-
-    .header{padding-left:55px}
-
-    .logo h1{font-size:18px}
-
-    .balance{font-size:27px}
-
-    .months{
-        grid-template-columns:1fr 1fr
+    body{
+        padding:7px;
     }
 
-    .investmentChart{
-        flex-direction:column;
-        gap:25px
+    .app{
+        border-radius:12px;
     }
 
+    .header{
+        padding:15px;
+    }
+
+    .header h1{
+        font-size:18px;
+    }
+
+    .info{
+        margin:10px;
+    }
+
+    .table-wrap{
+        padding:10px;
+    }
 }
 
-@media(max-width:430px){
+/* YAZDIRMA */
 
-    .card{padding:13px}
+@media print{
 
-    .cardValue{font-size:17px}
-
-    .donut{
-        width:200px;
-        height:200px
+    body{
+        background:white;
+        padding:0;
     }
 
-    .donut:after{
-        width:120px;
-        height:120px
+    .app{
+        box-shadow:none;
+        border:0;
     }
 
-    .sideMenu{width:285px}
+    .header{
+        background:white;
+        color:black;
+        border-bottom:2px solid black;
+    }
 
+    .header p{
+        color:#333;
+    }
+
+    .actions,
+    .info,
+    .delete-cell,
+    .footer-note{
+        display:none !important;
+    }
+
+    table{
+        min-width:0;
+    }
+
+    input,
+    select{
+        border:0;
+        height:auto;
+        padding:0;
+        appearance:none;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<button class="menuBtn" onclick="toggleSideMenu()">☰</button>
-
-<div id="sideOverlay" class="sideOverlay" onclick="toggleSideMenu()"></div>
-
-<div id="sideMenu" class="sideMenu">
-
-    <div class="sideMenuHeader">
-        <div>
-            <strong>💼 Finansım</strong>
-            <small>Finans ve yatırım yönetimi</small>
-        </div>
-
-        <button onclick="toggleSideMenu()">×</button>
-    </div>
-
-    <div class="sideTitle">YATIRIMLARIM</div>
-
-    <button class="sideItem" onclick="openInvestmentPage('gold')">
-        <span style="font-size:23px">🪙</span>
-        <span>
-            <strong>Altın</strong>
-            <small>Gram ve güncel değer</small>
-        </span>
-        <b>›</b>
-    </button>
-
-    <button class="sideItem" onclick="openInvestmentPage('ppf')">
-        <span style="font-size:23px">💰</span>
-        <span>
-            <strong>TERA PPF</strong>
-            <small>Para Piyasası Fonu</small>
-        </span>
-        <b>›</b>
-    </button>
-
-    <button class="sideItem" onclick="openPPFHistoryModal()">
-        <span style="font-size:23px">📜</span>
-        <span>
-            <strong>PPF GÜNLÜK KAZANÇ GEÇMİŞİ</strong>
-            <small>Tüm günlük getiri kayıtları</small>
-        </span>
-        <b>›</b>
-    </button>
-
-</div>
-
 <div class="app">
 
-<header class="header">
-
-    <div class="logo">
-        <div class="logoIcon">₺</div>
+    <div class="header">
 
         <div>
-            <h1>Gelir Gider Finansmanı</h1>
-            <span>Kişisel gelir & gider yönetimi</span>
+            <h1>Malzeme / Birim Fiyat Çizelgesi</h1>
+
+            <p>
+                Açıklama, birim, miktar ve birim fiyatı girin.
+                Toplam otomatik hesaplanır.
+            </p>
         </div>
-    </div>
 
-    <button class="themeBtn" onclick="toggleTheme()">☀️</button>
+        <div class="actions">
 
-</header>
+            <button class="add" onclick="addRow()">
+                ＋ Satır Ekle
+            </button>
 
-<!-- ANA SAYFA -->
+            <button class="excel" onclick="exportExcel()">
+                ⬇ Excel'e Dönüştür
+            </button>
 
-<div id="homePage" class="page active">
+            <button class="print" onclick="window.print()">
+                🖨 Yazdır
+            </button>
 
-    <div class="hero">
-
-        <div class="smallTitle">AYLIK TAKİP</div>
-
-        <div class="balance">📁 Ay Klasörlerini Yönet</div>
-
-        <div class="heroActions">
-
-            <button class="primary" onclick="openMonthModal()">
-                + Ay Oluştur
+            <button class="clear" onclick="clearAll()">
+                Temizle
             </button>
 
         </div>
 
     </div>
 
-    <div class="section">
 
-        <div class="sectionHeader">
+    <div class="info">
 
-            <div>
-                <h2>📌 Sabit Gelirler & Ödemeler</h2>
-                <div class="muted">
-                    Yeni ay klasörlerine otomatik eklenir
-                </div>
-            </div>
+        <b>Kullanım:</b>
 
-            <div class="heroActions">
+        Soldaki açıklamayı yazın →
+        birimi seçin →
+        miktarı girin →
+        birim fiyatı girin.
 
-                <button class="primary" onclick="openFixedModal('income')">
-                    + Sabit Gelir
-                </button>
-
-                <button class="secondary" onclick="openFixedModal('expense')">
-                    + Sabit Ödeme
-                </button>
-
-            </div>
-
-        </div>
-
-        <div id="fixedItems"></div>
+        <b>Toplam = Miktar × Birim Fiyat</b>
 
     </div>
 
-    <div class="section">
 
-        <div class="sectionHeader">
+    <div class="table-wrap">
 
-            <div>
-                <h2>📁 Aylarım</h2>
-                <div class="muted">
-                    Aylık gelir ve gider takibi
-                </div>
-            </div>
+        <table id="mainTable">
 
-        </div>
+            <thead>
 
-        <div id="months" class="months"></div>
+                <tr>
+
+                    <th>No</th>
+
+                    <th>
+                        Açıklama / Malzeme
+                    </th>
+
+                    <th>
+                        Birim
+                    </th>
+
+                    <th>
+                        Miktar
+                    </th>
+
+                    <th>
+                        Birim Fiyat (TL)
+                    </th>
+
+                    <th>
+                        Toplam (TL)
+                    </th>
+
+                    <th></th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="rows"></tbody>
+
+
+            <tfoot>
+
+                <tr>
+
+                    <td colspan="5"
+                        class="grand-label">
+
+                        GENEL TOPLAM (KDV HARİÇ)
+
+                    </td>
+
+                    <td id="grandTotal"
+                        class="grand-total">
+
+                        0,00 TL
+
+                    </td>
+
+                    <td></td>
+
+                </tr>
+
+            </tfoot>
+
+        </table>
 
     </div>
 
-    <div class="section">
 
-        <div class="sectionHeader">
+    <div class="footer-note">
 
-            <div>
-                <h2>⚡ Son İşlemler</h2>
-            </div>
+        Excel dosyasında sütunlar:
 
-        </div>
-
-        <div id="recentTransactions"></div>
+        No,
+        Açıklama / Malzeme,
+        Birim,
+        Miktar,
+        Birim Fiyat (TL),
+        Toplam (TL).
 
     </div>
 
 </div>
 
-<!-- AY SAYFASI -->
-
-<div id="monthPage" class="page">
-
-    <div class="back">
-        <button onclick="goHome()">← Ana Sayfa</button>
-    </div>
-
-    <div class="hero">
-
-        <div class="smallTitle">SEÇİLİ AY</div>
-
-        <div id="currentMonthName" class="balance">AY</div>
-
-        <div class="heroActions">
-
-            <button class="primary" onclick="openTransactionModal('income')">
-                + Gelir Ekle
-            </button>
-
-            <button class="secondary" onclick="openTransactionModal('expense')">
-                − Gider Ekle
-            </button>
-
-        </div>
-
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <div class="cardTitle">AYLIK GELİR</div>
-            <div id="monthIncome" class="cardValue income">₺0,00</div>
-        </div>
-
-        <div class="card">
-            <div class="cardTitle">TOPLAM GİDER</div>
-            <div id="monthExpense" class="cardValue expense">₺0,00</div>
-        </div>
-
-        <div class="card">
-            <div class="cardTitle">ÖDENEN</div>
-            <div id="monthPaid" class="cardValue paidValue">₺0,00</div>
-        </div>
-
-        <div class="card">
-            <div class="cardTitle">KALAN GİDER</div>
-            <div id="monthRemaining" class="cardValue remainingValue">₺0,00</div>
-        </div>
-
-    </div>
-
-    <div class="section">
-
-        <div class="sectionHeader">
-            <div>
-                <h2>💰 Gerçek Kalan</h2>
-            </div>
-        </div>
-
-        <div id="monthBalance" class="cardValue">₺0,00</div>
-
-    </div>
-
-    <div class="section">
-
-        <div class="sectionHeader">
-
-            <div>
-                <h2>📜 İşlem Geçmişi</h2>
-            </div>
-
-            <div id="monthCount" class="muted">0 işlem</div>
-
-        </div>
-
-        <div id="monthTransactions"></div>
-
-    </div>
-
-</div>
-
-<!-- YATIRIM SAYFASI -->
-
-<div id="investmentPage" class="page">
-
-    <div class="back">
-        <button onclick="closeInvestmentPage()">← Ana Sayfa</button>
-    </div>
-
-    <!-- ALTIN -->
-
-    <div id="investmentGold">
-
-        <div class="hero">
-
-            <div class="smallTitle">YATIRIMLARIM</div>
-
-            <div class="balance">🪙 Altın</div>
-
-            <div class="muted">
-                Biriken gram ve güncel portföy değeri
-            </div>
-
-        </div>
-
-        <div class="cards">
-
-            <div class="card">
-                <div class="cardTitle">BİRİKEN GRAM</div>
-                <div id="goldGramsDisplay" class="cardValue">
-                    0 gram
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="cardTitle">GRAM FİYATI</div>
-                <div id="goldPriceDisplay" class="cardValue">
-                    ₺0,00
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="cardTitle">TOPLAM DEĞER</div>
-                <div id="goldTotalDisplay" class="cardValue income">
-                    ₺0,00
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="cardTitle">KÂR / ZARAR</div>
-                <div id="goldProfitDisplay" class="cardValue">
-                    ₺0,00
-                </div>
-            </div>
-
-        </div>
-
-        <div class="section">
-
-            <div class="sectionHeader">
-
-                <div>
-                    <h2>🪙 Altın Bilgilerim</h2>
-                    <div class="muted">
-                        Altın miktarını ve güncel gram fiyatını gir.
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="formGroup">
-
-                <label>Biriken Gram</label>
-
-                <input
-                    id="goldGrams"
-                    type="text"
-                    inputmode="decimal"
-                    placeholder="Örn: 25,500">
-
-            </div>
-
-            <div class="formGroup">
-
-                <label>Güncel Gram Altın Değeri</label>
-
-                <input
-                    id="goldPrice"
-                    type="text"
-                    inputmode="decimal"
-                    placeholder="Örn: 4850">
-
-            </div>
-
-            <div class="formGroup">
-
-                <label>Altına Yatırılan Toplam Tutar</label>
-
-                <input
-                    id="goldInvested"
-                    type="text"
-                    inputmode="decimal"
-                    placeholder="Örn: 100000">
-
-            </div>
-
-            <button class="saveBtn" onclick="saveGold()">
-                🪙 Altın Bilgilerini Kaydet
-            </button>
-
-            <button
-                class="investDelete"
-                onclick="deleteGold()">
-
-                🗑️ Altın Yatırımını Sil
-
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- PPF (TERA PPF) -->
-
-    <div id="investmentPPF" style="display:none">
-
-        <div class="hero">
-
-            <div class="smallTitle">YATIRIMLARIM</div>
-
-            <div class="balance">💰 TERA PPF</div>
-
-            <div class="muted">
-                Tera Portföy Para Piyasası TL Fonu
-            </div>
-
-        </div>
-
-        <div class="cards">
-
-            <div class="card">
-                <div class="cardTitle">GÜNCEL FON TUTARI</div>
-                <div id="ppfCurrentDisplay" class="cardValue income">
-                    ₺0,00
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="cardTitle">BAŞLANGIÇ ANA PARA</div>
-                <div id="ppfInitialDisplay" class="cardValue">
-                    ₺0,00
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="cardTitle">TOPLAM NET KAZANÇ</div>
-                <div id="ppfProfitDisplay" class="cardValue income">
-                    ₺0,00
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="cardTitle">YASAL STOPAJ</div>
-                <div class="cardValue remainingValue">%17,5</div>
-            </div>
-
-        </div>
-
-        <!-- ANA PARA EKLE -->
-
-        <div class="section">
-
-            <div class="sectionHeader">
-
-                <div>
-                    <h2>💵 Ana Para Bakiye İşlemi</h2>
-                    <div class="muted">
-                        Fona nakit para ekleyin veya başlangıç bakiyenizi girin.
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="formGroup">
-
-                <label>Eklenecek Ana Para Tutarı (₺)</label>
-
-                <input
-                    id="ppfAddAmount"
-                    type="text"
-                    inputmode="decimal"
-                    placeholder="Örn: 1.000.000">
-
-            </div>
-
-            <button class="saveBtn" onclick="addPPFMoney()">
-                + Fon Tutarı Ekle
-            </button>
-
-        </div>
-
-        <!-- GÜNLÜK GETİRİ ORANI GİRİŞİ -->
-
-        <div class="section">
-
-            <div class="sectionHeader">
-
-                <div>
-                    <h2>📈 Günlük Getiri Girişi</h2>
-                    <div class="muted">
-                        Girdiğiniz oran mevcut fona brüt olarak uygulanır, %17,5 stopaj kesilip net kazanç eklenir.
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="formGroup">
-
-                <label>İşlem Tarihi</label>
-
-                <input id="ppfRateDate" type="date">
-
-            </div>
-
-            <div class="formGroup">
-
-                <label>Günlük Brüt Getiri Oranı (%)</label>
-
-                <input
-                    id="ppfDailyRateInput"
-                    type="text"
-                    inputmode="decimal"
-                    placeholder="Örn: 0,13">
-
-            </div>
-
-            <button class="saveBtn" style="background:linear-gradient(135deg,#00c853,#00e676)" onclick="applyDailyRate()">
-                ⚡ Günlük Getiriyi Hesapla & Ekle
-            </button>
-
-            <button class="investDelete" onclick="deletePPF()">
-                🗑️ TERA PPF Yatırımını Sil
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- GRAFİK -->
-
-    <div class="section">
-
-        <div class="sectionHeader">
-
-            <div>
-                <h2>📊 Yatırım Dağılımım</h2>
-
-                <div class="muted">
-                    Altın ve TERA PPF'nin toplam portföy içindeki oranı
-                </div>
-            </div>
-
-        </div>
-
-        <div class="investmentChart">
-
-            <div id="investmentDonut" class="donut">
-
-                <div class="donutCenter">
-                    TOPLAM<br>PORTFÖY
-                </div>
-
-            </div>
-
-            <div class="chartLegend">
-
-                <div class="legendItem">
-
-                    <span class="legendDot goldDot"></span>
-
-                    <span>Altın</span>
-
-                    <strong id="goldChartPercent">0%</strong>
-
-                </div>
-
-                <div class="legendItem">
-
-                    <span class="legendDot ppfDot"></span>
-
-                    <span>TERA PPF</span>
-
-                    <strong id="ppfChartPercent">0%</strong>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-<!-- AY MODAL -->
-
-<div id="monthModal" class="modal">
-
-    <div class="modalBox">
-
-        <div class="modalHeader">
-
-            <h2>📁 Yeni Ay</h2>
-
-            <button class="close" onclick="closeModal('monthModal')">
-                ×
-            </button>
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Ay adı</label>
-
-            <input
-                id="monthName"
-                placeholder="Örn: Eylül 2026">
-
-        </div>
-
-        <button class="saveBtn" onclick="createMonth()">
-            Ay Klasörünü Oluştur
-        </button>
-
-    </div>
-
-</div>
-
-<!-- SABİT MODAL -->
-
-<div id="fixedModal" class="modal">
-
-    <div class="modalBox">
-
-        <div class="modalHeader">
-
-            <h2 id="fixedModalTitle">📌 Sabit İşlem</h2>
-
-            <button class="close" onclick="closeModal('fixedModal')">
-                ×
-            </button>
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Tür</label>
-
-            <div class="typeButtons">
-
-                <button
-                    id="fixedIncomeBtn"
-                    class="typeBtn"
-                    onclick="setFixedType('income')">
-
-                    💰 Sabit Gelir
-
-                </button>
-
-                <button
-                    id="fixedExpenseBtn"
-                    class="typeBtn"
-                    onclick="setFixedType('expense')">
-
-                    💸 Sabit Ödeme
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>İşlem adı</label>
-
-            <input id="fixedName" placeholder="Örn: Maaş / Kira">
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Tutar</label>
-
-            <input
-                id="fixedAmount"
-                type="text"
-                inputmode="decimal"
-                placeholder="0">
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Kategori</label>
-
-            <select id="fixedCategory">
-                <option>Maaş</option>
-                <option>Kira</option>
-                <option>Ek Gelir</option>
-                <option>Yatırım</option>
-                <option>Diğer Gelir</option>
-                <option>Market</option>
-                <option>Fatura</option>
-                <option>Akaryakıt</option>
-                <option>Yemek</option>
-                <option>Alışveriş</option>
-                <option>Kredi</option>
-                <option>Kredi Kartı</option>
-                <option>Ulaşım</option>
-                <option>Sağlık</option>
-                <option>Eğlence</option>
-                <option>Diğer Gider</option>
-            </select>
-
-        </div>
-
-        <button
-            id="fixedSaveBtn"
-            class="saveBtn"
-            onclick="saveFixed()">
-
-            Sabit Kaydı Oluştur
-
-        </button>
-
-    </div>
-
-</div>
-
-<!-- İŞLEM MODAL -->
-
-<div id="transactionModal" class="modal">
-
-    <div class="modalBox">
-
-        <div class="modalHeader">
-
-            <h2 id="transactionTitle">Yeni İşlem</h2>
-
-            <button class="close" onclick="closeModal('transactionModal')">
-                ×
-            </button>
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Tür</label>
-
-            <div class="typeButtons">
-
-                <button
-                    id="incomeBtn"
-                    class="typeBtn"
-                    onclick="setTransactionType('income')">
-
-                    💰 Gelir
-
-                </button>
-
-                <button
-                    id="expenseBtn"
-                    class="typeBtn"
-                    onclick="setTransactionType('expense')">
-
-                    💸 Gider
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Tutar</label>
-
-            <input
-                id="amount"
-                type="text"
-                inputmode="decimal"
-                placeholder="0">
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Kategori</label>
-
-            <select id="category">
-                <option>Maaş</option>
-                <option>Kira</option>
-                <option>Ek Gelir</option>
-                <option>Yatırım</option>
-                <option>Diğer Gelir</option>
-                <option>Market</option>
-                <option>Fatura</option>
-                <option>Akaryakıt</option>
-                <option>Yemek</option>
-                <option>Alışveriş</option>
-                <option>Kredi</option>
-                <option>Kredi Kartı</option>
-                <option>Ulaşım</option>
-                <option>Sağlık</option>
-                <option>Eğlence</option>
-                <option>Diğer Gider</option>
-            </select>
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Açıklama</label>
-
-            <input id="description" placeholder="Açıklama">
-
-        </div>
-
-        <div class="formGroup">
-
-            <label>Tarih</label>
-
-            <input id="date" type="date">
-
-        </div>
-
-        <button class="saveBtn" onclick="saveTransaction()">
-            Kaydet
-        </button>
-
-    </div>
-
-</div>
-
-<!-- PPF GEÇMİŞİ MODAL -->
-
-<div id="ppfHistoryModal" class="modal">
-
-    <div class="modalBox" style="max-width:600px;">
-
-        <div class="modalHeader">
-
-            <h2>📜 PPF Günlük Kazanç Geçmişi</h2>
-
-            <button class="close" onclick="closeModal('ppfHistoryModal')">
-                ×
-            </button>
-
-        </div>
-
-        <div id="ppfHistoryList"></div>
-
-    </div>
-
-</div>
 
 <script>
 
-/* =====================================================
-   VERİ
-===================================================== */
+/* ----------------------------------
+   BİRİM LİSTESİ
+----------------------------------- */
 
-let data;
+const units = [
+    "ADET",
+    "METRE",
+    "TABAKA",
+    "KG",
+    "LİTRE",
+    "KUTU",
+    "PAKET",
+    "TAKIM",
+    "ÇİFT",
+    "TOP"
+];
 
-try{
-    data =
-        JSON.parse(
-            localStorage.getItem("finansimData")
-        ) || {};
-}catch(e){
-    data = {};
+
+const rowsEl =
+    document.getElementById("rows");
+
+
+/* ----------------------------------
+   BİRİM SEÇENEKLERİ
+----------------------------------- */
+
+function unitOptions(selected="ADET"){
+
+    return units.map(function(unit){
+
+        return `
+            <option
+                ${unit === selected ? "selected" : ""}
+            >
+                ${unit}
+            </option>
+        `;
+
+    }).join("");
+
 }
 
-data.months = data.months || {};
 
-data.fixedTransactions =
-    Array.isArray(data.fixedTransactions)
-    ? data.fixedTransactions
-    : [];
+/* ----------------------------------
+   YENİ SATIR
+----------------------------------- */
 
-data.investments =
-    data.investments || {};
+function addRow(data={}){
 
-data.investments.gold =
-    data.investments.gold || {
-        grams:0,
-        totalInvested:0,
-        currentGramPrice:0
-    };
+    const tr =
+        document.createElement("tr");
 
-data.investments.ppf =
-    data.investments.ppf || {
-        fundName:"TERA PPF",
-        amount:0,
-        initialAmount:0,
-        totalProfit:0,
-        history:[]
-    };
 
-data.investments.ppf.history = data.investments.ppf.history || [];
+    tr.innerHTML = `
 
-data.theme = data.theme || "dark";
+        <td class="no"></td>
 
-let currentMonth = null;
-let transactionType = "income";
-let fixedType = "expense";
-let editingFixedId = null;
 
-/* =====================================================
+        <td>
+
+            <input
+                class="desc"
+                type="text"
+                placeholder="Malzeme / açıklama"
+                value="${esc(data.desc || "")}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <select class="unit">
+
+                ${unitOptions(data.unit || "ADET")}
+
+            </select>
+
+        </td>
+
+
+        <td>
+
+            <input
+                class="qty"
+                type="number"
+                min="0"
+                step="any"
+                placeholder="0"
+                value="${data.qty ?? ""}"
+            >
+
+        </td>
+
+
+        <td>
+
+            <input
+                class="price"
+                type="number"
+                min="0"
+                step="any"
+                placeholder="0,00"
+                value="${data.price ?? ""}"
+            >
+
+        </td>
+
+
+        <td class="total">
+
+            0,00 TL
+
+        </td>
+
+
+        <td class="delete-cell">
+
+            <button
+                class="delete-row"
+                title="Satırı sil"
+                onclick="
+                    this.closest('tr').remove();
+                    renumber();
+                "
+            >
+
+                ×
+
+            </button>
+
+        </td>
+
+    `;
+
+
+    rowsEl.appendChild(tr);
+
+
+    tr.querySelectorAll(
+        "input,select"
+    ).forEach(function(el){
+
+        el.addEventListener(
+            "input",
+            function(){
+
+                calculate(tr);
+
+            }
+        );
+
+    });
+
+
+    calculate(tr);
+
+    renumber();
+
+}
+
+
+/* ----------------------------------
+   HTML GÜVENLİĞİ
+----------------------------------- */
+
+function esc(s){
+
+    return String(s)
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;");
+
+}
+
+
+/* ----------------------------------
+   SAYI
+----------------------------------- */
+
+function num(v){
+
+    const n =
+        parseFloat(
+            String(v)
+            .replace(",",".")
+        );
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
+
+}
+
+
+/* ----------------------------------
    PARA
-===================================================== */
+----------------------------------- */
 
-function money(value){
+function money(n){
 
-    return new Intl.NumberFormat(
+    return n.toLocaleString(
         "tr-TR",
         {
-            style:"currency",
-            currency:"TRY",
             minimumFractionDigits:2,
             maximumFractionDigits:2
         }
-    ).format(Number(value) || 0);
+    ) + " TL";
 
 }
 
-/* =====================================================
-   PARA ÇEVİR
-===================================================== */
 
-function parseMoney(value){
+/* ----------------------------------
+   SATIR HESAPLA
+----------------------------------- */
 
-    if(value === null || value === undefined){
-        return 0;
-    }
+function calculate(tr){
 
-    let text =
-        String(value)
-        .trim()
-        .replace(/\s/g,"");
-
-    if(!text){
-        return 0;
-    }
-
-    if(text.includes(".") && text.includes(",")){
-
-        text =
-            text
-            .replace(/\./g,"")
-            .replace(",", ".");
-
-        return Number(text) || 0;
-    }
-
-    if(text.includes(",")){
-        return Number(
-            text.replace(",", ".")
-        ) || 0;
-    }
-
-    if(text.includes(".")){
-
-        const parts = text.split(".");
-
-        if(
-            parts.length === 2 &&
-            parts[1].length === 3
-        ){
-            return Number(
-                parts[0] + parts[1]
-            ) || 0;
-        }
-    }
-
-    return Number(text) || 0;
-}
-
-/* =====================================================
-   KAYDET
-===================================================== */
-
-function saveData(){
-
-    localStorage.setItem(
-        "finansimData",
-        JSON.stringify(data)
-    );
-
-}
-
-/* =====================================================
-   TEMA
-===================================================== */
-
-function toggleTheme(){
-
-    document.body.classList.toggle("light");
-
-    data.theme =
-        document.body.classList.contains("light")
-        ? "light"
-        : "dark";
-
-    saveData();
-
-}
-
-/* =====================================================
-   MENÜ
-===================================================== */
-
-function toggleSideMenu(){
-
-    document
-        .getElementById("sideMenu")
-        .classList
-        .toggle("open");
-
-    document
-        .getElementById("sideOverlay")
-        .classList
-        .toggle("active");
-
-}
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function closeModal(id){
-
-    document
-        .getElementById(id)
-        .classList
-        .remove("active");
-
-}
-
-/* =====================================================
-   AY
-===================================================== */
-
-function openMonthModal(){
-
-    document.getElementById("monthName").value = "";
-
-    document
-        .getElementById("monthModal")
-        .classList
-        .add("active");
-
-}
-
-function createMonth(){
-
-    const name =
-        document
-        .getElementById("monthName")
-        .value
-        .trim();
-
-    if(!name){
-        alert("Ay adı gir.");
-        return;
-    }
-
-    if(data.months[name]){
-        alert("Bu ay zaten mevcut.");
-        return;
-    }
-
-    data.months[name] = {
-        transactions:[]
-    };
-
-    applyFixedTransactionsToMonth(name);
-
-    saveData();
-
-    closeModal("monthModal");
-
-    renderAll();
-
-}
-
-/* =====================================================
-   SABİT
-===================================================== */
-
-function openFixedModal(type){
-
-    editingFixedId = null;
-    fixedType = type;
-
-    document.getElementById("fixedName").value = "";
-    document.getElementById("fixedAmount").value = "";
-
-    document.getElementById("fixedModalTitle").innerText =
-        type === "income"
-        ? "📌 Sabit Gelir Ekle"
-        : "📌 Sabit Ödeme Ekle";
-
-    document.getElementById("fixedSaveBtn").innerText =
-        "Sabit Kaydı Oluştur";
-
-    setFixedType(type);
-
-    document
-        .getElementById("fixedModal")
-        .classList
-        .add("active");
-
-}
-
-function setFixedType(type){
-
-    fixedType = type;
-
-    document.getElementById("fixedIncomeBtn")
-        .className = "typeBtn";
-
-    document.getElementById("fixedExpenseBtn")
-        .className = "typeBtn";
-
-    if(type === "income"){
-
-        document
-            .getElementById("fixedIncomeBtn")
-            .classList
-            .add("activeIncome");
-
-    }else{
-
-        document
-            .getElementById("fixedExpenseBtn")
-            .classList
-            .add("activeExpense");
-
-    }
-
-}
-
-function saveFixed(){
-
-    const name =
-        document
-        .getElementById("fixedName")
-        .value
-        .trim();
-
-    const amount =
-        parseMoney(
-            document
-            .getElementById("fixedAmount")
-            .value
+    const q =
+        num(
+            tr.querySelector(".qty").value
         );
 
-    const category =
-        document
-        .getElementById("fixedCategory")
-        .value;
 
-    if(!name){
-        alert("İşlem adı gir.");
-        return;
-    }
+    const p =
+        num(
+            tr.querySelector(".price").value
+        );
 
-    if(amount <= 0){
-        alert("Geçerli tutar gir.");
-        return;
-    }
 
-    if(editingFixedId){
+    const total = q * p;
 
-        const item =
-            data.fixedTransactions.find(
-                x =>
-                Number(x.id) ===
-                Number(editingFixedId)
-            );
 
-        if(item){
+    tr.querySelector(".total")
+        .textContent =
+        money(total);
 
-            item.type = fixedType;
-            item.name = name;
-            item.amount = amount;
-            item.category = category;
 
-        }
+    updateGrand();
 
-    }else{
+}
 
-        data.fixedTransactions.push({
 
-            id:Date.now(),
+/* ----------------------------------
+   GENEL TOPLAM
+----------------------------------- */
 
-            type:fixedType,
+function updateGrand(){
 
-            name:name,
+    let sum = 0;
 
-            amount:amount,
 
-            category:category,
+    document
+        .querySelectorAll("#rows tr")
+        .forEach(function(tr){
 
-            active:true,
+            const qty =
+                num(
+                    tr.querySelector(".qty")?.value
+                );
 
-            appliedMonths:[]
+
+            const price =
+                num(
+                    tr.querySelector(".price")?.value
+                );
+
+
+            sum += qty * price;
 
         });
 
-    }
-
-    saveData();
-
-    closeModal("fixedModal");
-
-    renderAll();
-
-}
-
-function editFixed(id){
-
-    const item =
-        data.fixedTransactions.find(
-            x =>
-            Number(x.id) ===
-            Number(id)
-        );
-
-    if(!item)return;
-
-    editingFixedId = id;
-
-    document.getElementById("fixedName").value =
-        item.name;
-
-    document.getElementById("fixedAmount").value =
-        item.amount.toLocaleString("tr-TR");
-
-    document.getElementById("fixedCategory").value =
-        item.category;
-
-    document.getElementById("fixedModalTitle").innerText =
-        "✏️ Sabit İşlemi Düzenle";
-
-    document.getElementById("fixedSaveBtn").innerText =
-        "Değişiklikleri Kaydet";
-
-    setFixedType(item.type);
 
     document
-        .getElementById("fixedModal")
-        .classList
-        .add("active");
+        .getElementById("grandTotal")
+        .textContent =
+        money(sum);
 
 }
 
-function removeFixed(id){
 
-    if(!confirm("Bu sabit kayıt silinsin mi?")){
-        return;
-    }
+/* ----------------------------------
+   NUMARALANDIR
+----------------------------------- */
 
-    data.fixedTransactions =
-        data.fixedTransactions.filter(
-            x =>
-            Number(x.id) !==
-            Number(id)
-        );
+function renumber(){
 
-    saveData();
+    document
+        .querySelectorAll("#rows tr")
+        .forEach(function(tr,index){
 
-    renderAll();
-
-}
-
-/* =====================================================
-   SABİTLERİ AYA EKLE
-===================================================== */
-
-function applyFixedTransactionsToMonth(monthName){
-
-    const month = data.months[monthName];
-
-    if(!month)return;
-
-    if(!Array.isArray(month.transactions)){
-        month.transactions = [];
-    }
-
-    data.fixedTransactions
-    .filter(x => x.active !== false)
-    .forEach(item=>{
-
-        const exists =
-            month.transactions.some(
-                t =>
-                Number(t.fixedId) ===
-                Number(item.id)
-            );
-
-        if(exists)return;
-
-        month.transactions.push({
-
-            id:
-                Date.now() +
-                Math.floor(Math.random()*100000),
-
-            type:item.type,
-
-            amount:Number(item.amount),
-
-            category:item.category,
-
-            description:item.name,
-
-            date:
-                new Date()
-                .toISOString()
-                .split("T")[0],
-
-            paid:false,
-
-            fixedId:item.id
+            tr.querySelector(".no")
+                .textContent =
+                index + 1;
 
         });
 
-    });
+
+    updateGrand();
 
 }
 
-/* =====================================================
-   SABİTLERİ GÖSTER
-===================================================== */
 
-function renderFixedTransactions(){
+/* ----------------------------------
+   TEMİZLE
+----------------------------------- */
 
-    const box =
-        document.getElementById("fixedItems");
+function clearAll(){
 
-    if(!data.fixedTransactions.length){
+    if(
+        confirm(
+            "Tüm satırlar silinsin mi?"
+        )
+    ){
 
-        box.innerHTML =
-            `<div class="empty">
-                Henüz sabit kayıt yok.
-            </div>`;
+        rowsEl.innerHTML = "";
 
-        return;
-    }
-
-    box.innerHTML =
-        `<div class="fixedGrid"></div>`;
-
-    const grid =
-        box.querySelector(".fixedGrid");
-
-    data.fixedTransactions.forEach(item=>{
-
-        const income =
-            item.type === "income";
-
-        const div =
-            document.createElement("div");
-
-        div.className = "fixedItem";
-
-        div.innerHTML = `
-
-            <div class="fixedIcon">
-                ${income ? "💰" : "💸"}
-            </div>
-
-            <div class="fixedName">
-                ${escapeHtml(item.name)}
-            </div>
-
-            <div
-                class="fixedAmount"
-                style="color:${income ? "#35e69b" : "#ff5575"}">
-
-                ${money(item.amount)}
-
-            </div>
-
-            <div class="fixedMeta">
-                ${escapeHtml(item.category)}
-            </div>
-
-            <div class="fixedActions">
-
-                <button
-                    class="fixedEdit"
-                    onclick="editFixed(${item.id})">
-
-                    ✏️ Düzenle
-
-                </button>
-
-                <button
-                    class="fixedRemove"
-                    onclick="removeFixed(${item.id})">
-
-                    🗑 Sil
-
-                </button>
-
-            </div>
-        `;
-
-        grid.appendChild(div);
-
-    });
-
-}
-
-/* =====================================================
-   AY İSTATİSTİĞİ
-===================================================== */
-
-function getMonthStats(monthName){
-
-    const transactions =
-        data.months[monthName]?.transactions || [];
-
-    let income = 0;
-    let expense = 0;
-    let paid = 0;
-
-    transactions.forEach(t=>{
-
-        const amount =
-            Number(t.amount) || 0;
-
-        if(t.type === "income"){
-
-            income += amount;
-
-        }else{
-
-            expense += amount;
-
-            if(t.paid){
-                paid += amount;
-            }
-
-        }
-
-    });
-
-    return {
-
-        income,
-        expense,
-        paid,
-        remaining:expense - paid,
-        balance:income - expense,
-        count:transactions.length
-
-    };
-
-}
-
-/* =====================================================
-   AYLARI GÖSTER
-===================================================== */
-
-function renderMonths(){
-
-    const box =
-        document.getElementById("months");
-
-    const names =
-        Object.keys(data.months);
-
-    if(!names.length){
-
-        box.innerHTML =
-            `<div class="empty">
-                Henüz ay oluşturulmadı.
-            </div>`;
-
-        return;
-    }
-
-    box.innerHTML = "";
-
-    names.forEach(name=>{
-
-        const stats =
-            getMonthStats(name);
-
-        const div =
-            document.createElement("div");
-
-        div.className = "month";
-
-        div.innerHTML = `
-
-            <div class="monthIcon">📁</div>
-
-            <div class="monthName">
-                ${escapeHtml(name)}
-            </div>
-
-            <div class="monthInfo">
-
-                ${stats.count} işlem<br>
-
-                <span style="color:#35e69b">
-                    Gelir: ${money(stats.income)}
-                </span><br>
-
-                <span style="color:#ff5575">
-                    Gider: ${money(stats.expense)}
-                </span><br>
-
-                <span style="color:#45d8ff">
-                    Ödenen: ${money(stats.paid)}
-                </span><br>
-
-                <span style="color:#ffc857">
-                    Kalan: ${money(stats.remaining)}
-                </span>
-
-            </div>
-
-            <div class="monthButtons">
-
-                <button
-                    class="openBtn"
-                    onclick="openMonth('${escapeHtml(name)}')">
-
-                    Klasöre Gir
-
-                </button>
-
-                <button
-                    class="deleteMonth"
-                    onclick="deleteMonth('${escapeHtml(name)}')">
-
-                    🗑
-
-                </button>
-
-            </div>
-        `;
-
-        box.appendChild(div);
-
-    });
-
-}
-
-/* =====================================================
-   AY AÇ
-===================================================== */
-
-function openMonth(name){
-
-    currentMonth = name;
-
-    document.getElementById("homePage")
-        .classList.remove("active");
-
-    document.getElementById("investmentPage")
-        .classList.remove("active");
-
-    document.getElementById("monthPage")
-        .classList.add("active");
-
-    renderMonth();
-
-}
-
-function goHome(){
-
-    currentMonth = null;
-
-    document.getElementById("monthPage")
-        .classList.remove("active");
-
-    document.getElementById("investmentPage")
-        .classList.remove("active");
-
-    document.getElementById("homePage")
-        .classList.add("active");
-
-    renderAll();
-
-}
-
-function deleteMonth(name){
-
-    if(!confirm(`"${name}" klasörü silinsin mi?`)){
-        return;
-    }
-
-    delete data.months[name];
-
-    saveData();
-
-    renderAll();
-
-}
-
-/* =====================================================
-   İŞLEM
-===================================================== */
-
-function openTransactionModal(type){
-
-    if(!currentMonth){
-
-        alert("Önce bir ay klasörü aç.");
-
-        return;
-    }
-
-    setTransactionType(type);
-
-    document.getElementById("amount").value = "";
-    document.getElementById("description").value = "";
-
-    document.getElementById("date").value =
-        new Date()
-        .toISOString()
-        .split("T")[0];
-
-    document
-        .getElementById("transactionModal")
-        .classList
-        .add("active");
-
-}
-
-function setTransactionType(type){
-
-    transactionType = type;
-
-    document.getElementById("incomeBtn")
-        .className = "typeBtn";
-
-    document.getElementById("expenseBtn")
-        .className = "typeBtn";
-
-    if(type === "income"){
-
-        document.getElementById("incomeBtn")
-            .classList
-            .add("activeIncome");
-
-        document.getElementById("transactionTitle")
-            .innerText = "💰 Gelir Ekle";
-
-    }else{
-
-        document.getElementById("expenseBtn")
-            .classList
-            .add("activeExpense");
-
-        document.getElementById("transactionTitle")
-            .innerText = "💸 Gider Ekle";
+        addRow();
 
     }
 
 }
 
-function saveTransaction(){
 
-    const amount =
-        parseMoney(
-            document.getElementById("amount").value
+/* ----------------------------------
+   EXCEL'E DÖNÜŞTÜR
+----------------------------------- */
+
+function exportExcel(){
+
+    if(typeof XLSX === "undefined"){
+
+        alert(
+            "Excel kütüphanesi yüklenemedi. " +
+            "İnternet bağlantısını kontrol edin."
         );
 
-    if(amount <= 0){
-
-        alert("Geçerli tutar gir.");
-
         return;
+
     }
 
-    data.months[currentMonth]
-        .transactions
-        .push({
 
-            id:Date.now(),
+    const data = [
 
-            type:transactionType,
+        [
+            "No",
+            "Açıklama / Malzeme",
+            "Birim",
+            "Miktar",
+            "Birim Fiyat (TL)",
+            "Toplam (TL)"
+        ]
 
-            amount,
+    ];
 
-            category:
-                document.getElementById("category").value,
 
-            description:
-                document.getElementById("description")
+    document
+        .querySelectorAll("#rows tr")
+        .forEach(function(tr,index){
+
+            const desc =
+                tr.querySelector(".desc")
                 .value
-                .trim() ||
-                "İşlem",
+                .trim();
 
-            date:
-                document.getElementById("date").value,
 
-            paid:false,
+            const unit =
+                tr.querySelector(".unit")
+                .value;
 
-            fixedId:null
 
-        });
+            const qty =
+                num(
+                    tr.querySelector(".qty")
+                    .value
+                );
 
-    saveData();
 
-    closeModal("transactionModal");
+            const price =
+                num(
+                    tr.querySelector(".price")
+                    .value
+                );
 
-    renderAll();
 
-}
+            const total =
+                qty * price;
 
-/* =====================================================
-   AY RENDER
-===================================================== */
 
-function renderMonth(){
+            /*
+             * Tamamen boş satırları
+             * Excel'e aktarma.
+             */
 
-    if(!currentMonth)return;
+            if(
+                desc ||
+                qty ||
+                price
+            ){
 
-    const stats =
-        getMonthStats(currentMonth);
+                data.push([
 
-    document.getElementById("currentMonthName")
-        .innerText = currentMonth;
+                    index + 1,
 
-    document.getElementById("monthIncome")
-        .innerText = money(stats.income);
+                    desc,
 
-    document.getElementById("monthExpense")
-        .innerText = money(stats.expense);
+                    unit,
 
-    document.getElementById("monthPaid")
-        .innerText = money(stats.paid);
+                    qty,
 
-    document.getElementById("monthRemaining")
-        .innerText = money(stats.remaining);
+                    price,
 
-    document.getElementById("monthBalance")
-        .innerText = money(stats.balance);
+                    total
 
-    document.getElementById("monthCount")
-        .innerText = stats.count + " işlem";
+                ]);
 
-    renderTransactions(
-        document.getElementById("monthTransactions"),
-        data.months[currentMonth].transactions,
-        currentMonth,
-        true
-    );
-
-}
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-function renderDashboard(){
-
-    let all = [];
-
-    Object.keys(data.months).forEach(month=>{
-
-        const transactions =
-            data.months[month].transactions || [];
-
-        transactions.forEach(t=>{
-
-            all.push({
-                ...t,
-                month
-            });
-
-        });
-
-    });
-
-    all.sort(
-        (a,b) =>
-        Number(b.id) -
-        Number(a.id)
-    );
-
-    renderTransactions(
-        document.getElementById("recentTransactions"),
-        all.slice(0,8),
-        null,
-        false
-    );
-
-}
-
-/* =====================================================
-   İŞLEM GÖSTER
-===================================================== */
-
-function renderTransactions(
-    box,
-    transactions,
-    defaultMonth,
-    allowDelete
-){
-
-    if(!transactions || !transactions.length){
-
-        box.innerHTML =
-            `<div class="empty">
-                İşlem bulunmuyor.
-            </div>`;
-
-        return;
-    }
-
-    box.innerHTML = "";
-
-    [...transactions]
-    .sort(
-        (a,b)=>
-        Number(b.id) -
-        Number(a.id)
-    )
-    .forEach(t=>{
-
-        const month =
-            t.month || defaultMonth;
-
-        const income =
-            t.type === "income";
-
-        const div =
-            document.createElement("div");
-
-        div.className = "transaction";
-
-        div.innerHTML = `
-
-            <div class="tLeft">
-
-                <div class="tIcon">
-                    ${income ? "💰" : "💸"}
-                </div>
-
-                <div>
-
-                    <div class="tTitle">
-                        ${escapeHtml(t.description)}
-                    </div>
-
-                    <div class="tDate">
-                        ${escapeHtml(t.category)}
-                        •
-                        ${formatDate(t.date)}
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="tRight">
-
-                <strong style="
-                    color:${income ? "#35e69b" : "#ff5575"}
-                ">
-
-                    ${income ? "+" : "-"}${money(t.amount)}
-
-                </strong>
-
-                ${
-                    !income
-                    ?
-                    `<button
-                        class="paidBtn ${t.paid ? "paid" : ""}"
-                        onclick="togglePaid('${escapeHtml(month)}', ${t.id})">
-
-                        ${t.paid ? "✓ ÖDENDİ" : "ÖDEDİM"}
-
-                    </button>`
-                    :
-                    ""
-                }
-
-                ${
-                    allowDelete
-                    ?
-                    `<button
-                        class="delete"
-                        onclick="deleteTransaction('${escapeHtml(month)}', ${t.id})">
-
-                        🗑
-
-                    </button>`
-                    :
-                    ""
-                }
-
-            </div>
-
-        `;
-
-        box.appendChild(div);
-
-    });
-
-}
-
-function togglePaid(month,id){
-
-    const item =
-        data.months[month]
-        ?.transactions
-        ?.find(
-            t =>
-            Number(t.id) ===
-            Number(id)
-        );
-
-    if(!item)return;
-
-    item.paid = !item.paid;
-
-    saveData();
-
-    renderAll();
-
-}
-
-function deleteTransaction(month,id){
-
-    if(!confirm("Bu işlem silinsin mi?")){
-        return;
-    }
-
-    if(!data.months[month])return;
-
-    data.months[month].transactions =
-        data.months[month].transactions
-        .filter(
-            t =>
-            Number(t.id) !==
-            Number(id)
-        );
-
-    saveData();
-
-    renderAll();
-
-}
-
-/* =====================================================
-   PPF İŞLEMLERİ
-===================================================== */
-
-function addPPFMoney(){
-
-    const input = document.getElementById("ppfAddAmount");
-    const amount = parseMoney(input.value);
-
-    if(amount <= 0){
-        alert("Geçerli bir tutar girin.");
-        return;
-    }
-
-    const ppf = data.investments.ppf;
-
-    ppf.amount = Number(ppf.amount || 0) + amount;
-    ppf.initialAmount = Number(ppf.initialAmount || 0) + amount;
-
-    saveData();
-
-    input.value = "";
-    renderInvestments();
-
-}
-
-function applyDailyRate(){
-
-    const rateInput = document.getElementById("ppfDailyRateInput").value;
-    const dateInput = document.getElementById("ppfRateDate").value;
-
-    const rate = parseFloat(String(rateInput).replace(",", "."));
-
-    if(isNaN(rate) || rate <= 0){
-        alert("Geçerli bir brüt getiri oranı girin (Örn: 0.13)");
-        return;
-    }
-
-    if(!dateInput){
-        alert("Lütfen işlem tarihini seçin.");
-        return;
-    }
-
-    const ppf = data.investments.ppf;
-    const currentAmount = Number(ppf.amount) || 0;
-
-    if(currentAmount <= 0){
-        alert("Lütfen önce fona başlangıç bakiyesi ekleyin.");
-        return;
-    }
-
-    // Brüt kazanç hesaplama
-    const grossProfit = currentAmount * (rate / 100);
-
-    // %17.5 Stopaj Kesintisi
-    const tax = grossProfit * 0.175;
-
-    // Net Kazanç
-    const netProfit = grossProfit - tax;
-
-    // Yeni Bakiye
-    const newAmount = currentAmount + netProfit;
-
-    ppf.amount = newAmount;
-    ppf.totalProfit = Number(ppf.totalProfit || 0) + netProfit;
-
-    // Geçmiş Kaydı Ekle
-    ppf.history.push({
-        id: Date.now(),
-        date: dateInput,
-        fundAmount: newAmount,
-        rate: rate,
-        grossProfit: grossProfit,
-        tax: tax,
-        netProfit: netProfit
-    });
-
-    saveData();
-
-    document.getElementById("ppfDailyRateInput").value = "";
-
-    alert(`${formatDate(dateInput)} için %${rate} oranıyla net ${money(netProfit)} kazanç fona eklendi.`);
-
-    renderInvestments();
-
-}
-
-function deletePPF(){
-
-    if(!confirm("TERA PPF yatırımının tamamı ve tüm geçmiş verileri silinsin mi?")){
-        return;
-    }
-
-    data.investments.ppf = {
-        fundName:"TERA PPF",
-        amount:0,
-        initialAmount:0,
-        totalProfit:0,
-        history:[]
-    };
-
-    saveData();
-
-    renderInvestments();
-
-}
-
-/* =====================================================
-   PPF GEÇMİŞİ MODAL
-===================================================== */
-
-function openPPFHistoryModal(){
-
-    toggleSideMenu();
-
-    const box = document.getElementById("ppfHistoryList");
-    const history = data.investments.ppf.history || [];
-
-    if(!history.length){
-        box.innerHTML = `<div class="empty">Henüz kaydedilmiş günlük kazanç geçmişi bulunmuyor.</div>`;
-    }else{
-        box.innerHTML = "";
-
-        [...history]
-        .sort((a,b) => new Date(b.date) - new Date(a.date) || b.id - a.id)
-        .forEach(item => {
-
-            const div = document.createElement("div");
-            div.className = "transaction";
-
-            div.innerHTML = `
-                <div class="tLeft">
-                    <div class="tIcon">💰</div>
-                    <div>
-                        <div class="tTitle">${formatDate(item.date)}</div>
-                        <div class="tDate">
-                            Bakiye: ${money(item.fundAmount)} • Brüt Oran: %${item.rate}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tRight">
-                    <div style="text-align:right">
-                        <strong style="color:#35e69b;display:block">+${money(item.netProfit)} Net</strong>
-                        <small style="color:#7f89a5;font-size:10px">Stopaj: -${money(item.tax)}</small>
-                    </div>
-                    <button class="delete" onclick="deletePPFHistoryItem(${item.id})">🗑</button>
-                </div>
-            `;
-
-            box.appendChild(div);
-        });
-    }
-
-    document.getElementById("ppfHistoryModal").classList.add("active");
-
-}
-
-function deletePPFHistoryItem(id){
-
-    if(!confirm("Bu günlük kazanç kaydı geçmişten silinsin mi?")){
-        return;
-    }
-
-    data.investments.ppf.history = data.investments.ppf.history.filter(x => Number(x.id) !== Number(id));
-
-    saveData();
-
-    openPPFHistoryModal();
-
-    renderInvestments();
-
-}
-
-/* =====================================================
-   ALTIN KAYDET
-===================================================== */
-
-function saveGold(){
-
-    const grams =
-        parseFloat(
-            document
-            .getElementById("goldGrams")
-            .value
-            .replace(",", ".")
-        ) || 0;
-
-    const price =
-        parseMoney(
-            document
-            .getElementById("goldPrice")
-            .value
-        );
-
-    const invested =
-        parseMoney(
-            document
-            .getElementById("goldInvested")
-            .value
-        );
-
-    if(grams <= 0){
-
-        alert("Biriken gram miktarını gir.");
-
-        return;
-    }
-
-    data.investments.gold.grams = grams;
-
-    data.investments.gold.currentGramPrice =
-        price;
-
-    data.investments.gold.totalInvested =
-        invested;
-
-    saveData();
-
-    renderInvestments();
-
-}
-
-/* =====================================================
-   ALTIN SİL
-===================================================== */
-
-function deleteGold(){
-
-    const gold =
-        data.investments.gold;
-
-    const hasGold =
-        Number(gold.grams) > 0 ||
-        Number(gold.currentGramPrice) > 0 ||
-        Number(gold.totalInvested) > 0;
-
-    if(!hasGold){
-
-        alert("Silinecek altın yatırımı bulunmuyor.");
-
-        return;
-    }
-
-    if(!confirm(
-        "Altın yatırımının tamamı silinsin mi?\n\n" +
-        "Gram, gram fiyatı, yatırılan tutar " +
-        "ve kâr/zarar bilgileri silinecek."
-    )){
-        return;
-    }
-
-    data.investments.gold = {
-        grams:0,
-        totalInvested:0,
-        currentGramPrice:0
-    };
-
-    saveData();
-
-    renderInvestments();
-
-}
-
-/* =====================================================
-   YATIRIM SAYFASI
-===================================================== */
-
-function openInvestmentPage(type){
-
-    currentMonth = null;
-
-    document.getElementById("homePage")
-        .classList.remove("active");
-
-    document.getElementById("monthPage")
-        .classList.remove("active");
-
-    document.getElementById("investmentPage")
-        .classList.add("active");
-
-    document.getElementById("investmentGold")
-        .style.display =
-        type === "gold"
-        ? "block"
-        : "none";
-
-    document.getElementById("investmentPPF")
-        .style.display =
-        type === "ppf"
-        ? "block"
-        : "none";
-
-    document.getElementById("sideMenu")
-        .classList.remove("open");
-
-    document.getElementById("sideOverlay")
-        .classList.remove("active");
-
-    renderInvestments();
-
-}
-
-function closeInvestmentPage(){
-
-    document.getElementById("investmentPage")
-        .classList.remove("active");
-
-    document.getElementById("homePage")
-        .classList.add("active");
-
-    renderAll();
-
-}
-
-/* =====================================================
-   YATIRIMLARI RENDER
-===================================================== */
-
-function renderInvestments(){
-
-    const gold =
-        data.investments.gold;
-
-    const ppf =
-        data.investments.ppf;
-
-    /* ALTIN */
-
-    const grams =
-        Number(gold.grams) || 0;
-
-    const gramPrice =
-        Number(gold.currentGramPrice) || 0;
-
-    const invested =
-        Number(gold.totalInvested) || 0;
-
-    const goldValue =
-        grams * gramPrice;
-
-    const goldProfit =
-        goldValue - invested;
-
-    document.getElementById("goldGramsDisplay")
-        .innerText =
-        grams.toLocaleString(
-            "tr-TR",
-            {
-                maximumFractionDigits:3
             }
-        ) + " gram";
 
-    document.getElementById("goldPriceDisplay")
-        .innerText =
-        money(gramPrice);
+        });
 
-    document.getElementById("goldTotalDisplay")
-        .innerText =
-        money(goldValue);
 
-    const profitElement =
-        document.getElementById(
-            "goldProfitDisplay"
+    /* GENEL TOPLAM */
+
+    const grand =
+        data
+        .slice(1)
+        .reduce(
+            function(sum,row){
+
+                return sum +
+                    Number(row[5] || 0);
+
+            },
+            0
         );
 
-    profitElement.innerText =
-        money(goldProfit);
 
-    profitElement.style.color =
-        goldProfit >= 0
-        ? "#35e69b"
-        : "#ff5575";
+    data.push([]);
 
-    document.getElementById("goldGrams")
-        .value =
-        grams
-        ? grams.toLocaleString("tr-TR",{
-            maximumFractionDigits:3
-        })
-        : "";
+    data.push([
+        "",
+        "",
+        "",
+        "",
+        "GENEL TOPLAM (KDV HARİÇ)",
+        grand
+    ]);
 
-    document.getElementById("goldPrice")
-        .value =
-        gramPrice
-        ? gramPrice.toLocaleString("tr-TR")
-        : "";
 
-    document.getElementById("goldInvested")
-        .value =
-        invested
-        ? invested.toLocaleString("tr-TR")
-        : "";
+    /* EXCEL SAYFASI */
 
-    /* PPF */
+    const ws =
+        XLSX.utils.aoa_to_sheet(data);
 
-    const ppfAmount =
-        Number(ppf.amount) || 0;
 
-    const ppfInitial =
-        Number(ppf.initialAmount) || 0;
+    ws["!cols"] = [
 
-    const ppfProfit =
-        Number(ppf.totalProfit) || 0;
+        {wch:8},
 
-    document.getElementById("ppfCurrentDisplay")
-        .innerText =
-        money(ppfAmount);
+        {wch:50},
 
-    document.getElementById("ppfInitialDisplay")
-        .innerText =
-        money(ppfInitial);
+        {wch:14},
 
-    document.getElementById("ppfProfitDisplay")
-        .innerText =
-        money(ppfProfit);
+        {wch:14},
 
-    document.getElementById("ppfRateDate").value =
-        new Date().toISOString().split("T")[0];
+        {wch:20},
 
-    /* GRAFİK */
+        {wch:20}
 
-    renderInvestmentChart(
-        goldValue,
-        ppfAmount
+    ];
+
+
+    /* PARA BİÇİMİ */
+
+    for(
+        let r = 2;
+        r <= data.length;
+        r++
+    ){
+
+        if(ws["E"+r]){
+
+            ws["E"+r].z =
+                '#,##0.00 "TL"';
+
+        }
+
+
+        if(ws["F"+r]){
+
+            ws["F"+r].z =
+                '#,##0.00 "TL"';
+
+        }
+
+    }
+
+
+    /* ÇALIŞMA KİTABI */
+
+    const wb =
+        XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "Malzeme Çizelgesi"
+    );
+
+
+    /* DOSYA ADI */
+
+    const now =
+        new Date();
+
+
+    const stamp =
+        now.toISOString()
+        .slice(0,10);
+
+
+    XLSX.writeFile(
+        wb,
+        `Malzeme_Cizelgesi_${stamp}.xlsx`
     );
 
 }
 
-/* =====================================================
-   GRAFİK
-===================================================== */
 
-function renderInvestmentChart(
-    goldValue,
-    ppfValue
-){
+/* ----------------------------------
+   BAŞLANGIÇTA 12 SATIR
+----------------------------------- */
 
-    goldValue =
-        Number(goldValue) || 0;
+const firstRows = [
 
-    ppfValue =
-        Number(ppfValue) || 0;
+    {
+        unit:"METRE"
+    },
 
-    const total =
-        goldValue + ppfValue;
+    {
+        unit:"ADET"
+    },
 
-    let goldPercent = 0;
-    let ppfPercent = 0;
+    {
+        unit:"TABAKA"
+    },
 
-    if(total > 0){
+    {
+        unit:"ADET"
+    },
 
-        goldPercent =
-            goldValue / total * 100;
+    {
+        unit:"METRE"
+    },
 
-        ppfPercent =
-            ppfValue / total * 100;
+    {
+        unit:"ADET"
+    },
 
+    {
+        unit:"METRE"
+    },
+
+    {
+        unit:"ADET"
+    },
+
+    {
+        unit:"ADET"
+    },
+
+    {
+        unit:"ADET"
+    },
+
+    {
+        unit:"ADET"
+    },
+
+    {
+        unit:"ADET"
     }
 
-    const donut =
-        document.getElementById(
-            "investmentDonut"
-        );
+];
 
-    if(!donut)return;
 
-    if(total <= 0){
-
-        donut.style.background =
-            "#252e49";
-
-    }else{
-
-        donut.style.background =
-            `conic-gradient(
-                #ffc857 0% ${goldPercent}%,
-                #45d8ff ${goldPercent}% 100%
-            )`;
-
-    }
-
-    document.getElementById(
-        "goldChartPercent"
-    ).innerText =
-        goldPercent.toFixed(1) + "%";
-
-    document.getElementById(
-        "ppfChartPercent"
-    ).innerText =
-        ppfPercent.toFixed(1) + "%";
-
-}
-
-/* =====================================================
-   GENEL
-===================================================== */
-
-function renderAll(){
-
-    renderFixedTransactions();
-
-    renderMonths();
-
-    renderDashboard();
-
-    if(currentMonth){
-        renderMonth();
-    }
-
-}
-
-/* =====================================================
-   TARİH
-===================================================== */
-
-function formatDate(value){
-
-    if(!value)return "";
-
-    const date =
-        new Date(
-            value + "T00:00:00"
-        );
-
-    if(isNaN(date)){
-        return value;
-    }
-
-    return date.toLocaleDateString("tr-TR", {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    });
-
-}
-
-/* =====================================================
-   HTML GÜVENLİĞİ
-===================================================== */
-
-function escapeHtml(text){
-
-    return String(text ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-/* =====================================================
-   BAŞLANGIÇ
-===================================================== */
-
-if(data.theme === "light"){
-    document.body.classList.add("light");
-}
-
-renderAll();
+firstRows.forEach(addRow);
 
 </script>
 
