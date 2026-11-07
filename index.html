@@ -1,1038 +1,351 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b1220">
-
-<title>Malzeme Çizelgesi</title>
-
-<!-- Excel oluşturma kütüphanesi -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101010">
+<title>Adaness Coffe</title>
 <style>
-*{
-    box-sizing:border-box;
-}
-
-html,body{
-    margin:0;
-    padding:0;
-    min-height:100%;
-    font-family:Arial,Helvetica,sans-serif;
-    color:#172033;
-    background:#eef1f5;
-}
-
-body{
-    padding:18px;
-}
-
-.app{
-    max-width:1400px;
-    margin:auto;
-    background:rgba(255,255,255,.97);
-    border:1px solid #d8dee8;
-    border-radius:18px;
-    box-shadow:0 12px 35px rgba(0,0,0,.12);
-    overflow:hidden;
-}
-
-/* ÜST KISIM */
-
-.header{
-    background:linear-gradient(135deg,#0b1220,#1d3557);
-    color:#fff;
-    padding:20px 22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.header h1{
-    margin:0;
-    font-size:22px;
-}
-
-.header p{
-    margin:6px 0 0;
-    color:#cbd5e1;
-    font-size:13px;
-}
-
-.actions{
-    display:flex;
-    gap:9px;
-    flex-wrap:wrap;
-}
-
-button{
-    border:0;
-    border-radius:10px;
-    padding:11px 15px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.15s;
-    font-size:14px;
-}
-
-button:active{
-    transform:scale(.97);
-}
-
-.add{
-    background:#22c55e;
-    color:white;
-}
-
-.excel{
-    background:#16a34a;
-    color:white;
-}
-
-.clear{
-    background:#ef4444;
-    color:white;
-}
-
-.print{
-    background:#e2e8f0;
-    color:#172033;
-}
-
-/* BİLGİ */
-
-.info{
-    margin:15px 18px 0;
-    padding:11px 13px;
-    border-radius:10px;
-    background:#f8fafc;
-    border:1px solid #e2e8f0;
-    color:#475569;
-    font-size:13px;
-}
-
-/* TABLO */
-
-.table-wrap{
-    padding:15px 18px 20px;
-    overflow:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:980px;
-    background:white;
-}
-
-th,
-td{
-    border:1px solid #cbd5e1;
-    padding:7px;
-}
-
-th{
-    background:#e8edf4;
-    color:#111827;
-    font-size:13px;
-    text-align:center;
-    white-space:nowrap;
-}
-
-td.no{
-    text-align:center;
-    width:55px;
-    font-weight:700;
-    color:#475569;
-}
-
-input,
-select{
-    width:100%;
-    height:38px;
-    border:1px solid #cbd5e1;
-    border-radius:7px;
-    padding:7px 9px;
-    background:white;
-    color:#111827;
-    font-size:14px;
-    outline:none;
-}
-
-input:focus,
-select:focus{
-    border-color:#2563eb;
-    box-shadow:0 0 0 2px rgba(37,99,235,.12);
-}
-
-.desc{
-    min-width:370px;
-}
-
-.unit{
-    min-width:120px;
-}
-
-.qty{
-    min-width:110px;
-}
-
-.price{
-    min-width:150px;
-}
-
-.total{
-    min-width:165px;
-    font-weight:700;
-    background:#f8fafc;
-}
-
-.delete-cell{
-    text-align:center;
-    width:55px;
-}
-
-.delete-row{
-    width:34px;
-    height:34px;
-    padding:0;
-    background:#fee2e2;
-    color:#b91c1c;
-    border-radius:8px;
-}
-
-tfoot td{
-    font-weight:800;
-    background:#f1f5f9;
-}
-
-.grand-label{
-    text-align:right;
-}
-
-.grand-total{
-    text-align:right;
-    font-size:16px;
-}
-
-.footer-note{
-    padding:0 18px 18px;
-    color:#64748b;
-    font-size:12px;
-}
-
-/* TELEFON */
-
-@media(max-width:700px){
-
-    body{
-        padding:7px;
-    }
-
-    .app{
-        border-radius:12px;
-    }
-
-    .header{
-        padding:15px;
-    }
-
-    .header h1{
-        font-size:18px;
-    }
-
-    .info{
-        margin:10px;
-    }
-
-    .table-wrap{
-        padding:10px;
-    }
-}
-
-/* YAZDIRMA */
-
-@media print{
-
-    body{
-        background:white;
-        padding:0;
-    }
-
-    .app{
-        box-shadow:none;
-        border:0;
-    }
-
-    .header{
-        background:white;
-        color:black;
-        border-bottom:2px solid black;
-    }
-
-    .header p{
-        color:#333;
-    }
-
-    .actions,
-    .info,
-    .delete-cell,
-    .footer-note{
-        display:none !important;
-    }
-
-    table{
-        min-width:0;
-    }
-
-    input,
-    select{
-        border:0;
-        height:auto;
-        padding:0;
-        appearance:none;
-    }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#111;color:white;font-family:Arial,sans-serif}
+header{text-align:center;padding:24px;background:#080808;border-bottom:1px solid #c5a15d}
+.logo{font-size:30px;color:#d6b36b;font-weight:bold;letter-spacing:3px}
+header p{font-size:11px;color:#aaa;margin-top:8px}
+.hero{text-align:center;padding:65px 15px;background:linear-gradient(#0009,#000c),url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1200') center/cover}
+.hero h1{font-size:34px;color:#d6b36b}
+.hero p{margin:15px;color:#ddd}
+nav{position:sticky;top:0;background:#191919;display:flex;overflow-x:auto;gap:8px;padding:12px;z-index:5}
+nav a{color:#d6b36b;text-decoration:none;border:1px solid #66512e;border-radius:20px;padding:10px;white-space:nowrap;font-size:12px}
+section{padding:30px 15px;max-width:1100px;margin:auto}
+h2{text-align:center;color:#d6b36b;margin-bottom:23px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:17px}
+.card{background:#202020;border:1px solid #453b2b;border-radius:10px;overflow:hidden}
+.card img{width:100%;height:150px;object-fit:cover}
+.info{padding:14px}
+.info h3{color:#e2c27c;margin-bottom:8px}
+.info p{font-size:13px;color:#bbb;min-height:38px;line-height:1.5}
+.price{color:#d6b36b;font-weight:bold;display:block;margin:12px 0}
+button{cursor:pointer;border:0;border-radius:5px;padding:11px;background:#c5a15d;color:#111;font-weight:bold}
+button:hover{opacity:.85}
+.add{width:100%}
+.cart{background:#1b1b1b;border:1px solid #c5a15d;border-radius:10px;padding:20px;margin:20px auto;max-width:800px}
+.cart h2{text-align:left}
+.cartitem{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #444;font-size:13px}
+.cartitem button{padding:5px 9px}
+.total{color:#d6b36b;font-size:20px;margin:18px 0}
+.primary{width:100%;padding:15px}
+footer{text-align:center;padding:30px;background:#080808;color:#aaa}
+.adminlink{display:inline-block;margin-top:18px;color:#d6b36b;cursor:pointer;text-decoration:underline}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:#000d;z-index:20;display:flex;align-items:center;justify-content:center;padding:15px}
+.modalbox{background:#202020;border:1px solid #c5a15d;border-radius:12px;padding:24px;width:100%;max-width:420px}
+.modalbox h2{text-align:left}
+input{width:100%;padding:13px;background:#111;color:white;border:1px solid #66512e;border-radius:5px;margin:9px 0 15px}
+label{color:#ddd;font-size:13px}
+.modalbox button{width:100%;margin-top:8px}
+.cancel{background:#444;color:white}
+.adminarea{max-width:1100px;margin:auto;padding:20px}
+.adminhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.order{background:#202020;border:1px solid #68552e;border-radius:10px;padding:17px;margin-bottom:15px}
+.order h3{color:#d6b36b;margin-bottom:10px}
+.order p{font-size:14px;color:#ddd;margin:7px 0}
+.status{color:#f0c56d;font-weight:bold}
+.delivered{color:#6fd99b}
+.small{padding:8px 12px;margin-top:10px}
+.empty{text-align:center;color:#aaa;padding:25px}
+.qty{display:flex;gap:5px;align-items:center}
+#adminScreen{background:#111;min-height:100vh}
+.tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tabs button{flex:1;min-width:130px}
 </style>
 </head>
-
 <body>
 
-<div class="app">
+<div id="customerScreen">
 
-    <div class="header">
+<header>
+<div class="logo">ADANESS COFFE</div>
+<p>CAFE • LOUNGE • COFFEE</p>
+</header>
 
-        <div>
-            <h1>Malzeme / Birim Fiyat Çizelgesi</h1>
-
-            <p>
-                Açıklama, birim, miktar ve birim fiyatı girin.
-                Toplam otomatik hesaplanır.
-            </p>
-        </div>
-
-        <div class="actions">
-
-            <button class="add" onclick="addRow()">
-                ＋ Satır Ekle
-            </button>
-
-            <button class="excel" onclick="exportExcel()">
-                ⬇ Excel'e Dönüştür
-            </button>
-
-            <button class="print" onclick="window.print()">
-                🖨 Yazdır
-            </button>
-
-            <button class="clear" onclick="clearAll()">
-                Temizle
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <div class="info">
-
-        <b>Kullanım:</b>
-
-        Soldaki açıklamayı yazın →
-        birimi seçin →
-        miktarı girin →
-        birim fiyatı girin.
-
-        <b>Toplam = Miktar × Birim Fiyat</b>
-
-    </div>
-
-
-    <div class="table-wrap">
-
-        <table id="mainTable">
-
-            <thead>
-
-                <tr>
-
-                    <th>No</th>
-
-                    <th>
-                        Açıklama / Malzeme
-                    </th>
-
-                    <th>
-                        Birim
-                    </th>
-
-                    <th>
-                        Miktar
-                    </th>
-
-                    <th>
-                        Birim Fiyat (TL)
-                    </th>
-
-                    <th>
-                        Toplam (TL)
-                    </th>
-
-                    <th></th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody id="rows"></tbody>
-
-
-            <tfoot>
-
-                <tr>
-
-                    <td colspan="5"
-                        class="grand-label">
-
-                        GENEL TOPLAM (KDV HARİÇ)
-
-                    </td>
-
-                    <td id="grandTotal"
-                        class="grand-total">
-
-                        0,00 TL
-
-                    </td>
-
-                    <td></td>
-
-                </tr>
-
-            </tfoot>
-
-        </table>
-
-    </div>
-
-
-    <div class="footer-note">
-
-        Excel dosyasında sütunlar:
-
-        No,
-        Açıklama / Malzeme,
-        Birim,
-        Miktar,
-        Birim Fiyat (TL),
-        Toplam (TL).
-
-    </div>
-
+<div class="hero">
+<h1>Adaness Coffe</h1>
+<p>Lezzetin, kahvenin ve keyfin buluşma noktası.</p>
+<a href="#menu" style="color:#d6b36b">MENÜYÜ KEŞFET ↓</a>
 </div>
 
+<nav>
+<a href="#nargile">Nargileler</a>
+<a href="#yemek">Yemekler</a>
+<a href="#atistirmalik">Atıştırmalık</a>
+<a href="#cerez">Çerezler</a>
+<a href="#soguk">Soğuk İçecekler</a>
+<a href="#sicak">Sıcak İçecekler</a>
+<a href="#sepet">Sepetim 🛒</a>
+</nav>
+
+<div id="menu"></div>
+<div id="products"></div>
+
+<div class="cart" id="sepet">
+<h2>🛒 Sipariş Sepetim</h2>
+<div id="cartItems"><p class="empty">Henüz ürün eklemediniz.</p></div>
+<div class="total">Toplam: <span id="total">0</span> TL</div>
+<button class="primary" onclick="openTable()">SİPARİŞ VER</button>
+</div>
+
+<footer>
+<strong style="color:#d6b36b">ADANESS COFFE</strong>
+<p style="margin-top:10px">Keyif burada başlar.</p>
+<span class="adminlink" onclick="showLogin()">Yönetici Girişi</span>
+<p style="font-size:11px;margin-top:15px">© 2026 Adaness Coffe</p>
+</footer>
+</div>
+
+<!-- YÖNETİCİ EKRANI -->
+<div id="adminScreen" class="hidden">
+<div class="adminarea">
+<div class="adminhead">
+<div>
+<h2 style="margin:0;text-align:left">ADANESS COFFE</h2>
+<p style="color:#aaa;margin-top:8px">Yönetim Paneli</p>
+</div>
+<button onclick="logout()">Çıkış Yap</button>
+</div>
+
+<div class="tabs">
+<button onclick="showOrders('active')">Devam Eden Siparişler</button>
+<button onclick="showOrders('done')">Teslim Edilenler</button>
+</div>
+
+<div id="orderList"></div>
+</div>
+</div>
+
+<!-- GİRİŞ PENCERESİ -->
+<div id="loginModal" class="modal hidden">
+<div class="modalbox">
+<h2>Yönetici Girişi</h2>
+<label>Kullanıcı Adı</label>
+<input id="username" placeholder="Kullanıcı adı">
+<label>Şifre</label>
+<input id="password" type="password" placeholder="Şifre">
+<button onclick="login()">GİRİŞ YAP</button>
+<button class="cancel" onclick="closeModal('loginModal')">İPTAL</button>
+<p id="loginError" style="color:#ff7777;margin-top:12px"></p>
+</div>
+</div>
+
+<!-- MASA NUMARASI -->
+<div id="tableModal" class="modal hidden">
+<div class="modalbox">
+<h2>Siparişi Tamamla</h2>
+<p style="color:#bbb;margin-bottom:15px">Lütfen masa numaranızı giriniz.</p>
+<label>Masa Numarası</label>
+<input id="tableNumber" type="number" min="1" placeholder="Örn: 5">
+<button onclick="placeOrder()">SİPARİŞİ ONAYLA</button>
+<button class="cancel" onclick="closeModal('tableModal')">VAZGEÇ</button>
+</div>
+</div>
 
 <script>
-
-/* ----------------------------------
-   BİRİM LİSTESİ
------------------------------------ */
-
-const units = [
-    "ADET",
-    "METRE",
-    "TABAKA",
-    "KG",
-    "LİTRE",
-    "KUTU",
-    "PAKET",
-    "TAKIM",
-    "ÇİFT",
-    "TOP"
+// ÜRÜNLER
+const categories=[
+{name:"nargile",title:"NARGİLELER",items:[
+["Adaness Special","Özel aroma karışımı",450,"https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=500"],
+["Blue Mix","Yaban mersini ve ferah aroma",400,"https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=500"],
+["Love 66","Kavun, karpuz ve çilek",400,"https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=500"]
+]},
+{name:"yemek",title:"YEMEKLER",items:[
+["Hamburger","Et köftesi, cheddar, marul, domates, turşu ve sos",280,"https://images.unsplash.com/photo-1568901346375-23c9450c58af?w=500"],
+["Karışık Pizza","Kaşar, sucuk, sosis, mantar, zeytin ve biber",300,"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500"],
+["Karışık Tost","Kaşar, sucuk, domates ve tost ekmeği",160,"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500"]
+]},
+{name:"atistirmalik",title:"ATIŞTIRMALIKLAR",items:[
+["Patates Kızartması","Patates, özel baharat, ketçap ve mayonez",120,"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500"],
+["Nugget","Çıtır tavuk ve özel sos",160,"https://images.unsplash.com/photo-1562967914-608f82629710?w=500"],
+["Soğan Halkası","Pane kaplama çıtır soğan",130,"https://images.unsplash.com/photo-1639024471283-03518883512d?w=500"]
+]},
+{name:"cerez",title:"ÇEREZLER",items:[
+["Karışık Kuruyemiş","Fındık, fıstık, badem, kaju, leblebi",150,"https://images.unsplash.com/photo-1536591375667-f4a3a7e6e9f7?w=500"],
+["Premium Çerez","Kaju, Antep fıstığı, badem, ceviz",190,"https://images.unsplash.com/photo-1505576633757-0ac1084af824?w=500"],
+["Cips Tabağı","Karışık cips ve sos",110,"https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=500"]
+]},
+{name:"soguk",title:"SOĞUK İÇECEKLER",items:[
+["Milkshake","Süt, dondurma, çilek veya çikolata",150,"https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500"],
+["Limonata","Taze limon, su, nane ve buz",100,"https://images.unsplash.com/photo-1513558161293-cdaf765edfd4?w=500"],
+["Ice Latte","Espresso, soğuk süt ve buz",130,"https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500"],
+["Mojito","Lime, nane, soda ve buz",140,"https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=500"]
+]},
+{name:"sicak",title:"SICAK İÇECEKLER",items:[
+["Türk Kahvesi","Türk kahvesi ve su",90,"https://images.unsplash.com/photo-1511920170033-f8396924c348?w=500"],
+["Latte","Espresso, sıcak süt ve süt köpüğü",130,"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500"],
+["Cappuccino","Espresso, süt ve yoğun süt köpüğü",130,"https://images.unsplash.com/photo-1534778101976-62847782c213?w=500"],
+["Çay","Demli siyah çay",40,"https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=500"],
+["Salep","Süt, salep ve tarçın",110,"https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=500"]
+]}
 ];
 
+// VERİLER
+let cart=JSON.parse(localStorage.getItem("adanessCart")||"[]");
+let orders=JSON.parse(localStorage.getItem("adanessOrders")||"[]");
 
-const rowsEl =
-    document.getElementById("rows");
-
-
-/* ----------------------------------
-   BİRİM SEÇENEKLERİ
------------------------------------ */
-
-function unitOptions(selected="ADET"){
-
-    return units.map(function(unit){
-
-        return `
-            <option
-                ${unit === selected ? "selected" : ""}
-            >
-                ${unit}
-            </option>
-        `;
-
-    }).join("");
-
+function save(){
+localStorage.setItem("adanessCart",JSON.stringify(cart));
+localStorage.setItem("adanessOrders",JSON.stringify(orders));
 }
 
-
-/* ----------------------------------
-   YENİ SATIR
------------------------------------ */
-
-function addRow(data={}){
-
-    const tr =
-        document.createElement("tr");
-
-
-    tr.innerHTML = `
-
-        <td class="no"></td>
-
-
-        <td>
-
-            <input
-                class="desc"
-                type="text"
-                placeholder="Malzeme / açıklama"
-                value="${esc(data.desc || "")}"
-            >
-
-        </td>
-
-
-        <td>
-
-            <select class="unit">
-
-                ${unitOptions(data.unit || "ADET")}
-
-            </select>
-
-        </td>
-
-
-        <td>
-
-            <input
-                class="qty"
-                type="number"
-                min="0"
-                step="any"
-                placeholder="0"
-                value="${data.qty ?? ""}"
-            >
-
-        </td>
-
-
-        <td>
-
-            <input
-                class="price"
-                type="number"
-                min="0"
-                step="any"
-                placeholder="0,00"
-                value="${data.price ?? ""}"
-            >
-
-        </td>
-
-
-        <td class="total">
-
-            0,00 TL
-
-        </td>
-
-
-        <td class="delete-cell">
-
-            <button
-                class="delete-row"
-                title="Satırı sil"
-                onclick="
-                    this.closest('tr').remove();
-                    renumber();
-                "
-            >
-
-                ×
-
-            </button>
-
-        </td>
-
-    `;
-
-
-    rowsEl.appendChild(tr);
-
-
-    tr.querySelectorAll(
-        "input,select"
-    ).forEach(function(el){
-
-        el.addEventListener(
-            "input",
-            function(){
-
-                calculate(tr);
-
-            }
-        );
-
-    });
-
-
-    calculate(tr);
-
-    renumber();
-
+// MENÜ OLUŞTUR
+function renderMenu(){
+let html="";
+categories.forEach(cat=>{
+html+=`<section id="${cat.name}">
+<h2>✦ ${cat.title} ✦</h2><div class="grid">`;
+cat.items.forEach(item=>{
+html+=`<div class="card">
+<img src="${item[3]}" alt="${item[0]}" loading="lazy">
+<div class="info">
+<h3>${item[0]}</h3>
+<p>${item[1]}</p>
+<span class="price">${item[2]} TL</span>
+<button class="add" onclick="addCart('${item[0].replace(/'/g,"\\'")}',${item[2]})">SEPETE EKLE</button>
+</div></div>`;
+});
+html+="</div></section>";
+});
+document.getElementById("products").innerHTML=html;
 }
 
-
-/* ----------------------------------
-   HTML GÜVENLİĞİ
------------------------------------ */
-
-function esc(s){
-
-    return String(s)
-
-        .replace(/&/g,"&amp;")
-
-        .replace(/"/g,"&quot;")
-
-        .replace(/</g,"&lt;")
-
-        .replace(/>/g,"&gt;");
-
+// SEPET
+function addCart(name,price){
+let item=cart.find(x=>x.name===name);
+if(item)item.qty++;
+else cart.push({name,price,qty:1});
+save();renderCart();
 }
 
-
-/* ----------------------------------
-   SAYI
------------------------------------ */
-
-function num(v){
-
-    const n =
-        parseFloat(
-            String(v)
-            .replace(",",".")
-        );
-
-    return Number.isFinite(n)
-        ? n
-        : 0;
-
+function changeQty(name,amount){
+let item=cart.find(x=>x.name===name);
+if(!item)return;
+item.qty+=amount;
+if(item.qty<=0)cart=cart.filter(x=>x.name!==name);
+save();renderCart();
 }
 
-
-/* ----------------------------------
-   PARA
------------------------------------ */
-
-function money(n){
-
-    return n.toLocaleString(
-        "tr-TR",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    ) + " TL";
-
+function renderCart(){
+let html="";
+let total=0;
+cart.forEach(item=>{
+total+=item.price*item.qty;
+html+=`<div class="cartitem">
+<div>${item.name}<br>${item.price} TL x ${item.qty}</div>
+<div class="qty">
+<button onclick="changeQty('${item.name.replace(/'/g,"\\'")}',-1)">−</button>
+<button onclick="changeQty('${item.name.replace(/'/g,"\\'")}',1)">+</button>
+</div></div>`;
+});
+document.getElementById("cartItems").innerHTML=html||'<p class="empty">Henüz ürün eklemediniz.</p>';
+document.getElementById("total").textContent=total.toLocaleString("tr-TR");
 }
 
-
-/* ----------------------------------
-   SATIR HESAPLA
------------------------------------ */
-
-function calculate(tr){
-
-    const q =
-        num(
-            tr.querySelector(".qty").value
-        );
-
-
-    const p =
-        num(
-            tr.querySelector(".price").value
-        );
-
-
-    const total = q * p;
-
-
-    tr.querySelector(".total")
-        .textContent =
-        money(total);
-
-
-    updateGrand();
-
+function openTable(){
+if(!cart.length){alert("Önce sepetinize ürün ekleyiniz.");return;}
+document.getElementById("tableModal").classList.remove("hidden");
 }
 
+function placeOrder(){
+let table=document.getElementById("tableNumber").value.trim();
+if(!table||Number(table)<1){alert("Geçerli bir masa numarası giriniz.");return;}
 
-/* ----------------------------------
-   GENEL TOPLAM
------------------------------------ */
+let order={
+id:Date.now(),
+table:table,
+items:cart.map(x=>({...x})),
+total:cart.reduce((s,x)=>s+x.price*x.qty,0),
+time:new Date().toLocaleString("tr-TR"),
+status:"active"
+};
 
-function updateGrand(){
-
-    let sum = 0;
-
-
-    document
-        .querySelectorAll("#rows tr")
-        .forEach(function(tr){
-
-            const qty =
-                num(
-                    tr.querySelector(".qty")?.value
-                );
-
-
-            const price =
-                num(
-                    tr.querySelector(".price")?.value
-                );
-
-
-            sum += qty * price;
-
-        });
-
-
-    document
-        .getElementById("grandTotal")
-        .textContent =
-        money(sum);
-
+orders.unshift(order);
+cart=[];
+save();
+renderCart();
+closeModal("tableModal");
+document.getElementById("tableNumber").value="";
+alert("Siparişiniz başarıyla alındı! Masa: "+table);
 }
 
-
-/* ----------------------------------
-   NUMARALANDIR
------------------------------------ */
-
-function renumber(){
-
-    document
-        .querySelectorAll("#rows tr")
-        .forEach(function(tr,index){
-
-            tr.querySelector(".no")
-                .textContent =
-                index + 1;
-
-        });
-
-
-    updateGrand();
-
+// YÖNETİCİ GİRİŞİ
+function showLogin(){
+document.getElementById("loginModal").classList.remove("hidden");
 }
 
-
-/* ----------------------------------
-   TEMİZLE
------------------------------------ */
-
-function clearAll(){
-
-    if(
-        confirm(
-            "Tüm satırlar silinsin mi?"
-        )
-    ){
-
-        rowsEl.innerHTML = "";
-
-        addRow();
-
-    }
-
+function closeModal(id){
+document.getElementById(id).classList.add("hidden");
 }
 
-
-/* ----------------------------------
-   EXCEL'E DÖNÜŞTÜR
------------------------------------ */
-
-function exportExcel(){
-
-    if(typeof XLSX === "undefined"){
-
-        alert(
-            "Excel kütüphanesi yüklenemedi. " +
-            "İnternet bağlantısını kontrol edin."
-        );
-
-        return;
-
-    }
-
-
-    const data = [
-
-        [
-            "No",
-            "Açıklama / Malzeme",
-            "Birim",
-            "Miktar",
-            "Birim Fiyat (TL)",
-            "Toplam (TL)"
-        ]
-
-    ];
-
-
-    document
-        .querySelectorAll("#rows tr")
-        .forEach(function(tr,index){
-
-            const desc =
-                tr.querySelector(".desc")
-                .value
-                .trim();
-
-
-            const unit =
-                tr.querySelector(".unit")
-                .value;
-
-
-            const qty =
-                num(
-                    tr.querySelector(".qty")
-                    .value
-                );
-
-
-            const price =
-                num(
-                    tr.querySelector(".price")
-                    .value
-                );
-
-
-            const total =
-                qty * price;
-
-
-            /*
-             * Tamamen boş satırları
-             * Excel'e aktarma.
-             */
-
-            if(
-                desc ||
-                qty ||
-                price
-            ){
-
-                data.push([
-
-                    index + 1,
-
-                    desc,
-
-                    unit,
-
-                    qty,
-
-                    price,
-
-                    total
-
-                ]);
-
-            }
-
-        });
-
-
-    /* GENEL TOPLAM */
-
-    const grand =
-        data
-        .slice(1)
-        .reduce(
-            function(sum,row){
-
-                return sum +
-                    Number(row[5] || 0);
-
-            },
-            0
-        );
-
-
-    data.push([]);
-
-    data.push([
-        "",
-        "",
-        "",
-        "",
-        "GENEL TOPLAM (KDV HARİÇ)",
-        grand
-    ]);
-
-
-    /* EXCEL SAYFASI */
-
-    const ws =
-        XLSX.utils.aoa_to_sheet(data);
-
-
-    ws["!cols"] = [
-
-        {wch:8},
-
-        {wch:50},
-
-        {wch:14},
-
-        {wch:14},
-
-        {wch:20},
-
-        {wch:20}
-
-    ];
-
-
-    /* PARA BİÇİMİ */
-
-    for(
-        let r = 2;
-        r <= data.length;
-        r++
-    ){
-
-        if(ws["E"+r]){
-
-            ws["E"+r].z =
-                '#,##0.00 "TL"';
-
-        }
-
-
-        if(ws["F"+r]){
-
-            ws["F"+r].z =
-                '#,##0.00 "TL"';
-
-        }
-
-    }
-
-
-    /* ÇALIŞMA KİTABI */
-
-    const wb =
-        XLSX.utils.book_new();
-
-
-    XLSX.utils.book_append_sheet(
-        wb,
-        ws,
-        "Malzeme Çizelgesi"
-    );
-
-
-    /* DOSYA ADI */
-
-    const now =
-        new Date();
-
-
-    const stamp =
-        now.toISOString()
-        .slice(0,10);
-
-
-    XLSX.writeFile(
-        wb,
-        `Malzeme_Cizelgesi_${stamp}.xlsx`
-    );
-
+function login(){
+let user=document.getElementById("username").value;
+let pass=document.getElementById("password").value;
+
+if(user==="admin"&&pass==="admin"){
+closeModal("loginModal");
+document.getElementById("customerScreen").classList.add("hidden");
+document.getElementById("adminScreen").classList.remove("hidden");
+showOrders("active");
+}else{
+document.getElementById("loginError").textContent="Kullanıcı adı veya şifre hatalı!";
+}
 }
 
+function logout(){
+document.getElementById("adminScreen").classList.add("hidden");
+document.getElementById("customerScreen").classList.remove("hidden");
+}
 
-/* ----------------------------------
-   BAŞLANGIÇTA 12 SATIR
------------------------------------ */
+// SİPARİŞLER
+function showOrders(type){
+let list=document.getElementById("orderList");
+let filtered=orders.filter(x=>x.status===type);
 
-const firstRows = [
+if(!filtered.length){
+list.innerHTML='<div class="empty">Bu bölümde sipariş bulunmuyor.</div>';
+return;
+}
 
-    {
-        unit:"METRE"
-    },
+list.innerHTML=filtered.map(order=>`
+<div class="order">
+<h3>🛎 MASA ${order.table}</h3>
+<p>Sipariş No: ${order.id}</p>
+<p>Saat: ${order.time}</p>
+<hr style="border-color:#444;margin:12px 0">
+${order.items.map(item=>`
+<p>${item.name} — ${item.qty} adet — ${item.price*item.qty} TL</p>
+`).join("")}
+<hr style="border-color:#444;margin:12px 0">
+<p><strong>Toplam: ${order.total.toLocaleString("tr-TR")} TL</strong></p>
+<p class="${type==="active"?"status":"delivered"}">
+${type==="active"?"● DEVAM EDİYOR":"✓ TESLİM EDİLDİ"}
+</p>
+${type==="active"?`
+<button class="small" onclick="deliverOrder(${order.id})">TESLİM EDİLDİ OLARAK İŞARETLE</button>
+`:""}
+</div>
+`).join("");
+}
 
-    {
-        unit:"ADET"
-    },
+function deliverOrder(id){
+let order=orders.find(x=>x.id===id);
+if(!order)return;
+if(!confirm("Bu sipariş teslim edildi mi?"))return;
+order.status="done";
+save();
+showOrders("active");
+}
 
-    {
-        unit:"TABAKA"
-    },
-
-    {
-        unit:"ADET"
-    },
-
-    {
-        unit:"METRE"
-    },
-
-    {
-        unit:"ADET"
-    },
-
-    {
-        unit:"METRE"
-    },
-
-    {
-        unit:"ADET"
-    },
-
-    {
-        unit:"ADET"
-    },
-
-    {
-        unit:"ADET"
-    },
-
-    {
-        unit:"ADET"
-    },
-
-    {
-        unit:"ADET"
-    }
-
-];
-
-
-firstRows.forEach(addRow);
-
+renderMenu();
+renderCart();
 </script>
-
 </body>
 </html>
