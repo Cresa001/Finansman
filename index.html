@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101827">
+<meta name="theme-color" content="#0b1220">
 <title>NARKO AKAR NOT DEFTERİ</title>
 
 <style>
@@ -20,24 +20,24 @@
 *{box-sizing:border-box}
 body{
 margin:0;
-background:radial-gradient(circle at 10% 0%,#172b42 0,transparent 35%),var(--bg);
+background:radial-gradient(circle at 10% 0%,#172b42,transparent 40%),var(--bg);
 color:var(--text);
 font-family:system-ui,sans-serif;
 min-height:100vh;
 overflow-x:hidden;
+position:relative;
+isolation:isolate;
 }
-
-/* HAREKETLİ ALTIN FİLİGRAN */
-body::before{
+body:before{
 content:"JANDARMA\A NARKOTİK SUÇLARLA MÜCADELE";
 white-space:pre;
 position:fixed;
+z-index:-1;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%);
 width:min(85vw,850px);
 height:min(85vw,850px);
-border:5px double rgba(217,182,78,.35);
+border:5px double rgba(217,182,78,.28);
 border-radius:50%;
 display:flex;
 align-items:center;
@@ -47,22 +47,18 @@ font-size:clamp(25px,5vw,65px);
 font-weight:900;
 letter-spacing:5px;
 line-height:2;
-color:rgba(217,182,78,.12);
-text-shadow:0 0 25px rgba(217,182,78,.12);
-z-index:-1;
+color:rgba(217,182,78,.13);
+text-shadow:0 0 25px rgba(217,182,78,.15);
+box-shadow:inset 0 0 0 25px rgba(217,182,78,.025),inset 0 0 0 28px rgba(217,182,78,.12),0 0 50px rgba(217,182,78,.06);
 pointer-events:none;
-animation:filigran 30s ease-in-out infinite alternate;
-box-shadow:inset 0 0 0 25px rgba(217,182,78,.025),
-inset 0 0 0 28px rgba(217,182,78,.13),
-0 0 50px rgba(217,182,78,.06);
+animation:watermark 30s ease-in-out infinite alternate;
 }
-@keyframes filigran{
+@keyframes watermark{
 0%{transform:translate(-52%,-50%) rotate(-4deg) scale(.96)}
 50%{transform:translate(-48%,-50%) rotate(2deg) scale(1.04)}
 100%{transform:translate(-50%,-50%) rotate(-2deg) scale(.98)}
 }
-
-button,input,select,textarea{font:inherit}
+button,input,textarea{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 
@@ -84,35 +80,31 @@ box-shadow:0 25px 80px #0008;
 width:58px;height:58px;
 border-radius:18px;
 background:linear-gradient(135deg,#21c88b,#167d9e);
-display:grid;
-place-items:center;
-font-size:27px;
-margin-bottom:18px;
+display:grid;place-items:center;
+font-size:27px;margin-bottom:18px;
 }
 h1{font-size:22px;margin:0 0 7px}
 .sub{color:var(--muted);font-size:13px}
 .field{display:flex;flex-direction:column;gap:7px;margin:16px 0}
 .field label{font-size:12px;color:#b9c8da;font-weight:700}
 .field input,.field textarea{
-width:100%;
-background:#0b1524;
+width:100%;background:#0b1524;
 border:1px solid var(--line);
 color:var(--text);
-border-radius:11px;
-padding:12px;
+border-radius:11px;padding:12px;
 outline:none;
 }
 .field textarea{min-height:100px;resize:vertical}
 .field input:focus,.field textarea:focus{border-color:var(--green)}
 
 .btn{
-border:0;
-border-radius:11px;
+border:0;border-radius:11px;
 padding:11px 16px;
 font-weight:800;
-color:#07151a;
-background:var(--green);
+color:#07151a;background:var(--green);
+transition:.2s;
 }
+.btn:hover{filter:brightness(1.08)}
 .btn.block{width:100%;margin-top:8px}
 .btn.secondary{background:#263950;color:#dce8f5}
 .btn.danger{background:#512936;color:#ffdce1}
@@ -120,25 +112,24 @@ background:var(--green);
 .error{color:#ff8490;font-size:12px;margin-top:8px}
 
 header{
-position:sticky;
-top:0;
-z-index:5;
+position:sticky;top:0;z-index:5;
 background:#0b1220ed;
 backdrop-filter:blur(16px);
 border-bottom:1px solid var(--line);
-padding:14px 4%;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:12px;
+padding:14px clamp(12px,4vw,42px);
+display:flex;align-items:center;
+justify-content:space-between;gap:10px;
 }
 .brand{display:flex;align-items:center;gap:12px}
-.brand .logo{width:42px;height:42px;margin:0}
-.brand h1{font-size:16px;margin:0}
+.brand .logo{width:42px;height:42px;border-radius:13px;margin:0;font-size:20px}
+.brand h1{font-size:15px;margin:0}
 .brand small{color:var(--muted);font-size:10px}
 
 main{width:min(1180px,100%);margin:26px auto;padding:0 16px 50px}
-.topline{display:flex;justify-content:space-between;gap:15px;margin-bottom:20px;flex-wrap:wrap}
+.topline{
+display:flex;justify-content:space-between;
+align-items:end;gap:15px;margin-bottom:20px;flex-wrap:wrap;
+}
 .eyebrow{color:var(--green);font-size:11px;font-weight:900;letter-spacing:2px}
 .heading{font-size:26px;margin:5px 0}
 .stats{display:flex;gap:9px;flex-wrap:wrap}
@@ -149,14 +140,12 @@ main{width:min(1180px,100%);margin:26px auto;padding:0 16px 50px}
 .layout{
 display:grid;
 grid-template-columns:minmax(290px,390px) 1fr;
-gap:18px;
-align-items:start;
+gap:18px;align-items:start;
 }
 .panel{
 background:linear-gradient(180deg,#142136f5,#101a2af5);
 border:1px solid var(--line);
-border-radius:18px;
-padding:19px;
+border-radius:18px;padding:19px;
 box-shadow:0 14px 40px #0002;
 }
 .panel h2{font-size:16px;margin:0 0 5px}
@@ -164,147 +153,147 @@ box-shadow:0 14px 40px #0002;
 
 .socials{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .social{
-background:#0b1524;
-border:1px solid var(--line);
-border-radius:10px;
-padding:9px 3px;
-color:#aebed1;
-font-size:11px;
-font-weight:800;
+background:#0b1524;border:1px solid var(--line);
+border-radius:10px;padding:9px 3px;
+color:#aebed1;font-size:11px;font-weight:800;
 }
 .social.active{border-color:var(--green);background:#12352f;color:#72edbd}
 
 .choice{display:flex;gap:9px}
 .choice label{
-flex:1;
-border:1px solid var(--line);
-background:#0b1524;
-border-radius:10px;
-padding:11px;
-text-align:center;
-font-size:12px;
-font-weight:800;
-cursor:pointer;
-color:var(--muted);
+flex:1;border:1px solid var(--line);
+background:#0b1524;border-radius:10px;
+padding:11px;text-align:center;
+font-size:12px;font-weight:800;
+cursor:pointer;color:var(--muted);
 }
 .choice input{display:none}
 .choice label:has(input:checked){
 border-color:var(--green);
-background:#12352f;
-color:#6de7b4;
+background:#12352f;color:#6de7b4;
 }
 .choice label:has(input[value="Hayır"]:checked){
 border-color:var(--red);
-background:#3b202b;
-color:#ff9aa5;
+background:#3b202b;color:#ff9aa5;
 }
 
 .upload{
 border:1px dashed #48617e;
-border-radius:12px;
-padding:15px;
-text-align:center;
-background:#0b1524;
-color:var(--muted);
-font-size:12px;
+border-radius:12px;padding:15px;
+text-align:center;background:#0b1524;
+color:var(--muted);font-size:12px;
 }
 .upload input{display:none}
 .preview{
-width:100%;
-max-height:180px;
-object-fit:contain;
-border-radius:10px;
-margin-top:10px;
+width:100%;max-height:180px;
+object-fit:contain;border-radius:10px;margin-top:10px;
 }
-
 .form-actions{display:flex;gap:8px}
 .form-actions button{flex:1}
 
-.toolbar{
-display:flex;
-gap:9px;
-align-items:center;
-margin-bottom:13px;
-flex-wrap:wrap;
-}
+.toolbar{display:flex;gap:9px;align-items:center;margin-bottom:13px;flex-wrap:wrap}
 .toolbar input{
-flex:1;
-min-width:150px;
-background:#0b1524;
-border:1px solid var(--line);
-color:var(--text);
-padding:11px 12px;
-border-radius:10px;
+flex:1;min-width:150px;background:#0b1524;
+border:1px solid var(--line);color:var(--text);
+padding:11px 12px;border-radius:10px;
 }
 .tabs{display:flex;gap:7px;margin-bottom:14px}
 .tab{
-background:#0b1524;
-color:var(--muted);
+background:#0b1524;color:var(--muted);
 border:1px solid var(--line);
-padding:9px 13px;
-border-radius:10px;
-font-size:12px;
-font-weight:800;
+padding:9px 13px;border-radius:10px;
+font-size:12px;font-weight:800;
 }
-.tab.active{
-background:#15382f;
-color:#72edbd;
-border-color:#247c60;
-}
+.tab.active{background:#15382f;color:#72edbd;border-color:#247c60}
 
 .cards{display:grid;gap:11px}
 .entry{
-background:#0c1727f5;
-border:1px solid var(--line);
-border-radius:14px;
-padding:14px;
+background:#0c1727f5;border:1px solid var(--line);
+border-radius:14px;padding:14px;
 }
-.entry.done{
-border-color:#286b57;
-background:#10251ff5;
-}
-.entry-head{
-display:flex;
-justify-content:space-between;
-gap:10px;
-align-items:flex-start;
-}
+.entry.done{border-color:#286b57;background:#10251ff5}
+.entry-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .entry-name{font-weight:900;font-size:15px;overflow-wrap:anywhere}
 .meta{font-size:11px;color:var(--muted);margin-top:4px}
-.pill{
-font-size:10px;
-font-weight:900;
-padding:5px 8px;
-border-radius:20px;
-white-space:nowrap;
-}
+.pill{font-size:10px;font-weight:900;padding:5px 8px;border-radius:20px;white-space:nowrap}
 .pill.pending{background:#3c2e17;color:#ffd27a}
 .pill.done,.pill.yes{background:#123c30;color:#71e8b7}
 .pill.no{background:#43212b;color:#ff9ba6}
-.entry-body{
-font-size:12px;
-color:#c5d2e1;
-line-height:1.55;
-margin-top:12px;
-overflow-wrap:anywhere;
-}
+.entry-body{font-size:12px;color:#c5d2e1;line-height:1.55;margin-top:12px;overflow-wrap:anywhere}
 .entry-body a{color:#78b7ff;word-break:break-all}
-.entry-img{
-max-width:100%;
-max-height:210px;
-object-fit:contain;
-border-radius:10px;
-margin-top:10px;
-}
+.entry-img{max-width:100%;max-height:210px;object-fit:contain;border-radius:10px;margin-top:10px}
 .entry-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
-.entry-actions button{font-size:11px;padding:8px 10px}
-.empty{
-border:1px dashed var(--line);
-border-radius:14px;
-padding:35px 15px;
-text-align:center;
-color:var(--muted);
-font-size:13px;
+.entry-actions button{font-size:11px;padding:8px 10px;border-radius:9px}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:35px 15px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ÇALIŞMA TAKVİMİ */
+.calendar-overlay{
+position:fixed;inset:0;
+background:#000b;z-index:999;
+display:none;
+}
+.calendar-overlay.open{display:block}
+.calendar-drawer{
+position:fixed;top:0;left:0;
+width:min(420px,92vw);
+height:100dvh;
+background:#101c2d;
+border-right:1px solid #d9b64e66;
+z-index:1000;
+padding:20px;
+overflow-y:auto;
+transform:translateX(-105%);
+transition:transform .35s ease;
+box-shadow:15px 0 50px #0009;
+}
+.calendar-drawer.open{transform:translateX(0)}
+.cal-header{
+display:flex;justify-content:space-between;
+align-items:center;margin:22px 0;
+}
+.cal-header h3{
+font-size:17px;color:#f0d37d;
+text-transform:uppercase;
+}
+.cal-grid{
+display:grid;
+grid-template-columns:repeat(7,minmax(0,1fr));
+gap:5px;
+}
+.cal-week{
+text-align:center;color:#aabbd0;
+font-size:10px;padding:8px 0;
+}
+.cal-day{
+min-width:0;min-height:45px;
+border:1px solid #293b51;
+border-radius:9px;
+background:#18273a;color:white;
+font-size:13px;font-weight:bold;
+}
+.cal-day.sabah{background:#14543f;color:#8affc5;border-color:#247c60}
+.cal-day.aksam{background:#66501b;color:#ffe49a;border-color:#a48636}
+.cal-day.istirahat{background:#642d3b;color:#ffb1bb;border-color:#9d4b60}
+.cal-day.selected{outline:2px solid white;outline-offset:1px}
+.cal-day.today{border:2px solid var(--gold)}
+.cal-day.empty{visibility:hidden}
+.cal-actions{display:grid;gap:9px;margin-top:18px}
+.cal-actions button{
+padding:13px;border:0;border-radius:10px;font-weight:bold;
+}
+.cal-actions .sabah{background:#14543f;color:#8affc5}
+.cal-actions .aksam{background:#66501b;color:#ffe49a}
+.cal-actions .istirahat{background:#642d3b;color:#ffb1bb}
+.cal-actions .clear{background:#293b51;color:white}
+.cal-label{font-size:12px;color:#aabbd0;margin-top:20px}
+.cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.cal-legend span{font-size:10px;color:#cbd7e5}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+.dot.s{background:#24c78a}.dot.a{background:#d9b64e}.dot.i{background:#ff6474}
+.shift-summary{
+background:#17263a;border:1px solid #34465d;
+border-radius:12px;padding:12px;margin-top:18px;
+font-size:12px;color:#cbd7e5;
 }
 footer{text-align:center;color:#657891;font-size:10px;padding:25px 10px}
 
@@ -314,44 +303,45 @@ footer{text-align:center;color:#657891;font-size:10px;padding:25px 10px}
 .stats{width:100%}
 .stat{flex:1}
 }
-@media(max-width:420px){
-header{padding:11px 13px}
-.brand h1{font-size:13px}
+@media(max-width:480px){
+header{flex-wrap:wrap}
+.brand h1{font-size:12px}
+header .btn{padding:9px;font-size:11px}
 .heading{font-size:22px}
 .panel{padding:15px}
 .stat{min-width:0;padding:9px}
 }
 @media(prefers-reduced-motion:reduce){
-body::before{animation:none}
+body:before,.calendar-drawer{animation:none;transition:none}
 }
 </style>
 </head>
 
 <body>
 
+<!-- GİRİŞ -->
 <section id="loginScreen" class="login-wrap">
 <div class="login">
 <div class="logo">✦</div>
 <h1>NARKO AKAR NOT DEFTERİ</h1>
-<p class="sub">Devam etmek için giriş yapın.</p>
+<p class="sub">Devam etmek için giriş bilgilerinizi girin.</p>
 
 <form id="loginForm">
 <div class="field">
 <label>KULLANICI ADI</label>
-<input id="loginUser" required placeholder="Kullanıcı adı">
+<input id="loginUser" autocomplete="username" required placeholder="Kullanıcı adı">
 </div>
-
 <div class="field">
 <label>ŞİFRE</label>
-<input id="loginPass" type="password" required placeholder="Şifre">
+<input id="loginPass" type="password" autocomplete="current-password" required placeholder="Şifre">
 </div>
-
 <button class="btn block" type="submit">GİRİŞ YAP →</button>
 <div id="loginError" class="error"></div>
 </form>
 </div>
 </section>
 
+<!-- UYGULAMA -->
 <div id="app" class="hidden">
 
 <header>
@@ -362,7 +352,11 @@ body::before{animation:none}
 <small>KAYIT & TAKİP PANELİ</small>
 </div>
 </div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn gold" onclick="toggleCalendar()">☷ Çalışma Takvimi</button>
 <button class="btn secondary" id="logoutBtn">Çıkış</button>
+</div>
 </header>
 
 <main>
@@ -371,7 +365,7 @@ body::before{animation:none}
 <div>
 <div class="eyebrow">KAYIT YÖNETİMİ</div>
 <div class="heading">Akar Takip Paneli</div>
-<div class="sub">Kayıtları oluşturun ve takip edin.</div>
+<div class="sub">Yeni kayıt oluşturun, listeleyin ve tamamlananları arşivleyin.</div>
 </div>
 
 <div class="stats">
@@ -383,6 +377,7 @@ body::before{animation:none}
 
 <div class="layout">
 
+<!-- YENİ KAYIT -->
 <section class="panel">
 <h2 id="formTitle">＋ Yeni Akar Kaydı</h2>
 <div class="hint">Kayıt bilgilerini girin.</div>
@@ -441,9 +436,10 @@ body::before{animation:none}
 </form>
 </section>
 
+<!-- AKAR LİSTESİ -->
 <section class="panel">
 <h2>☷ Akar Listesi</h2>
-<div class="hint">Bekleyen ve tamamlanan kayıtlar.</div>
+<div class="hint">Bekleyen kayıtlar ve tamamlanan akarlar.</div>
 
 <div class="tabs">
 <button class="tab active" data-tab="pending">Akar Listesi</button>
@@ -463,7 +459,61 @@ body::before{animation:none}
 </main>
 </div>
 
+<!-- TAKVİM SOL MENÜ -->
+<div class="calendar-overlay" id="calendarOverlay" onclick="toggleCalendar()"></div>
+
+<aside class="calendar-drawer" id="calendarDrawer">
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+<h2 style="color:#d9b64e;font-size:18px">☷ ÇALIŞMA TAKVİMİ</h2>
+<button class="btn danger" onclick="toggleCalendar()">✕</button>
+</div>
+
+<p class="sub">Aylık görev ve istirahat planı</p>
+
+<div class="cal-header">
+<button class="btn secondary" onclick="changeMonth(-1)">‹</button>
+<h3 id="calendarMonth"></h3>
+<button class="btn secondary" onclick="changeMonth(1)">›</button>
+</div>
+
+<div class="cal-grid" id="calendarGrid"></div>
+
+<div class="cal-legend">
+<span><i class="dot s"></i>Sabah</span>
+<span><i class="dot a"></i>Akşam</span>
+<span><i class="dot i"></i>İstirahat</span>
+</div>
+
+<div class="cal-label">SEÇİLEN GÜNÜN ÇALIŞMA DURUMU</div>
+
+<div class="shift-summary" id="selectedDateLabel">
+Henüz gün seçilmedi.
+</div>
+
+<div class="cal-actions">
+<button class="sabah" onclick="setShift('sabah')">
+☀ SABAH · 08:00 – 20:00
+</button>
+
+<button class="aksam" onclick="setShift('aksam')">
+🌙 AKŞAM · 20:00 – 08:00
+</button>
+
+<button class="istirahat" onclick="setShift('istirahat')">
+☕ İSTİRAHAT
+</button>
+
+<button class="clear" onclick="setShift('')">
+İşaretlemeyi kaldır
+</button>
+</div>
+
+</aside>
+
 <script>
+/* GİRİŞ VE KAYIT SİSTEMİ */
+
 const USER='cresa02';
 const PASS='admin';
 const STORE='narkoAkarRecords_v1';
@@ -517,6 +567,7 @@ x.classList.toggle('active',x===b);
 });
 });
 
+/* FOTOĞRAF EKLEME */
 $('photo').addEventListener('change',e=>{
 const f=e.target.files[0];
 if(!f)return;
@@ -573,12 +624,12 @@ $('photoLabel').textContent='JPG, PNG veya WEBP';
 $('formTitle').textContent='＋ Yeni Akar Kaydı';
 $('saveBtn').textContent='KAYDI EKLE';
 $('cancelEdit').classList.add('hidden');
-
 $('entryForm').querySelector('input[value="Evet"]').checked=true;
 }
 
 $('cancelEdit').onclick=resetForm;
 
+/* KAYIT EKLEME VE DÜZENLEME */
 $('entryForm').addEventListener('submit',e=>{
 e.preventDefault();
 
@@ -625,6 +676,7 @@ return ['http:','https:'].includes(u.protocol)?u.href:'';
 }catch{return ''}
 }
 
+/* LİSTELEME */
 function render(){
 
 $('totalCount').textContent=records.length;
@@ -636,8 +688,7 @@ const q=$('search').value.toLocaleLowerCase('tr');
 const list=records.filter(r=>
 r.done===(activeTab==='done') &&
 [r.subject,r.crime,r.platform,r.link]
-.join(' ')
-.toLocaleLowerCase('tr').includes(q)
+.join(' ').toLocaleLowerCase('tr').includes(q)
 );
 
 $('entries').innerHTML=list.length?
@@ -679,7 +730,6 @@ ${r.photo?`
 <button class="btn ${r.done?'secondary':'gold'}" onclick="toggleDone('${r.id}')">
 ${r.done?'↶ Geri al':'✓ Yapıldı'}
 </button>
-
 <button class="btn secondary" onclick="editRecord('${r.id}')">Düzenle</button>
 <button class="btn danger" onclick="deleteRecord('${r.id}')">Sil</button>
 </div>
@@ -754,19 +804,145 @@ render();
 
 $('search').addEventListener('input',render);
 
+/* JSON YEDEKLEME */
 $('exportBtn').onclick=()=>{
 const blob=new Blob([JSON.stringify(records,null,2)],{
 type:'application/json'
 });
 
 const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);
+const url=URL.createObjectURL(blob);
+a.href=url;
 a.download='narko-akar-yedek.json';
 a.click();
-URL.revokeObjectURL(a.href);
+URL.revokeObjectURL(url);
 };
 
+
+/* ÇALIŞMA TAKVİMİ */
+
+let calendarDate=new Date();
+let selectedDate=new Date();
+let shifts={};
+
+try{
+shifts=JSON.parse(localStorage.getItem('narkoShifts')||'{}');
+}catch(e){
+shifts={};
+}
+
+function dateKey(date){
+return date.getFullYear()+'-'+
+String(date.getMonth()+1).padStart(2,'0')+'-'+
+String(date.getDate()).padStart(2,'0');
+}
+
+function toggleCalendar(){
+$('calendarDrawer').classList.toggle('open');
+$('calendarOverlay').classList.toggle('open');
+renderCalendar();
+}
+
+function changeMonth(amount){
+calendarDate=new Date(
+calendarDate.getFullYear(),
+calendarDate.getMonth()+amount,
+1
+);
+renderCalendar();
+}
+
+function setShift(type){
+
+const key=dateKey(selectedDate);
+
+if(type){
+shifts[key]=type;
+}else{
+delete shifts[key];
+}
+
+localStorage.setItem('narkoShifts',JSON.stringify(shifts));
+
+renderCalendar();
+}
+
+function selectCalendarDay(day){
+
+selectedDate=new Date(
+calendarDate.getFullYear(),
+calendarDate.getMonth(),
+day
+);
+
+renderCalendar();
+}
+
+function renderCalendar(){
+
+const year=calendarDate.getFullYear();
+const month=calendarDate.getMonth();
+
+$('calendarMonth').textContent=
+calendarDate.toLocaleDateString('tr-TR',{
+month:'long',
+year:'numeric'
+});
+
+const first=new Date(year,month,1);
+const days=new Date(year,month+1,0).getDate();
+
+const start=(first.getDay()+6)%7;
+
+let html='';
+
+['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].forEach(d=>{
+html+=`<div class="cal-week">${d}</div>`;
+});
+
+for(let i=0;i<start;i++){
+html+='<button class="cal-day empty" tabindex="-1"></button>';
+}
+
+for(let day=1;day<=days;day++){
+
+const date=new Date(year,month,day);
+const key=dateKey(date);
+const shift=shifts[key]||'';
+
+const selected=key===dateKey(selectedDate);
+const today=key===dateKey(new Date());
+
+html+=`
+<button
+class="cal-day ${shift} ${selected?'selected':''} ${today?'today':''}"
+onclick="selectCalendarDay(${day})"
+aria-label="${day} ${shift||'işaretlenmedi'}">
+${day}
+</button>`;
+}
+
+$('calendarGrid').innerHTML=html;
+
+const currentShift=shifts[dateKey(selectedDate)];
+
+const shiftNames={
+sabah:'☀ Sabah · 08:00 – 20:00',
+aksam:'🌙 Akşam · 20:00 – 08:00',
+istirahat:'☕ İstirahat'
+};
+
+$('selectedDateLabel').innerHTML=
+'<b>'+selectedDate.toLocaleDateString('tr-TR',{
+weekday:'long',day:'numeric',month:'long',year:'numeric'
+})+'</b><br><br>'+
+(currentShift?shiftNames[currentShift]:'Henüz işaretlenmedi');
+}
+
+/* İLK AÇILIŞ */
 load();
+renderCalendar();
+
 </script>
 </body>
 </html>
